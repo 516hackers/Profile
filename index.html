@@ -18,7 +18,18 @@
       overflow-x: hidden;
     }
 
-    /* Landing Section */
+    /* Background Canvas */
+    canvas#matrix {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: -1;
+      width: 100%;
+      height: 100%;
+      background: black;
+    }
+
+    /* Sections */
     section {
       min-height: 100vh;
       display: flex;
@@ -26,6 +37,8 @@
       justify-content: center;
       flex-direction: column;
       perspective: 1000px;
+      position: relative;
+      z-index: 1;
     }
 
     h1 {
@@ -65,6 +78,7 @@
       transform: rotateY(30deg) translateY(50px);
       opacity: 0;
       transition: all 1s ease;
+      box-shadow: 0 0 15px rgba(0, 255, 0, 0.5);
     }
 
     .card.show {
@@ -88,6 +102,9 @@
 </head>
 <body>
 
+  <!-- Matrix Background -->
+  <canvas id="matrix"></canvas>
+
   <!-- Hero Section -->
   <section id="hero">
     <h1>⚡ 516 Hackers ⚡</h1>
@@ -105,6 +122,46 @@
   </section>
 
   <script>
+    // Matrix Code Rain Background
+    const canvas = document.getElementById('matrix');
+    const ctx = canvas.getContext('2d');
+
+    // set canvas full screen
+    canvas.height = window.innerHeight;
+    canvas.width = window.innerWidth;
+
+    const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%^&*()*&^%";
+    const fontSize = 14;
+    const columns = canvas.width / fontSize;
+
+    const drops = Array(Math.floor(columns)).fill(1);
+
+    function drawMatrix() {
+      ctx.fillStyle = "rgba(0,0,0,0.05)";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      ctx.fillStyle = "#0f0"; 
+      ctx.font = fontSize + "px monospace";
+
+      for (let i = 0; i < drops.length; i++) {
+        const text = letters[Math.floor(Math.random() * letters.length)];
+        ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+        if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+          drops[i] = 0;
+        }
+        drops[i]++;
+      }
+    }
+
+    setInterval(drawMatrix, 33);
+
+    // Resize canvas if window resizes
+    window.addEventListener("resize", () => {
+      canvas.height = window.innerHeight;
+      canvas.width = window.innerWidth;
+    });
+
     // 3D Scroll Animations for Cards
     const cards = document.querySelectorAll('.card');
 
