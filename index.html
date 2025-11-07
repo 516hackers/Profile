@@ -188,7 +188,7 @@
                 <button onclick="openLanguagePopup()" class="text-white hover:text-gray-300 transition-colors flex items-center space-x-2">
                     <i class="fas fa-language"></i>
                     <span id="navLanguage">Language</span>
-                    <span class="currency-badge" id="currencyIndicator">Detecting...</span>
+                    <span class="currency-badge" id="currencyIndicator">Select</span>
                 </button>
             </div>
         </div>
@@ -203,11 +203,26 @@
             <p class="text-xl text-gray-200 max-w-2xl mx-auto mb-8" id="heroSubtitle">
                 Transparent pricing for all your web development needs. Quality service at competitive rates.
             </p>
-            <div class="glass-card rounded-xl p-4 inline-block">
+            <div class="glass-card rounded-xl p-4 inline-block mb-4">
                 <p class="text-sm" id="currencyNote">
                     <i class="fas fa-info-circle mr-2"></i>
-                    <span>Prices automatically converted to your local currency</span>
+                    <span>Select your currency for local pricing</span>
                 </p>
+            </div>
+            <!-- Currency Selection -->
+            <div class="glass-card rounded-xl p-4 inline-block">
+                <label class="text-sm mr-3">Select Currency:</label>
+                <select id="currencySelect" onchange="setCurrency(this.value)" class="bg-transparent border border-white/30 rounded px-3 py-1 text-white">
+                    <option value="PKR">Pakistani Rupee (PKR)</option>
+                    <option value="USD">US Dollar (USD)</option>
+                    <option value="EUR">Euro (EUR)</option>
+                    <option value="GBP">British Pound (GBP)</option>
+                    <option value="AED">UAE Dirham (AED)</option>
+                    <option value="SAR">Saudi Riyal (SAR)</option>
+                    <option value="INR">Indian Rupee (INR)</option>
+                    <option value="CAD">Canadian Dollar (CAD)</option>
+                    <option value="AUD">Australian Dollar (AUD)</option>
+                </select>
             </div>
         </div>
     </section>
@@ -226,7 +241,7 @@
                         <h3 class="text-2xl font-bold mb-2" id="plan1Title">Bug Fixing</h3>
                         <p class="text-gray-300 mb-4" id="plan1Subtitle">Quick error resolution</p>
                         <div class="flex items-center justify-center mb-2">
-                            <div class="text-3xl font-bold gradient-text" id="plan1Price">5,000 PKR</div>
+                            <div class="text-3xl font-bold gradient-text" id="plan1Price">5,000</div>
                             <div class="currency-badge" id="plan1Currency">PKR</div>
                         </div>
                         <p class="text-gray-400 text-sm" id="plan1Starting">Starting price</p>
@@ -260,7 +275,7 @@
                         <h3 class="text-2xl font-bold mb-2" id="plan2Title">Website Development</h3>
                         <p class="text-gray-300 mb-4" id="plan2Subtitle">Complete web solutions</p>
                         <div class="flex items-center justify-center mb-2">
-                            <div class="text-3xl font-bold gradient-text" id="plan2Price">80,000 PKR</div>
+                            <div class="text-3xl font-bold gradient-text" id="plan2Price">80,000</div>
                             <div class="currency-badge" id="plan2Currency">PKR</div>
                         </div>
                         <p class="text-gray-400 text-sm" id="plan2Starting">Starting price</p>
@@ -290,7 +305,7 @@
                         <h3 class="text-2xl font-bold mb-2" id="plan3Title">Website Maintenance</h3>
                         <p class="text-gray-300 mb-4" id="plan3Subtitle">Ongoing support & updates</p>
                         <div class="flex items-center justify-center mb-2">
-                            <div class="text-3xl font-bold gradient-text" id="plan3Price">10,000 PKR</div>
+                            <div class="text-3xl font-bold gradient-text" id="plan3Price">10,000</div>
                             <div class="currency-badge" id="plan3Currency">PKR</div>
                         </div>
                         <p class="text-gray-400 text-sm" id="plan3Starting">Starting price</p>
@@ -338,39 +353,23 @@
             websiteMaintenance: 10000
         };
 
-        // Language mapping for all countries
-        const countryLanguageMap = {
-            // Arabic speaking countries
-            'SA': 'ar', 'AE': 'ar', 'EG': 'ar', 'KW': 'ar', 'QA': 'ar', 'BH': 'ar', 'OM': 'ar',
-            'JO': 'ar', 'LB': 'ar', 'SY': 'ar', 'IQ': 'ar', 'PS': 'ar', 'DZ': 'ar', 'MA': 'ar',
-            'TN': 'ar', 'LY': 'ar', 'SD': 'ar', 'YE': 'ar', 'MR': 'ar', 'SO': 'ar', 'DJ': 'ar',
-            
-            // Spanish speaking countries
-            'ES': 'es', 'MX': 'es', 'AR': 'es', 'CO': 'es', 'PE': 'es', 'VE': 'es', 'CL': 'es',
-            'EC': 'es', 'GT': 'es', 'CU': 'es', 'BO': 'es', 'DO': 'es', 'HN': 'es', 'PY': 'es',
-            'SV': 'es', 'NI': 'es', 'CR': 'es', 'PR': 'es', 'PA': 'es', 'UY': 'es', 'GQ': 'es',
-            
-            // French speaking countries
-            'FR': 'fr', 'CA': 'fr', 'BE': 'fr', 'CH': 'fr', 'LU': 'fr', 'MC': 'fr', 
-            // African French-speaking countries
-            'SN': 'fr', 'CI': 'fr', 'CM': 'fr', 'MG': 'fr', 'BF': 'fr', 'ML': 'fr', 'NE': 'fr',
-            'TG': 'fr', 'CD': 'fr', 'RW': 'fr', 'BJ': 'fr', 'GN': 'fr', 'HT': 'fr',
-            
-            // Default to English for other countries
-            'US': 'en', 'GB': 'en', 'AU': 'en', 'NZ': 'en', 'IN': 'en', 'SG': 'en', 'MY': 'en',
-            'PH': 'en', 'ZA': 'en', 'IE': 'en', 'DE': 'en', 'IT': 'en', 'NL': 'en', 'SE': 'en',
-            'NO': 'en', 'DK': 'en', 'FI': 'en', 'AT': 'en', 'PL': 'en', 'CZ': 'en', 'HU': 'en',
-            'RO': 'en', 'BG': 'en', 'GR': 'en', 'PT': 'en', 'BR': 'en', 'RU': 'en', 'CN': 'en',
-            'JP': 'en', 'KR': 'en', 'ID': 'en', 'TH': 'en', 'VN': 'en', 'TR': 'en', 'IL': 'en'
+        // Currency exchange rates (approximate)
+        const exchangeRates = {
+            'PKR': 1,
+            'USD': 0.0036,
+            'EUR': 0.0033,
+            'GBP': 0.0028,
+            'AED': 0.013,
+            'SAR': 0.013,
+            'INR': 0.30,
+            'CAD': 0.0048,
+            'AUD': 0.0054
         };
 
-        // Currency symbols for major currencies
+        // Currency symbols
         const currencySymbols = {
             'USD': '$', 'EUR': '€', 'GBP': '£', 'PKR': '₨', 'SAR': '﷼', 'AED': 'د.إ',
-            'INR': '₹', 'CAD': 'C$', 'AUD': 'A$', 'JPY': '¥', 'CNY': '¥', 'KRW': '₩',
-            'RUB': '₽', 'BRL': 'R$', 'MXN': '$', 'ARS': '$', 'CLP': '$', 'COP': '$',
-            'PEN': 'S/', 'CHF': 'CHF', 'SEK': 'kr', 'NOK': 'kr', 'DKK': 'kr', 'PLN': 'zł',
-            'TRY': '₺', 'ZAR': 'R', 'EGP': '£', 'NGN': '₦', 'KES': 'KSh', 'GHS': '₵'
+            'INR': '₹', 'CAD': 'C$', 'AUD': 'A$', 'JPY': '¥', 'CNY': '¥'
         };
 
         // Language content
@@ -381,7 +380,7 @@
                 popupTitle: "Choose Language",
                 heroTitle: "Our Pricing",
                 heroSubtitle: "Transparent pricing for all your web development needs. Quality service at competitive rates.",
-                currencyNote: "Prices automatically converted to your local currency",
+                currencyNote: "Select your currency for local pricing",
                 
                 plan1Title: "Bug Fixing",
                 plan1Subtitle: "Quick error resolution",
@@ -425,7 +424,7 @@
                 popupTitle: "اختر اللغة",
                 heroTitle: "أسعارنا",
                 heroSubtitle: "أسعار شفافة لجميع احتياجات تطوير الويب الخاصة بك. خدمة عالية الجودة بأسعار تنافسية.",
-                currencyNote: "الأسعار تتحول تلقائياً إلى عملتك المحلية",
+                currencyNote: "اختر عملتك للأسعار المحلية",
                 
                 plan1Title: "إصلاح الأخطاء",
                 plan1Subtitle: "حل سريع للأخطاء",
@@ -469,7 +468,7 @@
                 popupTitle: "Elegir Idioma",
                 heroTitle: "Nuestros Precios",
                 heroSubtitle: "Precios transparentes para todas sus necesidades de desarrollo web. Servicio de calidad a precios competitivos.",
-                currencyNote: "Precios convertidos automáticamente a su moneda local",
+                currencyNote: "Seleccione su moneda para precios locales",
                 
                 plan1Title: "Reparación de Errores",
                 plan1Subtitle: "Solución rápida de errores",
@@ -513,7 +512,7 @@
                 popupTitle: "Choisir la Langue",
                 heroTitle: "Nos Tarifs",
                 heroSubtitle: "Tarification transparente pour tous vos besoins en développement web. Service de qualité à des prix compétitifs.",
-                currencyNote: "Prix automatiquement convertis dans votre devise locale",
+                currencyNote: "Sélectionnez votre devise pour les prix locaux",
                 
                 plan1Title: "Correction de Bugs",
                 plan1Subtitle: "Résolution rapide des erreurs",
@@ -556,120 +555,22 @@
         // Current settings
         let currentLang = 'en';
         let currentCurrency = 'PKR';
-        let exchangeRate = 1;
 
-        // Detect user's location with multiple fallbacks
-        async function detectUserLocation() {
-            try {
-                document.getElementById('currencyIndicator').innerHTML = '<div class="loading-spinner"></div>';
-
-                // Try multiple IP geolocation services
-                const services = [
-                    'https://ipapi.co/json/',
-                    'https://api.ipgeolocation.io/ipgeo?apiKey=test', // Free tier
-                    'https://api.country.is/'
-                ];
-
-                let locationData = null;
-                
-                for (const service of services) {
-                    try {
-                        const response = await fetch(service);
-                        if (response.ok) {
-                            locationData = await response.json();
-                            break;
-                        }
-                    } catch (error) {
-                        console.log(`Service ${service} failed, trying next...`);
-                        continue;
-                    }
-                }
-
-                if (!locationData) {
-                    throw new Error('All geolocation services failed');
-                }
-
-                const countryCode = locationData.country_code || locationData.country;
-                const currency = locationData.currency || 'USD';
-                
-                // Set language based on country or browser preference
-                if (countryLanguageMap[countryCode]) {
-                    currentLang = countryLanguageMap[countryCode];
-                } else {
-                    const browserLang = navigator.language.split('-')[0];
-                    currentLang = ['ar', 'es', 'fr'].includes(browserLang) ? browserLang : 'en';
-                }
-                
-                // Get exchange rate with fallback
-                await getExchangeRate(currency);
-                currentCurrency = currency;
-                
-                updateContent();
-                updatePrices();
-                updateCurrencyIndicator();
-                
-            } catch (error) {
-                console.error('Location detection failed:', error);
-                // Ultimate fallback - use browser language and USD
-                const browserLang = navigator.language.split('-')[0];
-                currentLang = ['ar', 'es', 'fr'].includes(browserLang) ? browserLang : 'en';
-                currentCurrency = 'USD';
-                exchangeRate = 0.0036; // Approximate USD to PKR
-                
-                updateContent();
-                updatePrices();
-                updateCurrencyIndicator();
-            }
+        // Set currency manually
+        function setCurrency(currency) {
+            currentCurrency = currency;
+            updatePrices();
+            updateCurrencyIndicator();
         }
 
-        // Get exchange rate with multiple fallbacks
-        async function getExchangeRate(targetCurrency) {
-            if (targetCurrency === 'PKR') {
-                exchangeRate = 1;
-                return;
-            }
-
-            try {
-                // Try multiple exchange rate APIs
-                const apis = [
-                    `https://api.exchangerate.host/latest?base=PKR&symbols=${targetCurrency}`,
-                    `https://api.frankfurter.app/latest?from=PKR&to=${targetCurrency}`
-                ];
-
-                for (const api of apis) {
-                    try {
-                        const response = await fetch(api);
-                        if (response.ok) {
-                            const data = await response.json();
-                            exchangeRate = data.rates?.[targetCurrency] || data.rates?.[targetCurrency] || 1;
-                            if (exchangeRate !== 1) break;
-                        }
-                    } catch (error) {
-                        continue;
-                    }
-                }
-
-                // Fallback rates for major currencies
-                if (exchangeRate === 1) {
-                    const fallbackRates = {
-                        'USD': 0.0036, 'EUR': 0.0033, 'GBP': 0.0028, 'AED': 0.013,
-                        'SAR': 0.013, 'INR': 0.30, 'CAD': 0.0048, 'AUD': 0.0054
-                    };
-                    exchangeRate = fallbackRates[targetCurrency] || 1;
-                }
-
-            } catch (error) {
-                console.error('Exchange rate fetch failed:', error);
-                exchangeRate = 1;
-            }
-        }
-
-        // Update prices based on exchange rate
+        // Update prices based on selected currency
         function updatePrices() {
+            const exchangeRate = exchangeRates[currentCurrency] || 1;
+            
             const formatPrice = (price) => {
                 const convertedPrice = price * exchangeRate;
                 if (convertedPrice >= 1000) {
-                    return Math.round(convertedPrice).toLocaleString(currentLang);
+                    return Math.round(convertedPrice).toLocaleString();
                 } else if (convertedPrice >= 100) {
                     return convertedPrice.toFixed(0);
                 } else {
@@ -677,13 +578,13 @@
                 }
             };
 
-            document.getElementById('plan1Price').textContent = `${formatPrice(basePrices.bugFixing)}`;
+            document.getElementById('plan1Price').textContent = formatPrice(basePrices.bugFixing);
             document.getElementById('plan1Currency').textContent = currentCurrency;
 
-            document.getElementById('plan2Price').textContent = `${formatPrice(basePrices.websiteDevelopment)}`;
+            document.getElementById('plan2Price').textContent = formatPrice(basePrices.websiteDevelopment);
             document.getElementById('plan2Currency').textContent = currentCurrency;
 
-            document.getElementById('plan3Price').textContent = `${formatPrice(basePrices.websiteMaintenance)}`;
+            document.getElementById('plan3Price').textContent = formatPrice(basePrices.websiteMaintenance);
             document.getElementById('plan3Currency').textContent = currentCurrency;
         }
 
@@ -707,8 +608,10 @@
             
             if (lang === 'ar') {
                 document.documentElement.dir = 'rtl';
+                document.getElementById('currencySelect').style.textAlign = 'right';
             } else {
                 document.documentElement.dir = 'ltr';
+                document.getElementById('currencySelect').style.textAlign = 'left';
             }
         }
 
@@ -732,30 +635,37 @@
 
         // WhatsApp contact function
         function contactWhatsApp(service) {
-            const message = `Hello! I'm interested in: ${service} (Price: ${getServicePrice(service)})`;
+            const exchangeRate = exchangeRates[currentCurrency] || 1;
+            const symbol = currencySymbols[currentCurrency] || currentCurrency;
+            
+            let price;
+            if (service === 'Bug Fixing') price = basePrices.bugFixing * exchangeRate;
+            else if (service === 'Website Development') price = basePrices.websiteDevelopment * exchangeRate;
+            else if (service === 'Website Maintenance') price = basePrices.websiteMaintenance * exchangeRate;
+            
+            const formattedPrice = Math.round(price).toLocaleString();
+            const message = `Hello! I'm interested in ${service}. Price: ${symbol}${formattedPrice} ${currentCurrency}`;
             const encodedMessage = encodeURIComponent(message);
             const phone = '+923127592672';
             window.open(`https://wa.me/${phone}?text=${encodedMessage}`, '_blank');
         }
 
-        function getServicePrice(service) {
-            const prices = {
-                'Bug Fixing': basePrices.bugFixing * exchangeRate,
-                'Website Development': basePrices.websiteDevelopment * exchangeRate,
-                'Website Maintenance': basePrices.websiteMaintenance * exchangeRate
-            };
-            
-            const price = prices[service];
-            const symbol = currencySymbols[currentCurrency] || currentCurrency;
-            return `${symbol}${Math.round(price).toLocaleString()} ${currentCurrency}`;
-        }
-
         // Close popup when clicking overlay
         document.getElementById('overlay').addEventListener('click', closeLanguagePopup);
 
+        // Detect browser language
+        function detectBrowserLanguage() {
+            const browserLang = navigator.language.split('-')[0];
+            if (['ar', 'es', 'fr'].includes(browserLang)) {
+                setLanguage(browserLang);
+            }
+        }
+
         // Initialize
         document.addEventListener('DOMContentLoaded', () => {
-            detectUserLocation();
+            detectBrowserLanguage();
+            updatePrices();
+            updateCurrencyIndicator();
         });
     </script>
 </body>
