@@ -1,533 +1,762 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>516 Hackers </title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pricing - SafarPath</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'royal-purple': '#6C4AB6',
+                        'deep-indigo': '#3D2C8D',
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "Organization",
-  "name": "516 Hackers",
-  "url": "https://github.com/516hackers/Profile",
-  "logo": "https://github.com/516hackers/Profile/raw/main/assets/logo.png",
-  "description": "516 Hackers — community-driven cybersecurity group offering ethical hacking workshops, CTF events, and practical security training emphasizing responsible, lawful practice.",
-  "sameAs": [
-    "https://github.com/516hackers",
-    "https://www.instagram.com/516_hackers/",
-  ],
-  "contactPoint": [
-    {
-      "@type": "ContactPoint",
-      "contactType": "customer support",
-      "areaServed": "PK",
-      "availableLanguage": ["English"]
-    }
-  ],
-  "potentialAction": {
-    "@type": "SearchAction",
-    "target": "https://github.com/516hackers/Profile?q={search_term_string}",
-    "query-input": "required name=search_term_string"
-  }
-}
-</script>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
 
-<!-- GSAP + ScrollTrigger (CDN) -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+        .glass {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
 
-<!-- Three.js (non-module bundle) -->
-<script src="https://unpkg.com/three@0.156.0/build/three.min.js"></script>
+        .glass-card {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(25px);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+        }
 
-<style>
-  :root{
-    --bg:#05060a; --neon:#00ff88; --accent:#8affff; --muted:#889;
-    font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-  }
-  html,body{height:100%;margin:0;background:linear-gradient(180deg,#020205 0%, #060814 100%);color:#e6eef8;overflow-x:hidden;}
-  a{color:var(--neon);text-decoration:none}
-  .wrap{max-width:1200px;margin:0 auto;padding:40px 24px;position:relative;z-index:6}
-  header{display:flex;align-items:center;justify-content:space-between;gap:16px}
-  .logo{display:flex;align-items:center;gap:12px}
-  .mark{width:48px;height:48px;border-radius:8px;background:linear-gradient(135deg,#002b1f,#003f2f);display:flex;align-items:center;justify-content:center;font-weight:700;color:var(--neon)}
-  nav a{margin-left:18px;color:#9fbfbd;font-size:14px}
-  section{min-height:100vh;padding:0px 0;position:relative;display:flex;align-items:center}
-  .section-inner{display:grid;grid-template-columns:1fr 460px;gap:40px;align-items:center}
-  .left{max-width:720px}
-  .eyebrow{color:var(--muted);font-size:13px;letter-spacing:1px;text-transform:uppercase}
-  h1{font-size:44px;line-height:1.02;margin:10px 0;color:#dfffe8}
-  p.lead{color:#b7dcca;font-size:18px;line-height:1.5}
-  .card{background:rgba(255,255,255,0.02);backdrop-filter:blur(6px);padding:18px;border-radius:12px;border:1px solid rgba(0,255,136,0.04)}
-  .btn{display:inline-block;padding:10px 18px;border-radius:10px;background:linear-gradient(90deg,var(--neon),var(--accent));color:#041014;font-weight:700;margin-top:14px;text-decoration:none}
-  #glCanvas{position:fixed;inset:0;width:100%;height:100%;z-index:1;pointer-events:none}
-  footer{padding:28px 24px;text-align:center;color:var(--muted);font-size:13px}
-  .section-label{position:absolute;left:18px;top:18px;font-size:11px;color:rgba(255,255,255,0.04)}
-  @media (max-width:980px){
-    .section-inner{grid-template-columns:1fr;gap:24px}
-    .right{order:-1}
-    h1{font-size:32px}
-  }
-  /* WebGL fallback message */
-  #no-webgl {display:none;position:fixed;inset:0;background:#000a;color:#fff;z-index:9999;align-items:center;justify-content:center;padding:20px;text-align:center}
-  #no-webgl.visible{display:flex}
+        .gradient-text {
+            background: linear-gradient(135deg, #6C4AB6, #8A2BE2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
 
-  /* tooltip for raycast hover */
-  .tooltip{position:fixed;pointer-events:none;padding:8px 12px;border-radius:8px;background:rgba(0,0,0,0.6);color:#dfffe8;font-size:13px;border:1px solid rgba(0,255,136,0.06);z-index:999}
-</style>
+        .language-popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1000;
+        }
+
+        .language-popup.active {
+            display: block;
+        }
+
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+        }
+
+        .overlay.active {
+            display: block;
+        }
+
+        .pricing-card {
+            transition: all 0.3s ease;
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .feature-list li {
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .feature-list li::before {
+            content: '✓';
+            color: #10B981;
+            font-weight: bold;
+            margin-right: 0.5rem;
+        }
+
+        .currency-badge {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            margin-left: 8px;
+        }
+
+        .loading-spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #ffffff;
+            border-radius: 50%;
+            border-top-color: transparent;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* RTL Support */
+        [dir="rtl"] .feature-list li::before {
+            margin-right: 0;
+            margin-left: 0.5rem;
+        }
+
+        [dir="rtl"] .currency-badge {
+            margin-left: 0;
+            margin-right: 8px;
+        }
+    </style>
 </head>
-<body>
-  <div id="no-webgl" role="alert" aria-live="assertive">
-    <div>
-      <h2>WebGL not available</h2>
-      <p>Your browser does not support WebGL or it is disabled. The site uses WebGL for advanced 3D effects. Please try a modern browser (Chrome/Edge/Firefox) or enable hardware acceleration.</p>
-    </div>
-  </div>
-
-  <canvas id="glCanvas" aria-hidden="true"></canvas>
-
-  <div class="wrap" style="position:relative;z-index:6">
-    <header>
-      <div class="logo"><div class="mark">516</div>
-        <div>
-          <div style="font-weight:700">516 Hackers</div>
-          <div style="font-size:12px;color:var(--muted)">Breaking the matrix — ethically</div>
+<body class="min-h-screen text-white">
+    <!-- Language Popup -->
+    <div class="overlay" id="overlay"></div>
+    
+    <div class="language-popup glass rounded-2xl p-8 max-w-md w-full" id="languagePopup">
+        <div class="text-center">
+            <h3 class="text-2xl font-bold mb-6" id="popupTitle">Choose Language</h3>
+            <div class="space-y-4">
+                <button onclick="setLanguage('en')" class="w-full glass-card py-4 rounded-xl hover:bg-white/20 transition-all duration-300 flex items-center justify-center space-x-3">
+                    <i class="fas fa-globe-americas"></i>
+                    <span class="font-semibold">English</span>
+                </button>
+                <button onclick="setLanguage('ar')" class="w-full glass-card py-4 rounded-xl hover:bg-white/20 transition-all duration-300 flex items-center justify-center space-x-3">
+                    <i class="fas fa-globe-asia"></i>
+                    <span class="font-semibold">العربية (Arabic)</span>
+                </button>
+                <button onclick="setLanguage('es')" class="w-full glass-card py-4 rounded-xl hover:bg-white/20 transition-all duration-300 flex items-center justify-center space-x-3">
+                    <i class="fas fa-globe-europe"></i>
+                    <span class="font-semibold">Español (Spanish)</span>
+                </button>
+                <button onclick="setLanguage('fr')" class="w-full glass-card py-4 rounded-xl hover:bg-white/20 transition-all duration-300 flex items-center justify-center space-x-3">
+                    <i class="fas fa-globe-europe"></i>
+                    <span class="font-semibold">Français (French)</span>
+                </button>
+            </div>
         </div>
-      </div>
-      <nav>
-        <a href="#about">About</a>
-        <a href="#features">Tools</a>
-        <a href="#community">Community</a>
-        <a href="#vault">Join</a>
-      </nav>
-    </header>
-  </div>
-
-  <!-- Sections (same content) -->
-  <section id="hero">
-    <div class="section-label">Hero — Gateway</div>
-    <div class="wrap section-inner">
-      <div class="left">
-        <div class="eyebrow">Welcome</div>
-        <h1>Enter the network — <span style="color:var(--neon)">516 Hackers</span></h1>
-        <p class="lead">Immersive lab: interactive tutorials, real-time sandboxes, and community challenges. Scroll to unlock 3D worlds.</p>
-        <a class="btn" href="#vault">Unlock the Vault</a>
-      </div>
-      <div class="right card">
-        <strong>Live:</strong> Matrix Globe · Particles · Glitch preview
-        <div style="height:10px"></div>
-        <div style="font-size:13px;color:var(--muted)">Tip: For best results, use a desktop GPU. On mobile, animations are simplified.</div>
-      </div>
     </div>
-  </section>
 
-  <section id="about">
-    <div class="section-label">About — Code in Motion</div>
-    <div class="wrap section-inner">
-      <div class="left">
-        <div class="eyebrow">About</div>
-        <h1>Code as art — <span style="color:var(--neon)">motion & meaning</span></h1>
-        <p class="lead">Lines of code rearrange into symbols. Learn the craft behind ethical hacking and visualization.</p>
-      </div>
-      <div class="right card">
-        <strong>Preview:</strong> Animated ribbons · Glyphs
-      </div>
-    </div>
-  </section>
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 glass py-4">
+        <div class="container mx-auto px-6 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <div class="w-8 h-8 rounded-full bg-gradient-to-r from-royal-purple to-deep-indigo flex items-center justify-center text-white">
+                    <i class="fas fa-rocket text-sm"></i>
+                </div>
+                <a href="index.html" class="text-2xl font-bold gradient-text">SafarPath</a>
+            </div>
+            <div class="flex items-center space-x-6">
+                <a href="index.html" class="text-white hover:text-gray-300 transition-colors">
+                    <i class="fas fa-home mr-2"></i><span id="navHome">Home</span>
+                </a>
+                <button onclick="openLanguagePopup()" class="text-white hover:text-gray-300 transition-colors flex items-center space-x-2">
+                    <i class="fas fa-language"></i>
+                    <span id="navLanguage">Language</span>
+                    <span class="currency-badge" id="currencyIndicator">Detecting...</span>
+                </button>
+            </div>
+        </div>
+    </nav>
 
-  <section id="features">
-    <div class="section-label">Features — Tools Lab</div>
-    <div class="wrap section-inner">
-      <div class="left">
-        <div class="eyebrow">Tools</div>
-        <h1>Labs & Tools — <span style="color:var(--neon)">interactive</span></h1>
-        <p class="lead">Pentest sandboxes, AI analytics, and secure server racks — each tool becomes a 3D object you inspect as you scroll.</p>
-      </div>
-      <div class="right card">
-        <strong>Try:</strong> Click the preview button
-        <div style="height:10px"></div>
-        <button class="btn" id="openTool">Open Tool Preview</button>
-      </div>
-    </div>
-  </section>
+    <!-- Hero Section -->
+    <section class="pt-32 pb-20">
+        <div class="container mx-auto px-6 text-center">
+            <h1 class="text-5xl md:text-6xl font-bold mb-6" id="heroTitle">
+                Our <span class="gradient-text">Pricing</span>
+            </h1>
+            <p class="text-xl text-gray-200 max-w-2xl mx-auto mb-8" id="heroSubtitle">
+                Transparent pricing for all your web development needs. Quality service at competitive rates.
+            </p>
+            <div class="glass-card rounded-xl p-4 inline-block">
+                <p class="text-sm" id="currencyNote">
+                    <i class="fas fa-info-circle mr-2"></i>
+                    <span>Prices automatically converted to your local currency</span>
+                </p>
+            </div>
+        </div>
+    </section>
 
-  <section id="community">
-    <div class="section-label">Community — Network Graph</div>
-    <div class="wrap section-inner">
-      <div class="left">
-        <div class="eyebrow">Community</div>
-        <h1>Nodes & Connections — <span style="color:var(--neon)">collaborate</span></h1>
-        <p class="lead">A dynamic 3D network lights up as members join. Hover nodes to see anonymized profiles (demo).</p>
-      </div>
-      <div class="right card">
-        <strong>Network:</strong> Live graph · Join counters
-      </div>
-    </div>
-  </section>
+    <!-- Pricing Section -->
+    <section class="py-10 pb-20">
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+                
+                <!-- Bug Fixing Plan -->
+                <div class="pricing-card glass-card rounded-3xl p-8">
+                    <div class="text-center mb-8">
+                        <div class="w-16 h-16 rounded-2xl bg-gradient-to-r from-red-500 to-pink-600 flex items-center justify-center text-white text-2xl mx-auto mb-4">
+                            <i class="fas fa-bug"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold mb-2" id="plan1Title">Bug Fixing</h3>
+                        <p class="text-gray-300 mb-4" id="plan1Subtitle">Quick error resolution</p>
+                        <div class="flex items-center justify-center mb-2">
+                            <div class="text-3xl font-bold gradient-text" id="plan1Price">5,000 PKR</div>
+                            <div class="currency-badge" id="plan1Currency">PKR</div>
+                        </div>
+                        <p class="text-gray-400 text-sm" id="plan1Starting">Starting price</p>
+                    </div>
+                    
+                    <ul class="feature-list text-left mb-8">
+                        <li id="feature1_1">Quick error diagnosis</li>
+                        <li id="feature1_2">Code debugging</li>
+                        <li id="feature1_3">Performance optimization</li>
+                        <li id="feature1_4">24/7 support availability</li>
+                        <li id="feature1_5">Security patch implementation</li>
+                    </ul>
+                    
+                    <button onclick="contactWhatsApp('Bug Fixing')" class="w-full bg-gradient-to-r from-red-500 to-pink-600 text-white py-3 rounded-xl font-semibold hover:opacity-90 transition-opacity">
+                        <i class="fab fa-whatsapp mr-2"></i>
+                        <span id="ctaBug">Contact for Bug Fixing</span>
+                    </button>
+                </div>
 
-  <section id="vault">
-    <div class="section-label">Vault — CTA</div>
-    <div class="wrap section-inner">
-      <div class="left">
-        <div class="eyebrow">Join Us</div>
-        <h1>Open the <span style="color:var(--neon)">Hacker Vault</span></h1>
-        <p class="lead">Unlock challenges, labs and mentorship. The vault opens as you arrive — watch it rotate and reveal the CTA.</p>
-        <a class="btn" href="#join">Join 516</a>
-      </div>
-      <div class="right card">
-        <strong>Vault Status:</strong> Standby — scroll to open.
-      </div>
-    </div>
-  </section>
+                <!-- Website Development Plan -->
+                <div class="pricing-card glass-card rounded-3xl p-8 transform scale-105 relative">
+                    <div class="absolute top-4 right-4">
+                        <span class="bg-gradient-to-r from-green-500 to-emerald-600 text-white px-3 py-1 rounded-full text-sm font-semibold" id="popularBadge">
+                            Most Popular
+                        </span>
+                    </div>
+                    <div class="text-center mb-8">
+                        <div class="w-16 h-16 rounded-2xl bg-gradient-to-r from-green-500 to-emerald-600 flex items-center justify-center text-white text-2xl mx-auto mb-4">
+                            <i class="fas fa-code"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold mb-2" id="plan2Title">Website Development</h3>
+                        <p class="text-gray-300 mb-4" id="plan2Subtitle">Complete web solutions</p>
+                        <div class="flex items-center justify-center mb-2">
+                            <div class="text-3xl font-bold gradient-text" id="plan2Price">80,000 PKR</div>
+                            <div class="currency-badge" id="plan2Currency">PKR</div>
+                        </div>
+                        <p class="text-gray-400 text-sm" id="plan2Starting">Starting price</p>
+                    </div>
+                    
+                    <ul class="feature-list text-left mb-8">
+                        <li id="feature2_1">Custom website design</li>
+                        <li id="feature2_2">Responsive development</li>
+                        <li id="feature2_3">SEO optimization</li>
+                        <li id="feature2_4">Content management system</li>
+                        <li id="feature2_5">1 year free maintenance</li>
+                        <li id="feature2_6">Domain & hosting setup</li>
+                    </ul>
+                    
+                    <button onclick="contactWhatsApp('Website Development')" class="w-full bg-gradient-to-r from-green-500 to-emerald-600 text-white py-3 rounded-xl font-semibold hover:opacity-90 transition-opacity">
+                        <i class="fab fa-whatsapp mr-2"></i>
+                        <span id="ctaDev">Start Development</span>
+                    </button>
+                </div>
 
-  <footer>
-    © 516 Hackers • Ethical learning • Built with Three.js + GSAP
-  </footer>
+                <!-- Premium Support Plan -->
+                <div class="pricing-card glass-card rounded-3xl p-8">
+                    <div class="text-center mb-8">
+                        <div class="w-16 h-16 rounded-2xl bg-gradient-to-r from-blue-500 to-purple-600 flex items-center justify-center text-white text-2xl mx-auto mb-4">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold mb-2" id="plan3Title">Website Maintenance</h3>
+                        <p class="text-gray-300 mb-4" id="plan3Subtitle">Ongoing support & updates</p>
+                        <div class="flex items-center justify-center mb-2">
+                            <div class="text-3xl font-bold gradient-text" id="plan3Price">10,000 PKR</div>
+                            <div class="currency-badge" id="plan3Currency">PKR</div>
+                        </div>
+                        <p class="text-gray-400 text-sm" id="plan3Starting">Starting price</p>
+                    </div>
+                    
+                    <ul class="feature-list text-left mb-8">
+                        <li id="feature3_1">Regular updates</li>
+                        <li id="feature3_2">Security monitoring</li>
+                        <li id="feature3_3">Backup services</li>
+                        <li id="feature3_4">Performance checks</li>
+                        <li id="feature3_5">Emergency support</li>
+                    </ul>
+                    
+                    <button onclick="contactWhatsApp('Website Maintenance')" class="w-full bg-gradient-to-r from-blue-500 to-purple-600 text-white py-3 rounded-xl font-semibold hover:opacity-90 transition-opacity">
+                        <i class="fab fa-whatsapp mr-2"></i>
+                        <span id="ctaSupport">Get Maintenance</span>
+                    </button>
+                </div>
 
-  <div id="tooltip" class="tooltip" style="display:none"></div>
+            </div>
+        </div>
+    </section>
 
-  <!-- Script: extended Three.js + GSAP integration with more meaningful objects & scroll animations -->
-  <script>
-  (function(){
-    'use strict';
-    // === Basic feature detection ===
-    function webglAvailable(){
-      try {
-        const canvas = document.createElement('canvas');
-        return !!(window.WebGLRenderingContext && (canvas.getContext('webgl') || canvas.getContext('experimental-webgl')));
-      } catch(e){ return false; }
-    }
-    if(!webglAvailable()){
-      document.getElementById('no-webgl').classList.add('visible');
-      return;
-    }
+    <!-- Contact Section -->
+    <section class="py-20">
+        <div class="container mx-auto px-6 text-center">
+            <div class="glass-card rounded-3xl p-12 max-w-4xl mx-auto">
+                <h2 class="text-4xl font-bold mb-6" id="contactTitle">Ready to Get Started?</h2>
+                <p class="text-xl text-gray-200 mb-8" id="contactSubtitle">
+                    Contact us directly on WhatsApp for quick responses and personalized quotes.
+                </p>
+                <button onclick="contactWhatsApp('General Inquiry')" class="bg-gradient-to-r from-green-500 to-emerald-600 text-white px-8 py-4 rounded-xl font-semibold text-lg hover:opacity-90 transition-opacity">
+                    <i class="fab fa-whatsapp mr-3"></i>
+                    <span id="contactCta">Chat on WhatsApp +92 312 7592672</span>
+                </button>
+            </div>
+        </div>
+    </section>
 
-    // === Setup renderer, scene, camera ===
-    const canvas = document.getElementById('glCanvas');
-    const renderer = new THREE.WebGLRenderer({canvas, antialias:true, alpha:true, powerPreference: 'high-performance'});
-    const DPR = Math.min(window.devicePixelRatio || 1, 2);
-    renderer.setPixelRatio(DPR);
-    renderer.setSize(window.innerWidth, window.innerHeight, false);
-    renderer.outputEncoding = THREE.sRGBEncoding;
+    <script>
+        // Base prices in PKR
+        const basePrices = {
+            bugFixing: 5000,
+            websiteDevelopment: 80000,
+            websiteMaintenance: 10000
+        };
 
-    const scene = new THREE.Scene();
-    scene.background = new THREE.Color(0x00070a);
-    scene.fog = new THREE.FogExp2(0x00060a, 0.0007);
+        // Language mapping for all countries
+        const countryLanguageMap = {
+            // Arabic speaking countries
+            'SA': 'ar', 'AE': 'ar', 'EG': 'ar', 'KW': 'ar', 'QA': 'ar', 'BH': 'ar', 'OM': 'ar',
+            'JO': 'ar', 'LB': 'ar', 'SY': 'ar', 'IQ': 'ar', 'PS': 'ar', 'DZ': 'ar', 'MA': 'ar',
+            'TN': 'ar', 'LY': 'ar', 'SD': 'ar', 'YE': 'ar', 'MR': 'ar', 'SO': 'ar', 'DJ': 'ar',
+            
+            // Spanish speaking countries
+            'ES': 'es', 'MX': 'es', 'AR': 'es', 'CO': 'es', 'PE': 'es', 'VE': 'es', 'CL': 'es',
+            'EC': 'es', 'GT': 'es', 'CU': 'es', 'BO': 'es', 'DO': 'es', 'HN': 'es', 'PY': 'es',
+            'SV': 'es', 'NI': 'es', 'CR': 'es', 'PR': 'es', 'PA': 'es', 'UY': 'es', 'GQ': 'es',
+            
+            // French speaking countries
+            'FR': 'fr', 'CA': 'fr', 'BE': 'fr', 'CH': 'fr', 'LU': 'fr', 'MC': 'fr', 
+            // African French-speaking countries
+            'SN': 'fr', 'CI': 'fr', 'CM': 'fr', 'MG': 'fr', 'BF': 'fr', 'ML': 'fr', 'NE': 'fr',
+            'TG': 'fr', 'CD': 'fr', 'RW': 'fr', 'BJ': 'fr', 'GN': 'fr', 'HT': 'fr',
+            
+            // Default to English for other countries
+            'US': 'en', 'GB': 'en', 'AU': 'en', 'NZ': 'en', 'IN': 'en', 'SG': 'en', 'MY': 'en',
+            'PH': 'en', 'ZA': 'en', 'IE': 'en', 'DE': 'en', 'IT': 'en', 'NL': 'en', 'SE': 'en',
+            'NO': 'en', 'DK': 'en', 'FI': 'en', 'AT': 'en', 'PL': 'en', 'CZ': 'en', 'HU': 'en',
+            'RO': 'en', 'BG': 'en', 'GR': 'en', 'PT': 'en', 'BR': 'en', 'RU': 'en', 'CN': 'en',
+            'JP': 'en', 'KR': 'en', 'ID': 'en', 'TH': 'en', 'VN': 'en', 'TR': 'en', 'IL': 'en'
+        };
 
-    const camera = new THREE.PerspectiveCamera(48, window.innerWidth / window.innerHeight, 0.1, 4000);
-    camera.position.set(0, 22, 160);
-    const cameraTarget = new THREE.Vector3(0,0,0);
+        // Currency symbols for major currencies
+        const currencySymbols = {
+            'USD': '$', 'EUR': '€', 'GBP': '£', 'PKR': '₨', 'SAR': '﷼', 'AED': 'د.إ',
+            'INR': '₹', 'CAD': 'C$', 'AUD': 'A$', 'JPY': '¥', 'CNY': '¥', 'KRW': '₩',
+            'RUB': '₽', 'BRL': 'R$', 'MXN': '$', 'ARS': '$', 'CLP': '$', 'COP': '$',
+            'PEN': 'S/', 'CHF': 'CHF', 'SEK': 'kr', 'NOK': 'kr', 'DKK': 'kr', 'PLN': 'zł',
+            'TRY': '₺', 'ZAR': 'R', 'EGP': '£', 'NGN': '₦', 'KES': 'KSh', 'GHS': '₵'
+        };
 
-    // Lights
-    const hemi = new THREE.HemisphereLight(0x88ffdd, 0x001a22, 0.7);
-    scene.add(hemi);
-    const point = new THREE.PointLight(0x00ff88, 0.9, 800);
-    point.position.set(50, 80, 120);
-    scene.add(point);
+        // Language content
+        const content = {
+            en: {
+                navHome: "Home",
+                navLanguage: "Language",
+                popupTitle: "Choose Language",
+                heroTitle: "Our Pricing",
+                heroSubtitle: "Transparent pricing for all your web development needs. Quality service at competitive rates.",
+                currencyNote: "Prices automatically converted to your local currency",
+                
+                plan1Title: "Bug Fixing",
+                plan1Subtitle: "Quick error resolution",
+                plan1Starting: "Starting price",
+                feature1_1: "Quick error diagnosis",
+                feature1_2: "Code debugging",
+                feature1_3: "Performance optimization",
+                feature1_4: "24/7 support availability",
+                feature1_5: "Security patch implementation",
+                ctaBug: "Contact for Bug Fixing",
+                
+                plan2Title: "Website Development",
+                plan2Subtitle: "Complete web solutions",
+                plan2Starting: "Starting price",
+                feature2_1: "Custom website design",
+                feature2_2: "Responsive development",
+                feature2_3: "SEO optimization",
+                feature2_4: "Content management system",
+                feature2_5: "1 year free maintenance",
+                feature2_6: "Domain & hosting setup",
+                ctaDev: "Start Development",
+                popularBadge: "Most Popular",
+                
+                plan3Title: "Website Maintenance",
+                plan3Subtitle: "Ongoing support & updates",
+                plan3Starting: "Starting price",
+                feature3_1: "Regular updates",
+                feature3_2: "Security monitoring",
+                feature3_3: "Backup services",
+                feature3_4: "Performance checks",
+                feature3_5: "Emergency support",
+                ctaSupport: "Get Maintenance",
+                
+                contactTitle: "Ready to Get Started?",
+                contactSubtitle: "Contact us directly on WhatsApp for quick responses and personalized quotes.",
+                contactCta: "Chat on WhatsApp +92 312 7592672"
+            },
+            ar: {
+                navHome: "الرئيسية",
+                navLanguage: "اللغة",
+                popupTitle: "اختر اللغة",
+                heroTitle: "أسعارنا",
+                heroSubtitle: "أسعار شفافة لجميع احتياجات تطوير الويب الخاصة بك. خدمة عالية الجودة بأسعار تنافسية.",
+                currencyNote: "الأسعار تتحول تلقائياً إلى عملتك المحلية",
+                
+                plan1Title: "إصلاح الأخطاء",
+                plan1Subtitle: "حل سريع للأخطاء",
+                plan1Starting: "السعر يبدأ من",
+                feature1_1: "تشخيص سريع للأخطاء",
+                feature1_2: "تصحيح الأخطاء البرمجية",
+                feature1_3: "تحسين الأداء",
+                feature1_4: "دعم متاح 24/7",
+                feature1_5: "تنفيذ تصحيحات الأمان",
+                ctaBug: "اتصل لإصلاح الأخطاء",
+                
+                plan2Title: "تطوير المواقع",
+                plan2Subtitle: "حلول ويب متكاملة",
+                plan2Starting: "السعر يبدأ من",
+                feature2_1: "تصميم موقع مخصص",
+                feature2_2: "تطوير متجاوب",
+                feature2_3: "تحسين محركات البحث",
+                feature2_4: "نظام إدارة المحتوى",
+                feature2_5: "صيانة مجانية لمدة سنة",
+                feature2_6: "إعداد النطاق والاستضافة",
+                ctaDev: "ابدأ التطوير",
+                popularBadge: "الأكثر شيوعاً",
+                
+                plan3Title: "صيانة الموقع",
+                plan3Subtitle: "دعم وتحديثات مستمرة",
+                plan3Starting: "السعر يبدأ من",
+                feature3_1: "تحديثات منتظمة",
+                feature3_2: "مراقبة الأمان",
+                feature3_3: "خدمات النسخ الاحتياطي",
+                feature3_4: "فحوصات الأداء",
+                feature3_5: "دعم طوارئ",
+                ctaSupport: "احصل على الصيانة",
+                
+                contactTitle: "مستعد للبدء؟",
+                contactSubtitle: "اتصل بنا مباشرة على الواتساب للحصول على ردود سريعة وعروض أسعار مخصصة.",
+                contactCta: "تواصل على الواتساب +92 312 7592672"
+            },
+            es: {
+                navHome: "Inicio",
+                navLanguage: "Idioma",
+                popupTitle: "Elegir Idioma",
+                heroTitle: "Nuestros Precios",
+                heroSubtitle: "Precios transparentes para todas sus necesidades de desarrollo web. Servicio de calidad a precios competitivos.",
+                currencyNote: "Precios convertidos automáticamente a su moneda local",
+                
+                plan1Title: "Reparación de Errores",
+                plan1Subtitle: "Solución rápida de errores",
+                plan1Starting: "Precio desde",
+                feature1_1: "Diagnóstico rápido de errores",
+                feature1_2: "Depuración de código",
+                feature1_3: "Optimización de rendimiento",
+                feature1_4: "Soporte 24/7 disponible",
+                feature1_5: "Implementación de parches de seguridad",
+                ctaBug: "Contactar para Reparación",
+                
+                plan2Title: "Desarrollo Web",
+                plan2Subtitle: "Soluciones web completas",
+                plan2Starting: "Precio desde",
+                feature2_1: "Diseño web personalizado",
+                feature2_2: "Desarrollo responsive",
+                feature2_3: "Optimización SEO",
+                feature2_4: "Sistema de gestión de contenido",
+                feature2_5: "1 año de mantenimiento gratis",
+                feature2_6: "Configuración de dominio y hosting",
+                ctaDev: "Comenzar Desarrollo",
+                popularBadge: "Más Popular",
+                
+                plan3Title: "Mantenimiento Web",
+                plan3Subtitle: "Soporte y actualizaciones continuas",
+                plan3Starting: "Precio desde",
+                feature3_1: "Actualizaciones regulares",
+                feature3_2: "Monitoreo de seguridad",
+                feature3_3: "Servicios de backup",
+                feature3_4: "Chequeos de rendimiento",
+                feature3_5: "Soporte de emergencia",
+                ctaSupport: "Obtener Mantenimiento",
+                
+                contactTitle: "¿Listo para Comenzar?",
+                contactSubtitle: "Contáctenos directamente por WhatsApp para respuestas rápidas y cotizaciones personalizadas.",
+                contactCta: "Chatear por WhatsApp +92 312 7592672"
+            },
+            fr: {
+                navHome: "Accueil",
+                navLanguage: "Langue",
+                popupTitle: "Choisir la Langue",
+                heroTitle: "Nos Tarifs",
+                heroSubtitle: "Tarification transparente pour tous vos besoins en développement web. Service de qualité à des prix compétitifs.",
+                currencyNote: "Prix automatiquement convertis dans votre devise locale",
+                
+                plan1Title: "Correction de Bugs",
+                plan1Subtitle: "Résolution rapide des erreurs",
+                plan1Starting: "Prix à partir de",
+                feature1_1: "Diagnostic rapide des erreurs",
+                feature1_2: "Débogage de code",
+                feature1_3: "Optimisation des performances",
+                feature1_4: "Support 24/7 disponible",
+                feature1_5: "Implémentation de correctifs de sécurité",
+                ctaBug: "Contact pour Correction",
+                
+                plan2Title: "Développement Web",
+                plan2Subtitle: "Solutions web complètes",
+                plan2Starting: "Prix à partir de",
+                feature2_1: "Design de site personnalisé",
+                feature2_2: "Développement responsive",
+                feature2_3: "Optimisation SEO",
+                feature2_4: "Système de gestion de contenu",
+                feature2_5: "1 an de maintenance gratuite",
+                feature2_6: "Configuration domaine et hébergement",
+                ctaDev: "Commencer le Développement",
+                popularBadge: "Plus Populaire",
+                
+                plan3Title: "Maintenance Web",
+                plan3Subtitle: "Support et mises à jour continues",
+                plan3Starting: "Prix à partir de",
+                feature3_1: "Mises à jour régulières",
+                feature3_2: "Surveillance de sécurité",
+                feature3_3: "Services de sauvegarde",
+                feature3_4: "Vérifications de performance",
+                feature3_5: "Support d'urgence",
+                ctaSupport: "Obtenir la Maintenance",
+                
+                contactTitle: "Prêt à Commencer?",
+                contactSubtitle: "Contactez-nous directement sur WhatsApp pour des réponses rapides et des devis personnalisés.",
+                contactCta: "Discuter sur WhatsApp +92 312 7592672"
+            }
+        };
 
-    // groups per section
-    const groups = { hero:new THREE.Group(), about:new THREE.Group(), features:new THREE.Group(), community:new THREE.Group(), vault:new THREE.Group() };
-    scene.add(groups.hero, groups.about, groups.features, groups.community, groups.vault);
+        // Current settings
+        let currentLang = 'en';
+        let currentCurrency = 'PKR';
+        let exchangeRate = 1;
 
-    const isMobile = /Mobi|Android/i.test(navigator.userAgent) || window.innerWidth < 900;
-    const PARTICLE_COUNT = isMobile ? 400 : 1200;
-    const SPARSE_COUNT = isMobile ? 40 : 60;
+        // Detect user's location with multiple fallbacks
+        async function detectUserLocation() {
+            try {
+                document.getElementById('currencyIndicator').innerHTML = '<div class="loading-spinner"></div>';
 
-    // Utility: stop/start loop
-    let running = true; function startLoop(){ running = true; animate(); } function stopLoop(){ running = false; }
+                // Try multiple IP geolocation services
+                const services = [
+                    'https://ipapi.co/json/',
+                    'https://api.ipgeolocation.io/ipgeo?apiKey=test', // Free tier
+                    'https://api.country.is/'
+                ];
 
-    // resize debounce
-    let resizeTimeout = null;
-    window.addEventListener('resize', ()=>{
-      clearTimeout(resizeTimeout);
-      resizeTimeout = setTimeout(()=>{
-        camera.aspect = window.innerWidth / window.innerHeight; camera.updateProjectionMatrix();
-        renderer.setSize(window.innerWidth, window.innerHeight);
-        renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
-      }, 120);
-    });
+                let locationData = null;
+                
+                for (const service of services) {
+                    try {
+                        const response = await fetch(service);
+                        if (response.ok) {
+                            locationData = await response.json();
+                            break;
+                        }
+                    } catch (error) {
+                        console.log(`Service ${service} failed, trying next...`);
+                        continue;
+                    }
+                }
 
-    document.addEventListener('visibilitychange', ()=>{ if(document.hidden) stopLoop(); else startLoop(); });
+                if (!locationData) {
+                    throw new Error('All geolocation services failed');
+                }
 
-    // ---------------- CUSTOM OBJECTS & MEANINGS ----------------
-    // For each major object added we provide a short comment explaining its purpose.
-
-    // ---------- HERO: globe + data-stream arcs + shield glyph ----------
-    (function createHero(){
-      const g = groups.hero;
-
-      // Globe (represents the network — central anchor for the "gateway")
-      const globeGeo = new THREE.IcosahedronGeometry(36, 5);
-      const globeMat = new THREE.MeshStandardMaterial({ color:0x003f2f, metalness:0.25, roughness:0.18, emissive:0x002a1a, transparent:true, opacity:0.98 });
-      const globe = new THREE.Mesh(globeGeo, globeMat);
-      g.add(globe);
-
-      // Wire overlay conveys "known paths" vs "dark matter"
-      const wire = new THREE.LineSegments(new THREE.WireframeGeometry(globeGeo), new THREE.LineBasicMaterial({color:0x00ff88, transparent:true, opacity:0.18}));
-      wire.scale.multiplyScalar(1.006); g.add(wire);
-
-      // Data-stream arcs (meaning: live traffic channels — animate on scroll to 'open' channels)
-      const arcGroup = new THREE.Group(); arcGroup.name = 'dataArcs';
-      for(let i=0;i<16;i++){
-        const curve = new THREE.TorusGeometry(55 + i*1.6, 0.6, 8, 120, Math.PI*1.6);
-        const mat = new THREE.MeshBasicMaterial({transparent:true, opacity:0.06 + Math.random()*0.12});
-        const m = new THREE.Mesh(curve, mat);
-        m.rotation.x = Math.PI*0.45 - (i*0.02);
-        m.rotation.z = (i/16) * Math.PI*2;
-        m.userData = {meaning: 'data-channel', idx:i};
-        arcGroup.add(m);
-      }
-      g.add(arcGroup);
-
-      // Holographic shield glyph — represents verification/trust
-      const shieldGeo = new THREE.RingGeometry(8, 12, 64);
-      const shieldMat = new THREE.MeshBasicMaterial({color:0x88fff0, transparent:true, opacity:0.06, side:THREE.DoubleSide});
-      const shield = new THREE.Mesh(shieldGeo, shieldMat); shield.rotation.x = Math.PI/2; shield.position.set(0, -24, 12);
-      g.add(shield);
-
-      // Streaming particles (small) — visual 'noise' and hotspots
-      const pGeo = new THREE.BufferGeometry();
-      const positions = new Float32Array(PARTICLE_COUNT * 3);
-      for(let i=0;i<PARTICLE_COUNT;i++){
-        const theta = Math.random()*Math.PI*2; const phi = Math.acos(2*Math.random()-1);
-        const r = 40 + Math.random()*80;
-        positions[i*3] = Math.sin(phi)*Math.cos(theta)*r;
-        positions[i*3+1] = Math.sin(phi)*Math.sin(theta)*r*0.5;
-        positions[i*3+2] = Math.cos(phi)*r;
-      }
-      pGeo.setAttribute('position', new THREE.BufferAttribute(positions,3));
-      const pMat = new THREE.PointsMaterial({size: isMobile?1.0:1.6, transparent:true, opacity:0.9});
-      const particles = new THREE.Points(pGeo, pMat); particles.frustumCulled = false; g.add(particles);
-
-      g.position.set(-20, -5, -40);
-      g.userData = {globe, wire, arcGroup, particles, particlePositions: positions};
-
-      // Globe rotation and gentle arc breathing
-      gsap.to(globe.rotation, {y:Math.PI*2, duration:50, repeat:-1, ease:'none'});
-      gsap.to(arcGroup.rotation, {y:Math.PI*2, duration:120, repeat:-1, ease:'none'});
-    })();
-
-    // ---------- ABOUT: ribbons + morphing glyphs (meaning: craftsmanship & structure) ----------
-    (function createAbout(){
-      const g = groups.about;
-
-      // Reuse simple canvas textured ribbons to make them animate like "book pages"
-      function createRibbon(i){
-        const canvas = document.createElement('canvas'); canvas.width = 256; canvas.height = 64;
-        const ctx = canvas.getContext('2d');
-        const grad = ctx.createLinearGradient(0,0,canvas.width,0);
-        grad.addColorStop(0, '#002b1f'); grad.addColorStop(1, '#00ff88');
-        ctx.fillStyle = grad; ctx.fillRect(0,0,canvas.width,canvas.height);
-        const tex = new THREE.CanvasTexture(canvas); tex.encoding = THREE.sRGBEncoding;
-        const mat = new THREE.MeshBasicMaterial({map:tex, transparent:true, opacity:0.9, side:THREE.DoubleSide});
-        const mesh = new THREE.Mesh(new THREE.PlaneGeometry(36,6), mat); return mesh;
-      }
-      for(let i=0;i<22;i++){ const r = createRibbon(i); const a = i * 0.25; r.position.set(Math.cos(a)*40, (i-10)*1.6, Math.sin(a)*40); r.rotation.y = a + Math.PI/2; g.add(r); }
-
-      // central glyph that morphs into "code bars" meaning: primitives -> applications
-      const boxGeo = new THREE.BoxGeometry(6,18,1.6); const boxMat = new THREE.MeshStandardMaterial({color:0x00ff88, emissive:0x003322, roughness:0.22});
-      const glyph = new THREE.Group();
-      for(let i=0;i<5;i++){ const b = new THREE.Mesh(boxGeo, boxMat); b.position.set((i-2)*9, 0, 0); glyph.add(b); }
-      g.add(glyph);
-
-      g.position.set(10,-12,-120);
-      // subtle animate glyph scale on scroll trigger (configured below)
-      g.userData = {glyph};
-    })();
-
-    // ---------- FEATURES: server, laptop (meaning: tools you inspect & operate) ----------
-    (function createFeatures(){
-      const g = groups.features;
-
-      // stylized server tower (represents compute resources)
-      function tower(x,y,z){
-        const geo = new THREE.CylinderGeometry(8.5,10,36,16);
-        const mat = new THREE.MeshStandardMaterial({color:0x004d3a, metalness:0.7, roughness:0.15, emissive:0x001a0f});
-        const m = new THREE.Mesh(geo, mat); m.position.set(x,y,z); g.add(m);
-        // small indicator lights that pulse when timeline triggers
-        for(let i=0;i<5;i++){ const light = new THREE.Mesh(new THREE.BoxGeometry(2,0.9,0.6), new THREE.MeshBasicMaterial({color:0x00ff88})); light.position.set(x + (Math.random()*4-2), y - 10 + i*4.5, z+6); g.add(light); }
-      }
-      tower(-18,0,-60); tower(28,10,-38);
-
-      // laptop / console plane (represents interactive tool UI) - we'll add a canvas texture for an animated terminal effect
-      const termCanvas = document.createElement('canvas'); termCanvas.width = 512; termCanvas.height = 256; const tctx = termCanvas.getContext('2d');
-      function drawTerminal(seed){ tctx.fillStyle = '#001b14'; tctx.fillRect(0,0,termCanvas.width,termCanvas.height); tctx.fillStyle = '#00ff88'; tctx.font = '20px monospace'; for(let i=0;i<12;i++){ tctx.fillText((Math.random()>0.5? 'root@516:~$ ' : '> ') + (Math.random().toString(36).substr(2,12)), 8, 28 + i*20); } }
-      drawTerminal(); const termTex = new THREE.CanvasTexture(termCanvas); termTex.encoding = THREE.sRGBEncoding;
-      const plane = new THREE.Mesh(new THREE.BoxGeometry(32,18,2), new THREE.MeshStandardMaterial({map: termTex, metalness:0.3, roughness:0.3})); plane.position.set(0,-6,-18); plane.rotation.x = 0.12; plane.name = 'consolePlane'; g.add(plane);
-
-      // ring highlight
-      const ringGeo = new THREE.TorusGeometry(34,0.9,12,120);
-      const ring = new THREE.Mesh(ringGeo, new THREE.MeshBasicMaterial({color:0x00ff88, transparent:true, opacity:0.12})); ring.rotation.x = Math.PI/2; ring.position.set(0,-6,-18); ring.name = 'featuresRing'; g.add(ring);
-
-      g.position.set(-10, -2, -140);
-      g.userData = {plane, termCanvas, termTex, ring};
-
-      // animate terminal canvas periodically to simulate live logs
-      setInterval(()=>{ drawTerminal(); termTex.needsUpdate = true; }, 2800);
-    })();
-
-    // ---------- COMMUNITY: node graph with connect animations (meaning: collaboration) ----------
-    (function createCommunity(){
-      const g = groups.community; const nodes = [];
-      const nodeGeo = new THREE.SphereGeometry(isMobile?1.4:1.8, 8, 8);
-      const nodeMat = new THREE.MeshBasicMaterial({color:0x00ff88});
-      const nodeCount = isMobile ? 38 : 60;
-      for(let i=0;i<nodeCount;i++){
-        const n = new THREE.Mesh(nodeGeo, nodeMat);
-        const theta = Math.random()*Math.PI*2; const phi = (Math.random()*Math.PI)-Math.PI/2; const r = 50 + Math.random()*70;
-        n.position.set(Math.cos(theta)*Math.cos(phi)*r, Math.sin(phi)*r*0.6, Math.sin(theta)*Math.cos(phi)*r);
-        n.userData = {id:i, joinedAt: Date.now() - Math.random()*1000*60*60*24};
-        nodes.push(n); g.add(n);
-      }
-      // sparse edges
-      const lineMat = new THREE.LineBasicMaterial({color:0x007f5a, transparent:true, opacity:0.12});
-      for(let i=0;i<SPARSE_COUNT;i++){
-        const a = nodes[Math.floor(Math.random()*nodes.length)].position; const b = nodes[Math.floor(Math.random()*nodes.length)].position;
-        const geo = new THREE.BufferGeometry().setFromPoints([a,b]); const line = new THREE.Line(geo, lineMat); g.add(line);
-      }
-      // pulsing nodes (join pulses)
-      nodes.forEach((n, idx)=>{ const delay = Math.random()*6; gsap.to(n.scale, {x:1.6,y:1.6,z:1.6, duration:0.8, repeat:-1, yoyo:true, ease:'sine.inOut', delay}); });
-
-      g.position.set(0,-18,-200); g.userData = {nodes};
-    })();
-
-    // ---------- VAULT: rotating door + reveal particles (meaning: gated knowledge & reward) ----------
-    (function createVault(){
-      const g = groups.vault;
-      const ring = new THREE.Mesh(new THREE.TorusGeometry(80,8,24,120), new THREE.MeshStandardMaterial({color:0x003f2f, metalness:0.95, roughness:0.2, emissive:0x001a13})); ring.name = 'vaultRing'; g.add(ring);
-      const spokeGeo = new THREE.BoxGeometry(4,120,6); const spokeMat = new THREE.MeshStandardMaterial({color:0x00ff88, emissive:0x003322, roughness:0.28});
-      for(let i=0;i<6;i++){ const s = new THREE.Mesh(spokeGeo, spokeMat); s.rotation.z = (i/6)*Math.PI*2; s.position.set(0,0,0); g.add(s); }
-      const lock = new THREE.Mesh(new THREE.CylinderGeometry(12,12,8,36), new THREE.MeshStandardMaterial({color:0x00ff88, metalness:0.8})); lock.position.set(0,0,4); lock.name = 'vaultLock'; g.add(lock);
-
-      // reward particles — will burst on openVault
-      const burstGeo = new THREE.BufferGeometry(); const count = isMobile?160:420;
-      const arr = new Float32Array(count*3);
-      for(let i=0;i<count;i++){ arr[i*3] = (Math.random()*2-1)*20; arr[i*3+1] = (Math.random()*2-1)*20; arr[i*3+2] = (Math.random()*2-1)*20; }
-      burstGeo.setAttribute('position', new THREE.BufferAttribute(arr,3));
-      const burstMat = new THREE.PointsMaterial({size:isMobile?1.2:2.2, transparent:true, opacity:0.95});
-      const burst = new THREE.Points(burstGeo, burstMat); burst.name = 'vaultBurst'; burst.visible = false; g.add(burst);
-
-      g.position.set(0,-10,-250); g.userData = {lock, burst};
-    })();
-
-    // make groups visible
-    Object.values(groups).forEach(v=>v.visible = true);
-
-    // ---------------- CAMERA HELPERS ----------------
-    function focusOn(group, opts = {}){
-      const pos = new THREE.Vector3(); group.getWorldPosition(pos);
-      const offset = opts.offset || new THREE.Vector3(0,18,160);
-      const targetPos = new THREE.Vector3().copy(pos).add(opts.targetOffset || new THREE.Vector3(0,0,0));
-      gsap.to(camera.position, {duration: Math.min(opts.duration || 1.2, 2.2), x: pos.x + offset.x, y: pos.y + offset.y, z: pos.z + offset.z, ease:'power3.out'});
-      gsap.to(cameraTarget, {duration: Math.min(opts.duration || 1.2, 2.2), x: targetPos.x, y: targetPos.y, z: targetPos.z, ease:'power3.out'});
-    }
-
-    function openVault(){
-      gsap.to(groups.vault.rotation, {z: Math.PI*1.05, duration:2.6, ease:'power2.out'});
-      gsap.to(camera.position, {duration:1.6, x:0, y:-10, z:40, ease:'power2.out'});
-      gsap.to(camera.position, {duration:1.6, delay:1.6, x:0, y:10, z:160, ease:'power2.inOut'});
-      const lock = groups.vault.getObjectByName('vaultLock'); if(lock && lock.material){ gsap.fromTo(lock.material, {emissiveIntensity:0.1}, {emissiveIntensity:1.6, duration:0.22, yoyo:true, repeat:6}); }
-      // burst particles reveal
-      const burst = groups.vault.getObjectByName('vaultBurst'); if(burst){ burst.visible = true; // animate outward
-        const positions = burst.geometry.attributes.position.array; const len = positions.length/3; for(let i=0;i<len;i++){ const vx = positions[i*3], vy = positions[i*3+1], vz = positions[i*3+2]; gsap.to(positions, { // not efficient to tween array directly; use a per-particle approach simplified below
-          duration:1.6, onStart:()=>{}, onUpdate:()=>{ burst.geometry.attributes.position.needsUpdate = true; }
-        }); }
-        // simplified: scale burst
-        gsap.fromTo(burst.scale, {x:0.08,y:0.08,z:0.08}, {x:1.0,y:1.0,z:1.0, duration:1.4, ease:'expo.out', onComplete:()=>{ setTimeout(()=>{ burst.visible = false; burst.scale.set(0.08,0.08,0.08); }, 2400); }});
-      }
-    }
-
-    // ---------------- SCROLLTRIGGER MAPPINGS (MEANINGFUL ANIMATIONS) ----------------
-    gsap.registerPlugin(ScrollTrigger);
-    const sectionMap = [
-      {id:'hero', onEnter: ()=> {
-          // open several data arcs to simulate channels coming online — meaningful: "gateway opening"
-          const arcGroup = groups.hero.getObjectByName('dataArcs'); if(arcGroup){ arcGroup.children.forEach((c,idx)=>{ gsap.to(c.material, {duration:0.9, opacity:0.12 + Math.random()*0.25, delay: idx*0.03}); gsap.to(c.scale, {duration:1.2, x:1.02, y:1.02, z:1.02, yoyo:true, repeat:1, ease:'sine.inOut', delay: idx*0.02}); }); }
-          focusOn(groups.hero, {offset:new THREE.Vector3(-20, 18, 80)});
+                const countryCode = locationData.country_code || locationData.country;
+                const currency = locationData.currency || 'USD';
+                
+                // Set language based on country or browser preference
+                if (countryLanguageMap[countryCode]) {
+                    currentLang = countryLanguageMap[countryCode];
+                } else {
+                    const browserLang = navigator.language.split('-')[0];
+                    currentLang = ['ar', 'es', 'fr'].includes(browserLang) ? browserLang : 'en';
+                }
+                
+                // Get exchange rate with fallback
+                await getExchangeRate(currency);
+                currentCurrency = currency;
+                
+                updateContent();
+                updatePrices();
+                updateCurrencyIndicator();
+                
+            } catch (error) {
+                console.error('Location detection failed:', error);
+                // Ultimate fallback - use browser language and USD
+                const browserLang = navigator.language.split('-')[0];
+                currentLang = ['ar', 'es', 'fr'].includes(browserLang) ? browserLang : 'en';
+                currentCurrency = 'USD';
+                exchangeRate = 0.0036; // Approximate USD to PKR
+                
+                updateContent();
+                updatePrices();
+                updateCurrencyIndicator();
+            }
         }
-      },
-      {id:'about', onEnter: ()=> {
-          // morph the glyph to highlight the "craft" — meaning: structure reveals strength
-          const glyph = groups.about.userData && groups.about.userData.glyph;
-          if(glyph){ gsap.to(glyph.rotation, {y:Math.PI*0.8, duration:1.6, ease:'power2.inOut'}); gsap.to(glyph.position, {y:6, duration:1.2, yoyo:true, repeat:1}); }
-          focusOn(groups.about, {offset:new THREE.Vector3(10, 18, 120)});
+
+        // Get exchange rate with multiple fallbacks
+        async function getExchangeRate(targetCurrency) {
+            if (targetCurrency === 'PKR') {
+                exchangeRate = 1;
+                return;
+            }
+
+            try {
+                // Try multiple exchange rate APIs
+                const apis = [
+                    `https://api.exchangerate.host/latest?base=PKR&symbols=${targetCurrency}`,
+                    `https://api.frankfurter.app/latest?from=PKR&to=${targetCurrency}`
+                ];
+
+                for (const api of apis) {
+                    try {
+                        const response = await fetch(api);
+                        if (response.ok) {
+                            const data = await response.json();
+                            exchangeRate = data.rates?.[targetCurrency] || data.rates?.[targetCurrency] || 1;
+                            if (exchangeRate !== 1) break;
+                        }
+                    } catch (error) {
+                        continue;
+                    }
+                }
+
+                // Fallback rates for major currencies
+                if (exchangeRate === 1) {
+                    const fallbackRates = {
+                        'USD': 0.0036, 'EUR': 0.0033, 'GBP': 0.0028, 'AED': 0.013,
+                        'SAR': 0.013, 'INR': 0.30, 'CAD': 0.0048, 'AUD': 0.0054
+                    };
+                    exchangeRate = fallbackRates[targetCurrency] || 1;
+                }
+
+            } catch (error) {
+                console.error('Exchange rate fetch failed:', error);
+                exchangeRate = 1;
+            }
         }
-      },
-      {id:'features', onEnter: ()=> {
-          // highlight console plane, make server lights pulse — meaning: tools ready for inspection
-          const fd = groups.features.userData; if(fd){ gsap.to(fd.ring.material, {duration:0.6, opacity:0.55, yoyo:true, repeat:3}); gsap.to(fd.plane.rotation, {x:0.02, duration:0.6, yoyo:true, repeat:3}); }
-          focusOn(groups.features, {offset:new THREE.Vector3(-12, 8, 120)});
+
+        // Update prices based on exchange rate
+        function updatePrices() {
+            const formatPrice = (price) => {
+                const convertedPrice = price * exchangeRate;
+                if (convertedPrice >= 1000) {
+                    return Math.round(convertedPrice).toLocaleString(currentLang);
+                } else if (convertedPrice >= 100) {
+                    return convertedPrice.toFixed(0);
+                } else {
+                    return convertedPrice.toFixed(2);
+                }
+            };
+
+            document.getElementById('plan1Price').textContent = `${formatPrice(basePrices.bugFixing)}`;
+            document.getElementById('plan1Currency').textContent = currentCurrency;
+
+            document.getElementById('plan2Price').textContent = `${formatPrice(basePrices.websiteDevelopment)}`;
+            document.getElementById('plan2Currency').textContent = currentCurrency;
+
+            document.getElementById('plan3Price').textContent = `${formatPrice(basePrices.websiteMaintenance)}`;
+            document.getElementById('plan3Currency').textContent = currentCurrency;
         }
-      },
-      {id:'community', onEnter: ()=> {
-          // animate connection lines drawing in — meaning: collaboration forming
-          groups.community.children.forEach((child)=>{ if(child.type === 'Line'){ gsap.fromTo(child.material, {opacity:0.0}, {opacity:0.12, duration:0.9, ease:'power2.out'}); gsap.from(child.scale, {x:0.2, duration:0.9, ease:'power2.out'}); } });
-          focusOn(groups.community, {offset:new THREE.Vector3(0, 18, 220), targetOffset: new THREE.Vector3(0, -8, -60)});
+
+        // Update currency indicator
+        function updateCurrencyIndicator() {
+            const symbol = currencySymbols[currentCurrency] || currentCurrency;
+            document.getElementById('currencyIndicator').textContent = `${symbol} ${currentCurrency}`;
         }
-      },
-      {id:'vault', onEnter: ()=> {
-          openVault(); focusOn(groups.vault, {offset:new THREE.Vector3(0, 12, 120)});
+
+        // Open language popup
+        function openLanguagePopup() {
+            document.getElementById('languagePopup').classList.add('active');
+            document.getElementById('overlay').classList.add('active');
         }
-      }
-    ];
 
-    sectionMap.forEach(s => {
-      ScrollTrigger.create({ trigger: '#' + s.id, start: 'top center', end: 'bottom center', onEnter: s.onEnter, onEnterBack: s.onEnter });
-    });
+        // Set language manually
+        function setLanguage(lang) {
+            currentLang = lang;
+            updateContent();
+            closeLanguagePopup();
+            
+            if (lang === 'ar') {
+                document.documentElement.dir = 'rtl';
+            } else {
+                document.documentElement.dir = 'ltr';
+            }
+        }
 
-    // Button interaction
-    document.getElementById('openTool').addEventListener('click', (e)=>{ e.preventDefault(); focusOn(groups.features, {offset:new THREE.Vector3(-10,8,70), duration:0.9}); const ring = groups.features.getObjectByName('featuresRing'); if(ring && ring.material){ gsap.to(ring.material, {duration:0.7, opacity:0.55, yoyo:true, repeat:3}); } });
+        // Close language popup
+        function closeLanguagePopup() {
+            document.getElementById('languagePopup').classList.remove('active');
+            document.getElementById('overlay').classList.remove('active');
+        }
 
-    // ---------------- RAYCAST / HOVER TOOLTIP (meaning: inspect objects to learn what they are) ----------------
-    const raycaster = new THREE.Raycaster(); const mouse = new THREE.Vector2(); const tooltip = document.getElementById('tooltip');
-    // Build a list of interactive objects with descriptions
-    const interactives = [];
-    // Add some named objects and their meanings
-    const heroArcs = groups.hero.getObjectByName('dataArcs'); if(heroArcs) interactives.push({obj: heroArcs.children[3], text:'Data Channel — live traffic'});
-    const consolePlane = groups.features.userData && groups.features.userData.plane; if(consolePlane) interactives.push({obj: consolePlane, text:'Console — interactive sandbox'});
-    const vaultLock = groups.vault.getObjectByName('vaultLock'); if(vaultLock) interactives.push({obj: vaultLock, text:'Vault Lock — gated rewards'});
-    // nodes: show basic info
-    const communityNodes = groups.community.userData && groups.community.userData.nodes; if(communityNodes){ communityNodes.slice(0,6).forEach((n,i)=> interactives.push({obj:n, text:`Member node — anon #${n.userData.id}`})); }
+        // Update all content based on current language
+        function updateContent() {
+            const langContent = content[currentLang];
+            
+            Object.keys(langContent).forEach(key => {
+                const element = document.getElementById(key);
+                if (element) {
+                    element.textContent = langContent[key];
+                }
+            });
+        }
 
-    function onPointerMove(ev){ const rect = renderer.domElement.getBoundingClientRect(); mouse.x = ((ev.clientX - rect.left) / rect.width) * 2 - 1; mouse.y = -((ev.clientY - rect.top) / rect.height) * 2 + 1; }
-    window.addEventListener('mousemove', onPointerMove, {passive:true});
+        // WhatsApp contact function
+        function contactWhatsApp(service) {
+            const message = `Hello! I'm interested in: ${service} (Price: ${getServicePrice(service)})`;
+            const encodedMessage = encodeURIComponent(message);
+            const phone = '+923127592672';
+            window.open(`https://wa.me/${phone}?text=${encodedMessage}`, '_blank');
+        }
 
-    // Hover check in render loop
+        function getServicePrice(service) {
+            const prices = {
+                'Bug Fixing': basePrices.bugFixing * exchangeRate,
+                'Website Development': basePrices.websiteDevelopment * exchangeRate,
+                'Website Maintenance': basePrices.websiteMaintenance * exchangeRate
+            };
+            
+            const price = prices[service];
+            const symbol = currencySymbols[currentCurrency] || currentCurrency;
+            return `${symbol}${Math.round(price).toLocaleString()} ${currentCurrency}`;
+        }
 
-    // ---------------- ANIMATE LOOP ----------------
-    const clock = new THREE.Clock();
-    function animate(){ if(!running) return; requestAnimationFrame(animate); const t = clock.getElapsedTime();
+        // Close popup when clicking overlay
+        document.getElementById('overlay').addEventListener('click', closeLanguagePopup);
 
-      // update hero particles (spread updates across frames)
-      const heroData = groups.hero.userData; if(heroData && heroData.particles){ const pos = heroData.particles.geometry.attributes.position; const arr = pos.array; const step = isMobile ? 6 : 2; for(let i=0;i<arr.length;i+=3*step){ arr[i+2] += Math.sin((i + t*40) * 0.00035) * 0.18; } pos.needsUpdate = true; }
-
-      // slow group rotations
-      groups.hero.rotation.y += 0.002 * (isMobile ? 0.6 : 1.0);
-      groups.about.rotation.y += 0.0012;
-      groups.features.rotation.y += 0.0009;
-      groups.community.rotation.y += 0.00045;
-
-      // keep console slightly breathing
-      const fd = groups.features.userData; if(fd && fd.plane){ fd.plane.rotation.z = Math.sin(t*0.8)*0.02; }
-
-      // raycast hover checks (only on desktop)
-      if(!isMobile){ raycaster.setFromCamera(mouse, camera); const targets = interactives.map(i=>i.obj); const intersects = raycaster.intersectObjects(targets, true); if(intersects.length>0){ const hit = intersects[0].object; const meta = interactives.find(it=> it.obj === hit || it.obj === hit.parent || it.obj === hit.parent?.parent); if(meta){ tooltip.style.display = 'block'; tooltip.style.left = (window.event ? window.event.clientX + 12 : ( (mouse.x+1)/2*window.innerWidth)+12) + 'px'; tooltip.style.top = (window.event ? window.event.clientY + 12 : ((-mouse.y+1)/2*window.innerHeight)+12) + 'px'; tooltip.textContent = meta.text; // subtle highlight
-            gsap.to(hit.material || hit.parent.material, {duration:0.18, emissiveIntensity:0.8, ease:'sine.inOut'}); } } else { tooltip.style.display = 'none'; }
-      }
-
-      // smoothly lookAt cameraTarget
-      camera.lookAt(cameraTarget.x, cameraTarget.y, cameraTarget.z);
-      renderer.render(scene, camera);
-    }
-    startLoop();
-
-    // cleanup on unload
-    window.addEventListener('beforeunload', ()=>{ stopLoop(); renderer.forceContextLoss && renderer.forceContextLoss(); });
-
-    // done
-  })();
-  </script>
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            detectUserLocation();
+        });
+    </script>
 </body>
 </html>
-
-
