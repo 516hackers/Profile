@@ -307,8 +307,7 @@
             'RSD': 'дин', 'MKD': 'ден', 'BAM': 'KM', 'ISK': 'kr', 'ARS': '$',
             'CLP': '$', 'COP': '$', 'PEN': 'S/', 'UYU': '$', 'PYG': '₲',
             'BOB': 'Bs', 'CRC': '₡', 'DOP': 'RD$', 'GTQ': 'Q', 'HNL': 'L',
-            'NIO': 'C$', 'PAB': 'B/.', 'SVC': '₡', 'TTD': 'TT$', 'XCD': '$',
-            // Add more currencies as needed
+            'NIO': 'C$', 'PAB': 'B/.', 'SVC': '₡', 'TTD': 'TT$', 'XCD': '$'
         };
 
         // Language families for automatic detection
@@ -357,6 +356,21 @@
             'gl': ['ES']
         };
 
+        // Hardcoded exchange rates for reliable fallback
+        const hardcodedRates = {
+            'USD': 0.0036, 'EUR': 0.0033, 'GBP': 0.0028, 'INR': 0.30,
+            'AED': 0.013, 'SAR': 0.013, 'CAD': 0.0048, 'AUD': 0.0054,
+            'JPY': 0.52, 'CNY': 0.026, 'KRW': 4.67, 'SGD': 0.0048,
+            'MYR': 0.016, 'THB': 0.12, 'IDR': 55.50, 'PHP': 0.20,
+            'VND': 85.50, 'BDT': 0.39, 'LKR': 1.16, 'NPR': 0.47,
+            'MXN': 0.062, 'BRL': 0.018, 'ARS': 2.89, 'CLP': 3.24,
+            'ZAR': 0.066, 'NGN': 4.50, 'EGP': 0.11, 'RUB': 0.32,
+            'TRY': 0.11, 'PLN': 0.014, 'CZK': 0.079, 'HUF': 1.24,
+            'RON': 0.016, 'BGN': 0.0065, 'SEK': 0.037, 'NOK': 0.037,
+            'DKK': 0.024, 'CHF': 0.0032, 'ILS': 0.013, 'QAR': 0.013,
+            'KWD': 0.0011, 'OMR': 0.0014, 'BHD': 0.0014
+        };
+
         let currentCurrency = 'PKR';
         let exchangeRate = 1;
         let userCountry = 'Unknown';
@@ -367,10 +381,10 @@
             try {
                 document.getElementById('locationText').innerHTML = '<div class="loading-spinner"></div> Detecting...';
 
-                // Try multiple reliable IP geolocation services
+                // Try multiple reliable IP geolocation services with CORS proxies
                 const services = [
-                    'https://api.ipgeolocation.io/ipgeo?apiKey=2b4b5e7f9d7a4c6a8b5e7f9d7a4c6a8b', // Free API key
-                    'https://ipapi.co/json/',
+                    'https://api.allorigins.win/raw?url=' + encodeURIComponent('https://ipapi.co/json/'),
+                    'https://api.codetabs.com/v1/proxy?quest=' + encodeURIComponent('https://ipapi.co/json/'),
                     'https://extreme-ip-lookup.com/json/',
                     'https://api.ip.sb/geoip'
                 ];
@@ -380,8 +394,12 @@
                 for (const service of services) {
                     try {
                         const response = await fetch(service, {
-                            timeout: 5000
+                            method: 'GET',
+                            headers: {
+                                'Accept': 'application/json',
+                            }
                         });
+                        
                         if (response.ok) {
                             locationData = await response.json();
                             console.log('Location data from', service, locationData);
@@ -452,11 +470,11 @@
             }
 
             try {
-                // Try multiple exchange rate APIs
+                // Try multiple exchange rate APIs with CORS proxies
                 const apis = [
-                    `https://api.exchangerate.host/latest?base=PKR&symbols=${targetCurrency}`,
-                    `https://api.frankfurter.app/latest?from=PKR&to=${targetCurrency}`,
-                    `https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/pkr.json`
+                    `https://api.allorigins.win/raw?url=${encodeURIComponent(`https://api.exchangerate.host/latest?base=PKR&symbols=${targetCurrency}`)}`,
+                    `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(`https://api.frankfurter.app/latest?from=PKR&to=${targetCurrency}`)}`,
+                    `https://api.allorigins.win/raw?url=${encodeURIComponent(`https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/pkr.json`)}`
                 ];
 
                 for (const api of apis) {
@@ -476,37 +494,25 @@
                             if (exchangeRate !== 1) break;
                         }
                     } catch (error) {
+                        console.log(`Exchange API ${api} failed:`, error);
                         continue;
                     }
                 }
 
                 // If all APIs fail, use hardcoded rates for major currencies
                 if (exchangeRate === 1) {
-                    const hardcodedRates = {
-                        'USD': 0.0036, 'EUR': 0.0033, 'GBP': 0.0028, 'INR': 0.30,
-                        'AED': 0.013, 'SAR': 0.013, 'CAD': 0.0048, 'AUD': 0.0054,
-                        'JPY': 0.52, 'CNY': 0.026, 'KRW': 4.67, 'SGD': 0.0048,
-                        'MYR': 0.016, 'THB': 0.12, 'IDR': 55.50, 'PHP': 0.20,
-                        'VND': 85.50, 'BDT': 0.39, 'LKR': 1.16, 'NPR': 0.47,
-                        'MXN': 0.062, 'BRL': 0.018, 'ARS': 2.89, 'CLP': 3.24,
-                        'ZAR': 0.066, 'NGN': 4.50, 'EGP': 0.11, 'RUB': 0.32,
-                        'TRY': 0.11, 'PLN': 0.014, 'CZK': 0.079, 'HUF': 1.24,
-                        'RON': 0.016, 'BGN': 0.0065, 'SEK': 0.037, 'NOK': 0.037,
-                        'DKK': 0.024, 'CHF': 0.0032, 'ILS': 0.013, 'QAR': 0.013,
-                        'KWD': 0.0011, 'OMR': 0.0014, 'BHD': 0.0014
-                    };
                     exchangeRate = hardcodedRates[targetCurrency] || 1;
                 }
 
             } catch (error) {
                 console.error('Exchange rate fetch failed:', error);
-                exchangeRate = 1;
+                exchangeRate = hardcodedRates[targetCurrency] || 1;
             }
         }
 
         // Fallback detection using browser information
         function fallbackDetection() {
-            const browserLang = navigator.language.split('-')[0];
+            const browserLang = navigator.language || 'en';
             const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
             
             // Simple timezone to country mapping for fallback
@@ -523,9 +529,16 @@
                 }
             }
 
-            userCountry = 'Your Country';
+            // Try to determine country from browser language
+            const langToCountry = {
+                'en': 'United States', 'es': 'Spain', 'fr': 'France', 'de': 'Germany',
+                'it': 'Italy', 'pt': 'Portugal', 'ru': 'Russia', 'ja': 'Japan',
+                'zh': 'China', 'ko': 'South Korea', 'ar': 'Saudi Arabia', 'hi': 'India'
+            };
+            
+            userCountry = langToCountry[browserLang.split('-')[0]] || 'Your Country';
             currentCurrency = userCurrency;
-            exchangeRate = userCurrency === 'PKR' ? 1 : 0.0036; // Approximate rate
+            exchangeRate = hardcodedRates[userCurrency] || 0.0036;
 
             updatePrices();
             updateLocationDisplay(userCountry, userCurrency);
