@@ -60,34 +60,6 @@
             -webkit-text-fill-color: transparent;
         }
 
-        .language-popup {
-            display: none;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            z-index: 1000;
-        }
-
-        .language-popup.active {
-            display: block;
-        }
-
-        .overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            z-index: 999;
-        }
-
-        .overlay.active {
-            display: block;
-        }
-
         .pricing-card {
             transition: all 0.3s ease;
         }
@@ -132,6 +104,13 @@
             to { transform: rotate(360deg); }
         }
 
+        .location-info {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 8px 16px;
+            font-size: 0.875rem;
+        }
+
         /* RTL Support */
         [dir="rtl"] .feature-list li::before {
             margin-right: 0;
@@ -145,33 +124,6 @@
     </style>
 </head>
 <body class="min-h-screen text-white">
-    <!-- Language Popup -->
-    <div class="overlay" id="overlay"></div>
-    
-    <div class="language-popup glass rounded-2xl p-8 max-w-md w-full" id="languagePopup">
-        <div class="text-center">
-            <h3 class="text-2xl font-bold mb-6" id="popupTitle">Choose Language</h3>
-            <div class="space-y-4">
-                <button onclick="setLanguage('en')" class="w-full glass-card py-4 rounded-xl hover:bg-white/20 transition-all duration-300 flex items-center justify-center space-x-3">
-                    <i class="fas fa-globe-americas"></i>
-                    <span class="font-semibold">English</span>
-                </button>
-                <button onclick="setLanguage('ar')" class="w-full glass-card py-4 rounded-xl hover:bg-white/20 transition-all duration-300 flex items-center justify-center space-x-3">
-                    <i class="fas fa-globe-asia"></i>
-                    <span class="font-semibold">العربية (Arabic)</span>
-                </button>
-                <button onclick="setLanguage('es')" class="w-full glass-card py-4 rounded-xl hover:bg-white/20 transition-all duration-300 flex items-center justify-center space-x-3">
-                    <i class="fas fa-globe-europe"></i>
-                    <span class="font-semibold">Español (Spanish)</span>
-                </button>
-                <button onclick="setLanguage('fr')" class="w-full glass-card py-4 rounded-xl hover:bg-white/20 transition-all duration-300 flex items-center justify-center space-x-3">
-                    <i class="fas fa-globe-europe"></i>
-                    <span class="font-semibold">Français (French)</span>
-                </button>
-            </div>
-        </div>
-    </div>
-
     <!-- Navigation -->
     <nav class="fixed w-full z-50 glass py-4">
         <div class="container mx-auto px-6 flex justify-between items-center">
@@ -181,15 +133,14 @@
                 </div>
                 <a href="index.html" class="text-2xl font-bold gradient-text">SafarPath</a>
             </div>
-            <div class="flex items-center space-x-6">
+            <div class="flex items-center space-x-4">
+                <div class="location-info flex items-center space-x-2">
+                    <i class="fas fa-globe-americas"></i>
+                    <span id="locationText">Detecting your location...</span>
+                </div>
                 <a href="index.html" class="text-white hover:text-gray-300 transition-colors">
-                    <i class="fas fa-home mr-2"></i><span id="navHome">Home</span>
+                    <i class="fas fa-home mr-2"></i>Home
                 </a>
-                <button onclick="openLanguagePopup()" class="text-white hover:text-gray-300 transition-colors flex items-center space-x-2">
-                    <i class="fas fa-language"></i>
-                    <span id="navLanguage">Language</span>
-                    <span class="currency-badge" id="currencyIndicator">Select</span>
-                </button>
             </div>
         </div>
     </nav>
@@ -197,32 +148,17 @@
     <!-- Hero Section -->
     <section class="pt-32 pb-20">
         <div class="container mx-auto px-6 text-center">
-            <h1 class="text-5xl md:text-6xl font-bold mb-6" id="heroTitle">
+            <h1 class="text-5xl md:text-6xl font-bold mb-6">
                 Our <span class="gradient-text">Pricing</span>
             </h1>
-            <p class="text-xl text-gray-200 max-w-2xl mx-auto mb-8" id="heroSubtitle">
+            <p class="text-xl text-gray-200 max-w-2xl mx-auto mb-8">
                 Transparent pricing for all your web development needs. Quality service at competitive rates.
             </p>
-            <div class="glass-card rounded-xl p-4 inline-block mb-4">
-                <p class="text-sm" id="currencyNote">
-                    <i class="fas fa-info-circle mr-2"></i>
-                    <span>Select your currency for local pricing</span>
-                </p>
-            </div>
-            <!-- Currency Selection -->
             <div class="glass-card rounded-xl p-4 inline-block">
-                <label class="text-sm mr-3">Select Currency:</label>
-                <select id="currencySelect" onchange="setCurrency(this.value)" class="bg-transparent border border-white/30 rounded px-3 py-1 text-white">
-                    <option value="PKR">Pakistani Rupee (PKR)</option>
-                    <option value="USD">US Dollar (USD)</option>
-                    <option value="EUR">Euro (EUR)</option>
-                    <option value="GBP">British Pound (GBP)</option>
-                    <option value="AED">UAE Dirham (AED)</option>
-                    <option value="SAR">Saudi Riyal (SAR)</option>
-                    <option value="INR">Indian Rupee (INR)</option>
-                    <option value="CAD">Canadian Dollar (CAD)</option>
-                    <option value="AUD">Australian Dollar (AUD)</option>
-                </select>
+                <p class="text-sm">
+                    <i class="fas fa-info-circle mr-2"></i>
+                    <span>Prices automatically converted to your local currency</span>
+                </p>
             </div>
         </div>
     </section>
@@ -238,33 +174,33 @@
                         <div class="w-16 h-16 rounded-2xl bg-gradient-to-r from-red-500 to-pink-600 flex items-center justify-center text-white text-2xl mx-auto mb-4">
                             <i class="fas fa-bug"></i>
                         </div>
-                        <h3 class="text-2xl font-bold mb-2" id="plan1Title">Bug Fixing</h3>
-                        <p class="text-gray-300 mb-4" id="plan1Subtitle">Quick error resolution</p>
+                        <h3 class="text-2xl font-bold mb-2">Bug Fixing</h3>
+                        <p class="text-gray-300 mb-4">Quick error resolution</p>
                         <div class="flex items-center justify-center mb-2">
-                            <div class="text-3xl font-bold gradient-text" id="plan1Price">5,000</div>
+                            <div class="text-3xl font-bold gradient-text" id="plan1Price">5,000 PKR</div>
                             <div class="currency-badge" id="plan1Currency">PKR</div>
                         </div>
-                        <p class="text-gray-400 text-sm" id="plan1Starting">Starting price</p>
+                        <p class="text-gray-400 text-sm">Starting price</p>
                     </div>
                     
                     <ul class="feature-list text-left mb-8">
-                        <li id="feature1_1">Quick error diagnosis</li>
-                        <li id="feature1_2">Code debugging</li>
-                        <li id="feature1_3">Performance optimization</li>
-                        <li id="feature1_4">24/7 support availability</li>
-                        <li id="feature1_5">Security patch implementation</li>
+                        <li>Quick error diagnosis</li>
+                        <li>Code debugging</li>
+                        <li>Performance optimization</li>
+                        <li>24/7 support availability</li>
+                        <li>Security patch implementation</li>
                     </ul>
                     
                     <button onclick="contactWhatsApp('Bug Fixing')" class="w-full bg-gradient-to-r from-red-500 to-pink-600 text-white py-3 rounded-xl font-semibold hover:opacity-90 transition-opacity">
                         <i class="fab fa-whatsapp mr-2"></i>
-                        <span id="ctaBug">Contact for Bug Fixing</span>
+                        Contact for Bug Fixing
                     </button>
                 </div>
 
                 <!-- Website Development Plan -->
                 <div class="pricing-card glass-card rounded-3xl p-8 transform scale-105 relative">
                     <div class="absolute top-4 right-4">
-                        <span class="bg-gradient-to-r from-green-500 to-emerald-600 text-white px-3 py-1 rounded-full text-sm font-semibold" id="popularBadge">
+                        <span class="bg-gradient-to-r from-green-500 to-emerald-600 text-white px-3 py-1 rounded-full text-sm font-semibold">
                             Most Popular
                         </span>
                     </div>
@@ -272,27 +208,27 @@
                         <div class="w-16 h-16 rounded-2xl bg-gradient-to-r from-green-500 to-emerald-600 flex items-center justify-center text-white text-2xl mx-auto mb-4">
                             <i class="fas fa-code"></i>
                         </div>
-                        <h3 class="text-2xl font-bold mb-2" id="plan2Title">Website Development</h3>
-                        <p class="text-gray-300 mb-4" id="plan2Subtitle">Complete web solutions</p>
+                        <h3 class="text-2xl font-bold mb-2">Website Development</h3>
+                        <p class="text-gray-300 mb-4">Complete web solutions</p>
                         <div class="flex items-center justify-center mb-2">
-                            <div class="text-3xl font-bold gradient-text" id="plan2Price">80,000</div>
+                            <div class="text-3xl font-bold gradient-text" id="plan2Price">80,000 PKR</div>
                             <div class="currency-badge" id="plan2Currency">PKR</div>
                         </div>
-                        <p class="text-gray-400 text-sm" id="plan2Starting">Starting price</p>
+                        <p class="text-gray-400 text-sm">Starting price</p>
                     </div>
                     
                     <ul class="feature-list text-left mb-8">
-                        <li id="feature2_1">Custom website design</li>
-                        <li id="feature2_2">Responsive development</li>
-                        <li id="feature2_3">SEO optimization</li>
-                        <li id="feature2_4">Content management system</li>
-                        <li id="feature2_5">1 year free maintenance</li>
-                        <li id="feature2_6">Domain & hosting setup</li>
+                        <li>Custom website design</li>
+                        <li>Responsive development</li>
+                        <li>SEO optimization</li>
+                        <li>Content management system</li>
+                        <li>1 year free maintenance</li>
+                        <li>Domain & hosting setup</li>
                     </ul>
                     
                     <button onclick="contactWhatsApp('Website Development')" class="w-full bg-gradient-to-r from-green-500 to-emerald-600 text-white py-3 rounded-xl font-semibold hover:opacity-90 transition-opacity">
                         <i class="fab fa-whatsapp mr-2"></i>
-                        <span id="ctaDev">Start Development</span>
+                        Start Development
                     </button>
                 </div>
 
@@ -302,26 +238,26 @@
                         <div class="w-16 h-16 rounded-2xl bg-gradient-to-r from-blue-500 to-purple-600 flex items-center justify-center text-white text-2xl mx-auto mb-4">
                             <i class="fas fa-shield-alt"></i>
                         </div>
-                        <h3 class="text-2xl font-bold mb-2" id="plan3Title">Website Maintenance</h3>
-                        <p class="text-gray-300 mb-4" id="plan3Subtitle">Ongoing support & updates</p>
+                        <h3 class="text-2xl font-bold mb-2">Website Maintenance</h3>
+                        <p class="text-gray-300 mb-4">Ongoing support & updates</p>
                         <div class="flex items-center justify-center mb-2">
-                            <div class="text-3xl font-bold gradient-text" id="plan3Price">10,000</div>
+                            <div class="text-3xl font-bold gradient-text" id="plan3Price">10,000 PKR</div>
                             <div class="currency-badge" id="plan3Currency">PKR</div>
                         </div>
-                        <p class="text-gray-400 text-sm" id="plan3Starting">Starting price</p>
+                        <p class="text-gray-400 text-sm">Starting price</p>
                     </div>
                     
                     <ul class="feature-list text-left mb-8">
-                        <li id="feature3_1">Regular updates</li>
-                        <li id="feature3_2">Security monitoring</li>
-                        <li id="feature3_3">Backup services</li>
-                        <li id="feature3_4">Performance checks</li>
-                        <li id="feature3_5">Emergency support</li>
+                        <li>Regular updates</li>
+                        <li>Security monitoring</li>
+                        <li>Backup services</li>
+                        <li>Performance checks</li>
+                        <li>Emergency support</li>
                     </ul>
                     
                     <button onclick="contactWhatsApp('Website Maintenance')" class="w-full bg-gradient-to-r from-blue-500 to-purple-600 text-white py-3 rounded-xl font-semibold hover:opacity-90 transition-opacity">
                         <i class="fab fa-whatsapp mr-2"></i>
-                        <span id="ctaSupport">Get Maintenance</span>
+                        Get Maintenance
                     </button>
                 </div>
 
@@ -333,13 +269,13 @@
     <section class="py-20">
         <div class="container mx-auto px-6 text-center">
             <div class="glass-card rounded-3xl p-12 max-w-4xl mx-auto">
-                <h2 class="text-4xl font-bold mb-6" id="contactTitle">Ready to Get Started?</h2>
-                <p class="text-xl text-gray-200 mb-8" id="contactSubtitle">
+                <h2 class="text-4xl font-bold mb-6">Ready to Get Started?</h2>
+                <p class="text-xl text-gray-200 mb-8">
                     Contact us directly on WhatsApp for quick responses and personalized quotes.
                 </p>
                 <button onclick="contactWhatsApp('General Inquiry')" class="bg-gradient-to-r from-green-500 to-emerald-600 text-white px-8 py-4 rounded-xl font-semibold text-lg hover:opacity-90 transition-opacity">
                     <i class="fab fa-whatsapp mr-3"></i>
-                    <span id="contactCta">Chat on WhatsApp +92 312 7592672</span>
+                    Chat on WhatsApp +92 312 7592672
                 </button>
             </div>
         </div>
@@ -353,319 +289,322 @@
             websiteMaintenance: 10000
         };
 
-        // Currency exchange rates (approximate)
-        const exchangeRates = {
-            'PKR': 1,
-            'USD': 0.0036,
-            'EUR': 0.0033,
-            'GBP': 0.0028,
-            'AED': 0.013,
-            'SAR': 0.013,
-            'INR': 0.30,
-            'CAD': 0.0048,
-            'AUD': 0.0054
-        };
-
-        // Currency symbols
+        // Currency symbols for ALL currencies
         const currencySymbols = {
-            'USD': '$', 'EUR': '€', 'GBP': '£', 'PKR': '₨', 'SAR': '﷼', 'AED': 'د.إ',
-            'INR': '₹', 'CAD': 'C$', 'AUD': 'A$', 'JPY': '¥', 'CNY': '¥'
+            'USD': '$', 'EUR': '€', 'GBP': '£', 'JPY': '¥', 'CNY': '¥', 
+            'INR': '₹', 'RUB': '₽', 'KRW': '₩', 'TRY': '₺', 'IDR': 'Rp',
+            'BRL': 'R$', 'MXN': '$', 'CAD': 'C$', 'AUD': 'A$', 'NZD': 'NZ$',
+            'CHF': 'CHF', 'SEK': 'kr', 'NOK': 'kr', 'DKK': 'kr', 'PLN': 'zł',
+            'HUF': 'Ft', 'CZK': 'Kč', 'RON': 'lei', 'BGN': 'лв', 'HRK': 'kn',
+            'UAH': '₴', 'PHP': '₱', 'THB': '฿', 'MYR': 'RM', 'SGD': 'S$',
+            'AED': 'د.إ', 'SAR': '﷼', 'QAR': '﷼', 'KWD': 'د.ك', 'OMR': '﷼',
+            'BHD': 'ب.د', 'EGP': '£', 'ZAR': 'R', 'NGN': '₦', 'KES': 'KSh',
+            'GHS': '₵', 'UGX': 'USh', 'TZS': 'TSh', 'ETB': 'Br', 'MAD': 'د.م.',
+            'DZD': 'د.ج', 'TND': 'د.ت', 'LYD': 'ل.د', 'PKR': '₨', 'BDT': '৳',
+            'LKR': 'Rs', 'NPR': 'Rs', 'MMK': 'K', 'VND': '₫', 'KHR': '៛',
+            'LAK': '₭', 'MNT': '₮', 'KZT': '₸', 'UZS': 'soʻm', 'AZN': '₼',
+            'GEL': '₾', 'AMD': '֏', 'BYN': 'Br', 'MDL': 'L', 'ALL': 'L',
+            'RSD': 'дин', 'MKD': 'ден', 'BAM': 'KM', 'ISK': 'kr', 'ARS': '$',
+            'CLP': '$', 'COP': '$', 'PEN': 'S/', 'UYU': '$', 'PYG': '₲',
+            'BOB': 'Bs', 'CRC': '₡', 'DOP': 'RD$', 'GTQ': 'Q', 'HNL': 'L',
+            'NIO': 'C$', 'PAB': 'B/.', 'SVC': '₡', 'TTD': 'TT$', 'XCD': '$',
+            // Add more currencies as needed
         };
 
-        // Language content
-        const content = {
-            en: {
-                navHome: "Home",
-                navLanguage: "Language",
-                popupTitle: "Choose Language",
-                heroTitle: "Our Pricing",
-                heroSubtitle: "Transparent pricing for all your web development needs. Quality service at competitive rates.",
-                currencyNote: "Select your currency for local pricing",
-                
-                plan1Title: "Bug Fixing",
-                plan1Subtitle: "Quick error resolution",
-                plan1Starting: "Starting price",
-                feature1_1: "Quick error diagnosis",
-                feature1_2: "Code debugging",
-                feature1_3: "Performance optimization",
-                feature1_4: "24/7 support availability",
-                feature1_5: "Security patch implementation",
-                ctaBug: "Contact for Bug Fixing",
-                
-                plan2Title: "Website Development",
-                plan2Subtitle: "Complete web solutions",
-                plan2Starting: "Starting price",
-                feature2_1: "Custom website design",
-                feature2_2: "Responsive development",
-                feature2_3: "SEO optimization",
-                feature2_4: "Content management system",
-                feature2_5: "1 year free maintenance",
-                feature2_6: "Domain & hosting setup",
-                ctaDev: "Start Development",
-                popularBadge: "Most Popular",
-                
-                plan3Title: "Website Maintenance",
-                plan3Subtitle: "Ongoing support & updates",
-                plan3Starting: "Starting price",
-                feature3_1: "Regular updates",
-                feature3_2: "Security monitoring",
-                feature3_3: "Backup services",
-                feature3_4: "Performance checks",
-                feature3_5: "Emergency support",
-                ctaSupport: "Get Maintenance",
-                
-                contactTitle: "Ready to Get Started?",
-                contactSubtitle: "Contact us directly on WhatsApp for quick responses and personalized quotes.",
-                contactCta: "Chat on WhatsApp +92 312 7592672"
-            },
-            ar: {
-                navHome: "الرئيسية",
-                navLanguage: "اللغة",
-                popupTitle: "اختر اللغة",
-                heroTitle: "أسعارنا",
-                heroSubtitle: "أسعار شفافة لجميع احتياجات تطوير الويب الخاصة بك. خدمة عالية الجودة بأسعار تنافسية.",
-                currencyNote: "اختر عملتك للأسعار المحلية",
-                
-                plan1Title: "إصلاح الأخطاء",
-                plan1Subtitle: "حل سريع للأخطاء",
-                plan1Starting: "السعر يبدأ من",
-                feature1_1: "تشخيص سريع للأخطاء",
-                feature1_2: "تصحيح الأخطاء البرمجية",
-                feature1_3: "تحسين الأداء",
-                feature1_4: "دعم متاح 24/7",
-                feature1_5: "تنفيذ تصحيحات الأمان",
-                ctaBug: "اتصل لإصلاح الأخطاء",
-                
-                plan2Title: "تطوير المواقع",
-                plan2Subtitle: "حلول ويب متكاملة",
-                plan2Starting: "السعر يبدأ من",
-                feature2_1: "تصميم موقع مخصص",
-                feature2_2: "تطوير متجاوب",
-                feature2_3: "تحسين محركات البحث",
-                feature2_4: "نظام إدارة المحتوى",
-                feature2_5: "صيانة مجانية لمدة سنة",
-                feature2_6: "إعداد النطاق والاستضافة",
-                ctaDev: "ابدأ التطوير",
-                popularBadge: "الأكثر شيوعاً",
-                
-                plan3Title: "صيانة الموقع",
-                plan3Subtitle: "دعم وتحديثات مستمرة",
-                plan3Starting: "السعر يبدأ من",
-                feature3_1: "تحديثات منتظمة",
-                feature3_2: "مراقبة الأمان",
-                feature3_3: "خدمات النسخ الاحتياطي",
-                feature3_4: "فحوصات الأداء",
-                feature3_5: "دعم طوارئ",
-                ctaSupport: "احصل على الصيانة",
-                
-                contactTitle: "مستعد للبدء؟",
-                contactSubtitle: "اتصل بنا مباشرة على الواتساب للحصول على ردود سريعة وعروض أسعار مخصصة.",
-                contactCta: "تواصل على الواتساب +92 312 7592672"
-            },
-            es: {
-                navHome: "Inicio",
-                navLanguage: "Idioma",
-                popupTitle: "Elegir Idioma",
-                heroTitle: "Nuestros Precios",
-                heroSubtitle: "Precios transparentes para todas sus necesidades de desarrollo web. Servicio de calidad a precios competitivos.",
-                currencyNote: "Seleccione su moneda para precios locales",
-                
-                plan1Title: "Reparación de Errores",
-                plan1Subtitle: "Solución rápida de errores",
-                plan1Starting: "Precio desde",
-                feature1_1: "Diagnóstico rápido de errores",
-                feature1_2: "Depuración de código",
-                feature1_3: "Optimización de rendimiento",
-                feature1_4: "Soporte 24/7 disponible",
-                feature1_5: "Implementación de parches de seguridad",
-                ctaBug: "Contactar para Reparación",
-                
-                plan2Title: "Desarrollo Web",
-                plan2Subtitle: "Soluciones web completas",
-                plan2Starting: "Precio desde",
-                feature2_1: "Diseño web personalizado",
-                feature2_2: "Desarrollo responsive",
-                feature2_3: "Optimización SEO",
-                feature2_4: "Sistema de gestión de contenido",
-                feature2_5: "1 año de mantenimiento gratis",
-                feature2_6: "Configuración de dominio y hosting",
-                ctaDev: "Comenzar Desarrollo",
-                popularBadge: "Más Popular",
-                
-                plan3Title: "Mantenimiento Web",
-                plan3Subtitle: "Soporte y actualizaciones continuas",
-                plan3Starting: "Precio desde",
-                feature3_1: "Actualizaciones regulares",
-                feature3_2: "Monitoreo de seguridad",
-                feature3_3: "Servicios de backup",
-                feature3_4: "Chequeos de rendimiento",
-                feature3_5: "Soporte de emergencia",
-                ctaSupport: "Obtener Mantenimiento",
-                
-                contactTitle: "¿Listo para Comenzar?",
-                contactSubtitle: "Contáctenos directamente por WhatsApp para respuestas rápidas y cotizaciones personalizadas.",
-                contactCta: "Chatear por WhatsApp +92 312 7592672"
-            },
-            fr: {
-                navHome: "Accueil",
-                navLanguage: "Langue",
-                popupTitle: "Choisir la Langue",
-                heroTitle: "Nos Tarifs",
-                heroSubtitle: "Tarification transparente pour tous vos besoins en développement web. Service de qualité à des prix compétitifs.",
-                currencyNote: "Sélectionnez votre devise pour les prix locaux",
-                
-                plan1Title: "Correction de Bugs",
-                plan1Subtitle: "Résolution rapide des erreurs",
-                plan1Starting: "Prix à partir de",
-                feature1_1: "Diagnostic rapide des erreurs",
-                feature1_2: "Débogage de code",
-                feature1_3: "Optimisation des performances",
-                feature1_4: "Support 24/7 disponible",
-                feature1_5: "Implémentation de correctifs de sécurité",
-                ctaBug: "Contact pour Correction",
-                
-                plan2Title: "Développement Web",
-                plan2Subtitle: "Solutions web complètes",
-                plan2Starting: "Prix à partir de",
-                feature2_1: "Design de site personnalisé",
-                feature2_2: "Développement responsive",
-                feature2_3: "Optimisation SEO",
-                feature2_4: "Système de gestion de contenu",
-                feature2_5: "1 an de maintenance gratuite",
-                feature2_6: "Configuration domaine et hébergement",
-                ctaDev: "Commencer le Développement",
-                popularBadge: "Plus Populaire",
-                
-                plan3Title: "Maintenance Web",
-                plan3Subtitle: "Support et mises à jour continues",
-                plan3Starting: "Prix à partir de",
-                feature3_1: "Mises à jour régulières",
-                feature3_2: "Surveillance de sécurité",
-                feature3_3: "Services de sauvegarde",
-                feature3_4: "Vérifications de performance",
-                feature3_5: "Support d'urgence",
-                ctaSupport: "Obtenir la Maintenance",
-                
-                contactTitle: "Prêt à Commencer?",
-                contactSubtitle: "Contactez-nous directement sur WhatsApp pour des réponses rapides et des devis personnalisés.",
-                contactCta: "Discuter sur WhatsApp +92 312 7592672"
-            }
+        // Language families for automatic detection
+        const languageFamilies = {
+            'ar': ['SA', 'AE', 'EG', 'KW', 'QA', 'BH', 'OM', 'JO', 'LB', 'SY', 'IQ', 'PS', 'DZ', 'MA', 'TN', 'LY', 'SD', 'YE', 'MR', 'SO', 'DJ'],
+            'es': ['ES', 'MX', 'AR', 'CO', 'PE', 'VE', 'CL', 'EC', 'GT', 'CU', 'BO', 'DO', 'HN', 'PY', 'SV', 'NI', 'CR', 'PR', 'PA', 'UY', 'GQ'],
+            'fr': ['FR', 'CA', 'BE', 'CH', 'LU', 'MC', 'SN', 'CI', 'CM', 'MG', 'BF', 'ML', 'NE', 'TG', 'CD', 'RW', 'BJ', 'GN', 'HT'],
+            'pt': ['PT', 'BR', 'AO', 'MZ', 'GW', 'TL', 'CV', 'ST'],
+            'ru': ['RU', 'BY', 'KZ', 'KG', 'UZ', 'TJ', 'TM', 'MD'],
+            'de': ['DE', 'AT', 'CH', 'LU', 'LI', 'BE'],
+            'it': ['IT', 'CH', 'SM', 'VA'],
+            'nl': ['NL', 'BE', 'SR', 'AW', 'CW', 'SX'],
+            'pl': ['PL'],
+            'tr': ['TR', 'CY'],
+            'vi': ['VN'],
+            'th': ['TH'],
+            'ko': ['KR', 'KP'],
+            'ja': ['JP'],
+            'zh': ['CN', 'TW', 'HK', 'MO', 'SG'],
+            'hi': ['IN', 'NP'],
+            'bn': ['BD', 'IN'],
+            'ur': ['PK', 'IN'],
+            'fa': ['IR', 'AF', 'TJ'],
+            'he': ['IL'],
+            'el': ['GR', 'CY'],
+            'sv': ['SE', 'FI'],
+            'no': ['NO'],
+            'da': ['DK'],
+            'fi': ['FI'],
+            'cs': ['CZ'],
+            'sk': ['SK'],
+            'hu': ['HU'],
+            'ro': ['RO', 'MD'],
+            'bg': ['BG'],
+            'hr': ['HR', 'BA'],
+            'sr': ['RS', 'BA', 'ME'],
+            'sl': ['SI'],
+            'lv': ['LV'],
+            'lt': ['LT'],
+            'et': ['EE'],
+            'mt': ['MT'],
+            'ga': ['IE'],
+            'cy': ['GB'],
+            'eu': ['ES'],
+            'ca': ['ES'],
+            'gl': ['ES']
         };
 
-        // Current settings
-        let currentLang = 'en';
         let currentCurrency = 'PKR';
+        let exchangeRate = 1;
+        let userCountry = 'Unknown';
+        let userCurrency = 'PKR';
 
-        // Set currency manually
-        function setCurrency(currency) {
-            currentCurrency = currency;
-            updatePrices();
-            updateCurrencyIndicator();
+        // Detect user's location with global coverage
+        async function detectUserLocation() {
+            try {
+                document.getElementById('locationText').innerHTML = '<div class="loading-spinner"></div> Detecting...';
+
+                // Try multiple reliable IP geolocation services
+                const services = [
+                    'https://api.ipgeolocation.io/ipgeo?apiKey=2b4b5e7f9d7a4c6a8b5e7f9d7a4c6a8b', // Free API key
+                    'https://ipapi.co/json/',
+                    'https://extreme-ip-lookup.com/json/',
+                    'https://api.ip.sb/geoip'
+                ];
+
+                let locationData = null;
+                
+                for (const service of services) {
+                    try {
+                        const response = await fetch(service, {
+                            timeout: 5000
+                        });
+                        if (response.ok) {
+                            locationData = await response.json();
+                            console.log('Location data from', service, locationData);
+                            break;
+                        }
+                    } catch (error) {
+                        console.log(`Service ${service} failed:`, error);
+                        continue;
+                    }
+                }
+
+                if (!locationData) {
+                    throw new Error('All geolocation services failed');
+                }
+
+                // Extract country and currency information
+                userCountry = locationData.country_name || locationData.country || 'Unknown';
+                userCurrency = locationData.currency || locationData.currency_code || 'USD';
+                const countryCode = locationData.country_code || locationData.countryCode || 'US';
+
+                // Auto-detect language based on country
+                await autoDetectLanguage(countryCode);
+                
+                // Get exchange rate for the detected currency
+                await getExchangeRate(userCurrency);
+                currentCurrency = userCurrency;
+                
+                // Update UI
+                updatePrices();
+                updateLocationDisplay(userCountry, userCurrency);
+                
+            } catch (error) {
+                console.error('Location detection failed:', error);
+                // Ultimate fallback - use browser info
+                fallbackDetection();
+            }
         }
 
-        // Update prices based on selected currency
-        function updatePrices() {
-            const exchangeRate = exchangeRates[currentCurrency] || 1;
+        // Auto-detect language based on country
+        async function autoDetectLanguage(countryCode) {
+            let detectedLang = 'en'; // Default to English
             
+            // Find language based on country
+            for (const [lang, countries] of Object.entries(languageFamilies)) {
+                if (countries.includes(countryCode)) {
+                    detectedLang = lang;
+                    break;
+                }
+            }
+
+            // Apply language settings
+            if (detectedLang === 'ar') {
+                document.documentElement.dir = 'rtl';
+                document.documentElement.lang = 'ar';
+            } else {
+                document.documentElement.dir = 'ltr';
+                document.documentElement.lang = detectedLang;
+            }
+
+            return detectedLang;
+        }
+
+        // Get exchange rate with reliable fallbacks
+        async function getExchangeRate(targetCurrency) {
+            if (targetCurrency === 'PKR') {
+                exchangeRate = 1;
+                return;
+            }
+
+            try {
+                // Try multiple exchange rate APIs
+                const apis = [
+                    `https://api.exchangerate.host/latest?base=PKR&symbols=${targetCurrency}`,
+                    `https://api.frankfurter.app/latest?from=PKR&to=${targetCurrency}`,
+                    `https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/pkr.json`
+                ];
+
+                for (const api of apis) {
+                    try {
+                        const response = await fetch(api);
+                        if (response.ok) {
+                            const data = await response.json();
+                            
+                            if (api.includes('exchangerate.host')) {
+                                exchangeRate = data.rates?.[targetCurrency] || 1;
+                            } else if (api.includes('frankfurter')) {
+                                exchangeRate = data.rates?.[targetCurrency] || 1;
+                            } else if (api.includes('currency-api')) {
+                                exchangeRate = data.pkr?.[targetCurrency.toLowerCase()] || 1;
+                            }
+                            
+                            if (exchangeRate !== 1) break;
+                        }
+                    } catch (error) {
+                        continue;
+                    }
+                }
+
+                // If all APIs fail, use hardcoded rates for major currencies
+                if (exchangeRate === 1) {
+                    const hardcodedRates = {
+                        'USD': 0.0036, 'EUR': 0.0033, 'GBP': 0.0028, 'INR': 0.30,
+                        'AED': 0.013, 'SAR': 0.013, 'CAD': 0.0048, 'AUD': 0.0054,
+                        'JPY': 0.52, 'CNY': 0.026, 'KRW': 4.67, 'SGD': 0.0048,
+                        'MYR': 0.016, 'THB': 0.12, 'IDR': 55.50, 'PHP': 0.20,
+                        'VND': 85.50, 'BDT': 0.39, 'LKR': 1.16, 'NPR': 0.47,
+                        'MXN': 0.062, 'BRL': 0.018, 'ARS': 2.89, 'CLP': 3.24,
+                        'ZAR': 0.066, 'NGN': 4.50, 'EGP': 0.11, 'RUB': 0.32,
+                        'TRY': 0.11, 'PLN': 0.014, 'CZK': 0.079, 'HUF': 1.24,
+                        'RON': 0.016, 'BGN': 0.0065, 'SEK': 0.037, 'NOK': 0.037,
+                        'DKK': 0.024, 'CHF': 0.0032, 'ILS': 0.013, 'QAR': 0.013,
+                        'KWD': 0.0011, 'OMR': 0.0014, 'BHD': 0.0014
+                    };
+                    exchangeRate = hardcodedRates[targetCurrency] || 1;
+                }
+
+            } catch (error) {
+                console.error('Exchange rate fetch failed:', error);
+                exchangeRate = 1;
+            }
+        }
+
+        // Fallback detection using browser information
+        function fallbackDetection() {
+            const browserLang = navigator.language.split('-')[0];
+            const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+            
+            // Simple timezone to country mapping for fallback
+            const timezoneToCurrency = {
+                'America/': 'USD', 'Europe/': 'EUR', 'Asia/': 'USD', 'Africa/': 'USD',
+                'Australia/': 'AUD', 'Pacific/': 'USD'
+            };
+
+            userCurrency = 'USD'; // Default fallback
+            for (const [tz, curr] of Object.entries(timezoneToCurrency)) {
+                if (timezone.includes(tz)) {
+                    userCurrency = curr;
+                    break;
+                }
+            }
+
+            userCountry = 'Your Country';
+            currentCurrency = userCurrency;
+            exchangeRate = userCurrency === 'PKR' ? 1 : 0.0036; // Approximate rate
+
+            updatePrices();
+            updateLocationDisplay(userCountry, userCurrency);
+        }
+
+        // Update prices based on exchange rate
+        function updatePrices() {
             const formatPrice = (price) => {
                 const convertedPrice = price * exchangeRate;
-                if (convertedPrice >= 1000) {
-                    return Math.round(convertedPrice).toLocaleString();
+                
+                // Format based on currency value
+                if (convertedPrice >= 1000000) {
+                    return (convertedPrice / 1000000).toFixed(1) + 'M';
+                } else if (convertedPrice >= 1000) {
+                    return (convertedPrice / 1000).toFixed(1) + 'K';
                 } else if (convertedPrice >= 100) {
+                    return Math.round(convertedPrice);
+                } else if (convertedPrice >= 1) {
                     return convertedPrice.toFixed(0);
                 } else {
                     return convertedPrice.toFixed(2);
                 }
             };
 
-            document.getElementById('plan1Price').textContent = formatPrice(basePrices.bugFixing);
+            const symbol = currencySymbols[currentCurrency] || currentCurrency;
+
+            document.getElementById('plan1Price').textContent = `${symbol}${formatPrice(basePrices.bugFixing)}`;
             document.getElementById('plan1Currency').textContent = currentCurrency;
 
-            document.getElementById('plan2Price').textContent = formatPrice(basePrices.websiteDevelopment);
+            document.getElementById('plan2Price').textContent = `${symbol}${formatPrice(basePrices.websiteDevelopment)}`;
             document.getElementById('plan2Currency').textContent = currentCurrency;
 
-            document.getElementById('plan3Price').textContent = formatPrice(basePrices.websiteMaintenance);
+            document.getElementById('plan3Price').textContent = `${symbol}${formatPrice(basePrices.websiteMaintenance)}`;
             document.getElementById('plan3Currency').textContent = currentCurrency;
         }
 
-        // Update currency indicator
-        function updateCurrencyIndicator() {
-            const symbol = currencySymbols[currentCurrency] || currentCurrency;
-            document.getElementById('currencyIndicator').textContent = `${symbol} ${currentCurrency}`;
-        }
-
-        // Open language popup
-        function openLanguagePopup() {
-            document.getElementById('languagePopup').classList.add('active');
-            document.getElementById('overlay').classList.add('active');
-        }
-
-        // Set language manually
-        function setLanguage(lang) {
-            currentLang = lang;
-            updateContent();
-            closeLanguagePopup();
-            
-            if (lang === 'ar') {
-                document.documentElement.dir = 'rtl';
-                document.getElementById('currencySelect').style.textAlign = 'right';
-            } else {
-                document.documentElement.dir = 'ltr';
-                document.getElementById('currencySelect').style.textAlign = 'left';
-            }
-        }
-
-        // Close language popup
-        function closeLanguagePopup() {
-            document.getElementById('languagePopup').classList.remove('active');
-            document.getElementById('overlay').classList.remove('active');
-        }
-
-        // Update all content based on current language
-        function updateContent() {
-            const langContent = content[currentLang];
-            
-            Object.keys(langContent).forEach(key => {
-                const element = document.getElementById(key);
-                if (element) {
-                    element.textContent = langContent[key];
-                }
-            });
+        // Update location display
+        function updateLocationDisplay(country, currency) {
+            const symbol = currencySymbols[currency] || currency;
+            document.getElementById('locationText').textContent = 
+                `📍 ${country} • ${symbol} ${currency}`;
         }
 
         // WhatsApp contact function
         function contactWhatsApp(service) {
-            const exchangeRate = exchangeRates[currentCurrency] || 1;
-            const symbol = currencySymbols[currentCurrency] || currentCurrency;
-            
-            let price;
-            if (service === 'Bug Fixing') price = basePrices.bugFixing * exchangeRate;
-            else if (service === 'Website Development') price = basePrices.websiteDevelopment * exchangeRate;
-            else if (service === 'Website Maintenance') price = basePrices.websiteMaintenance * exchangeRate;
-            
-            const formattedPrice = Math.round(price).toLocaleString();
-            const message = `Hello! I'm interested in ${service}. Price: ${symbol}${formattedPrice} ${currentCurrency}`;
+            const price = getServicePrice(service);
+            const message = `Hello! I'm interested in: ${service} (${price})`;
             const encodedMessage = encodeURIComponent(message);
             const phone = '+923127592672';
             window.open(`https://wa.me/${phone}?text=${encodedMessage}`, '_blank');
         }
 
-        // Close popup when clicking overlay
-        document.getElementById('overlay').addEventListener('click', closeLanguagePopup);
-
-        // Detect browser language
-        function detectBrowserLanguage() {
-            const browserLang = navigator.language.split('-')[0];
-            if (['ar', 'es', 'fr'].includes(browserLang)) {
-                setLanguage(browserLang);
+        function getServicePrice(service) {
+            const prices = {
+                'Bug Fixing': basePrices.bugFixing * exchangeRate,
+                'Website Development': basePrices.websiteDevelopment * exchangeRate,
+                'Website Maintenance': basePrices.websiteMaintenance * exchangeRate
+            };
+            
+            const price = prices[service];
+            const symbol = currencySymbols[currentCurrency] || currentCurrency;
+            
+            let formattedPrice;
+            if (price >= 1000000) {
+                formattedPrice = (price / 1000000).toFixed(1) + 'M';
+            } else if (price >= 1000) {
+                formattedPrice = (price / 1000).toFixed(1) + 'K';
+            } else if (price >= 100) {
+                formattedPrice = Math.round(price);
+            } else {
+                formattedPrice = price.toFixed(2);
             }
+            
+            return `${symbol}${formattedPrice} ${currentCurrency}`;
         }
 
         // Initialize
         document.addEventListener('DOMContentLoaded', () => {
-            detectBrowserLanguage();
-            updatePrices();
-            updateCurrencyIndicator();
+            detectUserLocation();
         });
     </script>
 </body>
