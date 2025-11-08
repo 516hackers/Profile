@@ -3,622 +3,657 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pricing - SafarPath</title>
+    <meta name="description" content="Get free followers, likes, views, and subscribers for all social media platforms. Boost your Facebook, TikTok, Instagram, and YouTube presence instantly with FlashSMM.">
+    <meta name="keywords" content="free followers, free likes, social media growth, TikTok followers, Instagram followers, YouTube subscribers, Facebook likes, social media marketing, SMM panel">
+    <meta name="author" content="FlashSMM">
+    <title>FlashSMM - Free Social Media Followers, Likes & Views</title>
     
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     
     <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        'royal-purple': '#6C4AB6',
-                        'deep-indigo': '#3D2C8D',
-                    }
-                }
-            }
-        }
-    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        :root {
+            --primary: #4361ee;
+            --secondary: #3a0ca3;
+            --accent: #7209b7;
+            --light: #f8f9fa;
+            --dark: #212529;
         }
-
+        
         body {
-            font-family: 'Inter', sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
+            font-family: 'Poppins', sans-serif;
+            background-color: #f5f7ff;
+            color: var(--dark);
         }
-
-        .glass {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+        
+        .navbar-brand {
+            font-weight: 700;
+            color: var(--primary);
         }
-
-        .glass-card {
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(25px);
-            border: 1px solid rgba(255, 255, 255, 0.25);
+        
+        .hero {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 100px 0;
+            text-align: center;
         }
-
-        .gradient-text {
-            background: linear-gradient(135deg, #6C4AB6, #8A2BE2);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+        
+        .hero h1 {
+            font-weight: 700;
+            margin-bottom: 20px;
         }
-
-        .pricing-card {
-            transition: all 0.3s ease;
+        
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
         }
-
-        .pricing-card:hover {
+        
+        .btn-primary {
+            background-color: var(--accent);
+            border-color: var(--accent);
+            padding: 12px 30px;
+            font-weight: 600;
+            border-radius: 50px;
+        }
+        
+        .btn-primary:hover {
+            background-color: #5a08a0;
+            border-color: #5a08a0;
+        }
+        
+        .service-card {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            padding: 30px;
+            margin-bottom: 30px;
+            transition: transform 0.3s;
+            text-align: center;
+            height: 100%;
+        }
+        
+        .service-card:hover {
             transform: translateY(-10px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
         }
-
-        .feature-list li {
-            margin-bottom: 0.5rem;
-            display: flex;
-            align-items: center;
+        
+        .service-icon {
+            font-size: 3rem;
+            color: var(--primary);
+            margin-bottom: 20px;
         }
-
-        .feature-list li::before {
-            content: '✓';
-            color: #10B981;
-            font-weight: bold;
-            margin-right: 0.5rem;
+        
+        .platform-card {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            padding: 20px;
+            text-align: center;
+            transition: all 0.3s;
+            margin-bottom: 20px;
         }
-
-        .currency-badge {
-            background: rgba(255, 255, 255, 0.2);
-            padding: 2px 8px;
-            border-radius: 12px;
-            font-size: 0.75rem;
-            margin-left: 8px;
+        
+        .platform-card:hover {
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
         }
-
-        .loading-spinner {
-            display: inline-block;
-            width: 20px;
-            height: 20px;
-            border: 2px solid #ffffff;
-            border-radius: 50%;
-            border-top-color: transparent;
-            animation: spin 1s ease-in-out infinite;
+        
+        .platform-icon {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
         }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
+        
+        .facebook { color: #3b5998; }
+        .instagram { color: #e1306c; }
+        .tiktok { color: #000000; }
+        .youtube { color: #ff0000; }
+        .twitter { color: #1da1f2; }
+        
+        .cta-section {
+            background: linear-gradient(135deg, var(--secondary), var(--accent));
+            color: white;
+            padding: 80px 0;
+            text-align: center;
         }
-
-        .location-info {
-            background: rgba(255, 255, 255, 0.1);
+        
+        .footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 50px 0 20px;
+        }
+        
+        .ad-container {
+            background: white;
             border-radius: 10px;
-            padding: 8px 16px;
-            font-size: 0.875rem;
+            padding: 20px;
+            margin: 30px 0;
+            text-align: center;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
         }
-
-        /* RTL Support */
-        [dir="rtl"] .feature-list li::before {
-            margin-right: 0;
-            margin-left: 0.5rem;
+        
+        .ad-title {
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: var(--primary);
         }
-
-        [dir="rtl"] .currency-badge {
-            margin-left: 0;
-            margin-right: 8px;
+        
+        .ad-btn {
+            background-color: var(--accent);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-weight: 500;
+            margin: 10px 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .ad-btn:hover {
+            background-color: #5a08a0;
+        }
+        
+        .stats {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            margin: 30px 0;
+        }
+        
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+        
+        .stat-label {
+            font-size: 1rem;
+            color: #6c757d;
+        }
+        
+        .feature-list {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .feature-list li {
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .feature-list li:last-child {
+            border-bottom: none;
+        }
+        
+        .feature-list i {
+            color: var(--primary);
+            margin-right: 10px;
         }
     </style>
 </head>
-<body class="min-h-screen text-white">
+<body>
     <!-- Navigation -->
-    <nav class="fixed w-full z-50 glass py-4">
-        <div class="container mx-auto px-6 flex justify-between items-center">
-            <div class="flex items-center space-x-2">
-                <div class="w-8 h-8 rounded-full bg-gradient-to-r from-royal-purple to-deep-indigo flex items-center justify-center text-white">
-                    <i class="fas fa-rocket text-sm"></i>
-                </div>
-                <a href="index.html" class="text-2xl font-bold gradient-text">SafarPath</a>
-            </div>
-            <div class="flex items-center space-x-4">
-                <div class="location-info flex items-center space-x-2">
-                    <i class="fas fa-globe-americas"></i>
-                    <span id="locationText">Detecting your location...</span>
-                </div>
-                <a href="index.html" class="text-white hover:text-gray-300 transition-colors">
-                    <i class="fas fa-home mr-2"></i>Home
-                </a>
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+        <div class="container">
+            <a class="navbar-brand" href="https://flashsmm.online/">
+                <i class="fas fa-bolt me-2"></i>FlashSMM
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#services">Services</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#platforms">Platforms</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#how-it-works">How It Works</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#testimonials">Testimonials</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="btn btn-primary ms-2" href="#get-started">Get Started</a>
+                    </li>
+                </ul>
             </div>
         </div>
     </nav>
 
     <!-- Hero Section -->
-    <section class="pt-32 pb-20">
-        <div class="container mx-auto px-6 text-center">
-            <h1 class="text-5xl md:text-6xl font-bold mb-6">
-                Our <span class="gradient-text">Pricing</span>
-            </h1>
-            <p class="text-xl text-gray-200 max-w-2xl mx-auto mb-8">
-                Transparent pricing for all your web development needs. Quality service at competitive rates.
-            </p>
-            <div class="glass-card rounded-xl p-4 inline-block">
-                <p class="text-sm">
-                    <i class="fas fa-info-circle mr-2"></i>
-                    <span>Prices automatically converted to your local currency</span>
-                </p>
+    <section class="hero">
+        <div class="container">
+            <h1>Boost Your Social Media Presence Instantly</h1>
+            <p>Get free followers, likes, views, and subscribers for all major social media platforms. Grow your audience fast with FlashSMM!</p>
+            <a href="#get-started" class="btn btn-primary">Get Free Followers Now</a>
+        </div>
+    </section>
+
+    <!-- Ad Container 1 -->
+    <div class="container">
+        <div class="ad-container">
+            <h3 class="ad-title">Special Offer: Limited Time Only!</h3>
+            <p>Get 500 free Instagram followers when you sign up today!</p>
+            <button class="ad-btn" onclick="redirectToAd()">Claim Your Free Followers</button>
+            <button class="ad-btn" onclick="redirectToAd()">Learn More</button>
+        </div>
+    </div>
+
+    <!-- Services Section -->
+    <section id="services" class="py-5">
+        <div class="container">
+            <div class="row text-center mb-5">
+                <div class="col">
+                    <h2>Our Services</h2>
+                    <p class="lead">Everything you need to boost your social media presence</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <h4>Followers</h4>
+                        <p>Get real, active followers for all social media platforms to increase your credibility and reach.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i class="fas fa-heart"></i>
+                        </div>
+                        <h4>Likes</h4>
+                        <p>Boost your posts with likes to increase engagement and visibility across all platforms.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i class="fas fa-eye"></i>
+                        </div>
+                        <h4>Views</h4>
+                        <p>Increase video views on YouTube, TikTok, and Instagram to boost your content's performance.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="row mt-4">
+                <div class="col-md-4">
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i class="fas fa-comments"></i>
+                        </div>
+                        <h4>Comments</h4>
+                        <p>Get authentic comments on your posts to improve engagement and algorithm performance.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i class="fas fa-user-plus"></i>
+                        </div>
+                        <h4>Subscribers</h4>
+                        <p>Grow your YouTube channel with active subscribers who engage with your content.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i class="fas fa-share-alt"></i>
+                        </div>
+                        <h4>Shares</h4>
+                        <p>Increase your content's reach with shares across all social media platforms.</p>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- Pricing Section -->
-    <section class="py-10 pb-20">
-        <div class="container mx-auto px-6">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-                
-                <!-- Bug Fixing Plan -->
-                <div class="pricing-card glass-card rounded-3xl p-8">
-                    <div class="text-center mb-8">
-                        <div class="w-16 h-16 rounded-2xl bg-gradient-to-r from-red-500 to-pink-600 flex items-center justify-center text-white text-2xl mx-auto mb-4">
-                            <i class="fas fa-bug"></i>
-                        </div>
-                        <h3 class="text-2xl font-bold mb-2">Bug Fixing</h3>
-                        <p class="text-gray-300 mb-4">Quick error resolution</p>
-                        <div class="flex items-center justify-center mb-2">
-                            <div class="text-3xl font-bold gradient-text" id="plan1Price">5,000 PKR</div>
-                            <div class="currency-badge" id="plan1Currency">PKR</div>
-                        </div>
-                        <p class="text-gray-400 text-sm">Starting price</p>
-                    </div>
-                    
-                    <ul class="feature-list text-left mb-8">
-                        <li>Quick error diagnosis</li>
-                        <li>Code debugging</li>
-                        <li>Performance optimization</li>
-                        <li>24/7 support availability</li>
-                        <li>Security patch implementation</li>
-                    </ul>
-                    
-                    <button onclick="contactWhatsApp('Bug Fixing')" class="w-full bg-gradient-to-r from-red-500 to-pink-600 text-white py-3 rounded-xl font-semibold hover:opacity-90 transition-opacity">
-                        <i class="fab fa-whatsapp mr-2"></i>
-                        Contact for Bug Fixing
-                    </button>
-                </div>
+    <!-- Ad Container 2 -->
+    <div class="container">
+        <div class="ad-container">
+            <h3 class="ad-title">Premium TikTok Growth Package</h3>
+            <p>Get 1000 real TikTok followers and 5000 views for just $9.99!</p>
+            <button class="ad-btn" onclick="redirectToAd()">Buy Now</button>
+            <button class="ad-btn" onclick="redirectToAd()">View All Packages</button>
+        </div>
+    </div>
 
-                <!-- Website Development Plan -->
-                <div class="pricing-card glass-card rounded-3xl p-8 transform scale-105 relative">
-                    <div class="absolute top-4 right-4">
-                        <span class="bg-gradient-to-r from-green-500 to-emerald-600 text-white px-3 py-1 rounded-full text-sm font-semibold">
-                            Most Popular
-                        </span>
-                    </div>
-                    <div class="text-center mb-8">
-                        <div class="w-16 h-16 rounded-2xl bg-gradient-to-r from-green-500 to-emerald-600 flex items-center justify-center text-white text-2xl mx-auto mb-4">
-                            <i class="fas fa-code"></i>
-                        </div>
-                        <h3 class="text-2xl font-bold mb-2">Website Development</h3>
-                        <p class="text-gray-300 mb-4">Complete web solutions</p>
-                        <div class="flex items-center justify-center mb-2">
-                            <div class="text-3xl font-bold gradient-text" id="plan2Price">80,000 PKR</div>
-                            <div class="currency-badge" id="plan2Currency">PKR</div>
-                        </div>
-                        <p class="text-gray-400 text-sm">Starting price</p>
-                    </div>
-                    
-                    <ul class="feature-list text-left mb-8">
-                        <li>Custom website design</li>
-                        <li>Responsive development</li>
-                        <li>SEO optimization</li>
-                        <li>Content management system</li>
-                        <li>1 year free maintenance</li>
-                        <li>Domain & hosting setup</li>
-                    </ul>
-                    
-                    <button onclick="contactWhatsApp('Website Development')" class="w-full bg-gradient-to-r from-green-500 to-emerald-600 text-white py-3 rounded-xl font-semibold hover:opacity-90 transition-opacity">
-                        <i class="fab fa-whatsapp mr-2"></i>
-                        Start Development
-                    </button>
+    <!-- Platforms Section -->
+    <section id="platforms" class="py-5 bg-light">
+        <div class="container">
+            <div class="row text-center mb-5">
+                <div class="col">
+                    <h2>Supported Platforms</h2>
+                    <p class="lead">We support all major social media platforms</p>
                 </div>
-
-                <!-- Premium Support Plan -->
-                <div class="pricing-card glass-card rounded-3xl p-8">
-                    <div class="text-center mb-8">
-                        <div class="w-16 h-16 rounded-2xl bg-gradient-to-r from-blue-500 to-purple-600 flex items-center justify-center text-white text-2xl mx-auto mb-4">
-                            <i class="fas fa-shield-alt"></i>
+            </div>
+            <div class="row">
+                <div class="col-md-4 col-sm-6">
+                    <div class="platform-card">
+                        <div class="platform-icon facebook">
+                            <i class="fab fa-facebook"></i>
                         </div>
-                        <h3 class="text-2xl font-bold mb-2">Website Maintenance</h3>
-                        <p class="text-gray-300 mb-4">Ongoing support & updates</p>
-                        <div class="flex items-center justify-center mb-2">
-                            <div class="text-3xl font-bold gradient-text" id="plan3Price">10,000 PKR</div>
-                            <div class="currency-badge" id="plan3Currency">PKR</div>
-                        </div>
-                        <p class="text-gray-400 text-sm">Starting price</p>
+                        <h4>Facebook</h4>
+                        <p>Followers, Likes, Reactions, Comments, Shares</p>
+                        <button class="btn btn-primary btn-sm" onclick="redirectToAd()">Get Facebook Growth</button>
                     </div>
-                    
-                    <ul class="feature-list text-left mb-8">
-                        <li>Regular updates</li>
-                        <li>Security monitoring</li>
-                        <li>Backup services</li>
-                        <li>Performance checks</li>
-                        <li>Emergency support</li>
-                    </ul>
-                    
-                    <button onclick="contactWhatsApp('Website Maintenance')" class="w-full bg-gradient-to-r from-blue-500 to-purple-600 text-white py-3 rounded-xl font-semibold hover:opacity-90 transition-opacity">
-                        <i class="fab fa-whatsapp mr-2"></i>
-                        Get Maintenance
-                    </button>
                 </div>
-
+                <div class="col-md-4 col-sm-6">
+                    <div class="platform-card">
+                        <div class="platform-icon instagram">
+                            <i class="fab fa-instagram"></i>
+                        </div>
+                        <h4>Instagram</h4>
+                        <p>Followers, Likes, Views, Comments, Story Views</p>
+                        <button class="btn btn-primary btn-sm" onclick="redirectToAd()">Get Instagram Growth</button>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-6">
+                    <div class="platform-card">
+                        <div class="platform-icon tiktok">
+                            <i class="fab fa-tiktok"></i>
+                        </div>
+                        <h4>TikTok</h4>
+                        <p>Followers, Likes, Views, Shares, Comments</p>
+                        <button class="btn btn-primary btn-sm" onclick="redirectToAd()">Get TikTok Growth</button>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-6">
+                    <div class="platform-card">
+                        <div class="platform-icon youtube">
+                            <i class="fab fa-youtube"></i>
+                        </div>
+                        <h4>YouTube</h4>
+                        <p>Subscribers, Views, Likes, Comments, Shares</p>
+                        <button class="btn btn-primary btn-sm" onclick="redirectToAd()">Get YouTube Growth</button>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-6">
+                    <div class="platform-card">
+                        <div class="platform-icon twitter">
+                            <i class="fab fa-twitter"></i>
+                        </div>
+                        <h4>Twitter</h4>
+                        <p>Followers, Likes, Retweets, Comments</p>
+                        <button class="btn btn-primary btn-sm" onclick="redirectToAd()">Get Twitter Growth</button>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-6">
+                    <div class="platform-card">
+                        <div class="platform-icon">
+                            <i class="fab fa-linkedin"></i>
+                        </div>
+                        <h4>LinkedIn</h4>
+                        <p>Connections, Profile Views, Post Engagement</p>
+                        <button class="btn btn-primary btn-sm" onclick="redirectToAd()">Get LinkedIn Growth</button>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- Contact Section -->
-    <section class="py-20">
-        <div class="container mx-auto px-6 text-center">
-            <div class="glass-card rounded-3xl p-12 max-w-4xl mx-auto">
-                <h2 class="text-4xl font-bold mb-6">Ready to Get Started?</h2>
-                <p class="text-xl text-gray-200 mb-8">
-                    Contact us directly on WhatsApp for quick responses and personalized quotes.
-                </p>
-                <button onclick="contactWhatsApp('General Inquiry')" class="bg-gradient-to-r from-green-500 to-emerald-600 text-white px-8 py-4 rounded-xl font-semibold text-lg hover:opacity-90 transition-opacity">
-                    <i class="fab fa-whatsapp mr-3"></i>
-                    Chat on WhatsApp +92 312 7592672
-                </button>
+    <!-- Stats Section -->
+    <section class="py-5">
+        <div class="container">
+            <div class="row text-center">
+                <div class="col-md-3 col-6">
+                    <div class="stats">
+                        <div class="stat-number">500K+</div>
+                        <div class="stat-label">Happy Customers</div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6">
+                    <div class="stats">
+                        <div class="stat-number">10M+</div>
+                        <div class="stat-label">Followers Delivered</div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6">
+                    <div class="stats">
+                        <div class="stat-number">50M+</div>
+                        <div class="stat-label">Likes Generated</div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6">
+                    <div class="stats">
+                        <div class="stat-number">24/7</div>
+                        <div class="stat-label">Customer Support</div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
 
+    <!-- How It Works Section -->
+    <section id="how-it-works" class="py-5 bg-light">
+        <div class="container">
+            <div class="row text-center mb-5">
+                <div class="col">
+                    <h2>How It Works</h2>
+                    <p class="lead">Getting started is quick and easy</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i class="fas fa-user-plus"></i>
+                        </div>
+                        <h4>1. Sign Up</h4>
+                        <p>Create your free account in less than a minute.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i class="fas fa-link"></i>
+                        </div>
+                        <h4>2. Add Your Profile</h4>
+                        <p>Enter your social media profile URL that you want to boost.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i class="fas fa-rocket"></i>
+                        </div>
+                        <h4>3. See Results</h4>
+                        <p>Watch your followers, likes, and views grow rapidly.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Ad Container 3 -->
+    <div class="container">
+        <div class="ad-container">
+            <h3 class="ad-title">YouTube Growth Special</h3>
+            <p>Get 1000 YouTube subscribers and 5000 views for just $14.99! Limited time offer.</p>
+            <button class="ad-btn" onclick="redirectToAd()">Boost My YouTube</button>
+            <button class="ad-btn" onclick="redirectToAd()">See All YouTube Deals</button>
+        </div>
+    </div>
+
+    <!-- Testimonials Section -->
+    <section id="testimonials" class="py-5">
+        <div class="container">
+            <div class="row text-center mb-5">
+                <div class="col">
+                    <h2>What Our Customers Say</h2>
+                    <p class="lead">Real results from real users</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="service-card">
+                        <div class="d-flex align-items-center mb-3">
+                            <img src="https://randomuser.me/api/portraits/women/32.jpg" class="rounded-circle me-3" width="60" alt="User">
+                            <div>
+                                <h5 class="mb-0">Sarah Johnson</h5>
+                                <small>Instagram Influencer</small>
+                            </div>
+                        </div>
+                        <p>"FlashSMM helped me grow my Instagram from 2k to 50k followers in just 3 months! The engagement on my posts has skyrocketed."</p>
+                        <div class="text-warning">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="service-card">
+                        <div class="d-flex align-items-center mb-3">
+                            <img src="https://randomuser.me/api/portraits/men/54.jpg" class="rounded-circle me-3" width="60" alt="User">
+                            <div>
+                                <h5 class="mb-0">Michael Chen</h5>
+                                <small>YouTuber</small>
+                            </div>
+                        </div>
+                        <p>"I was struggling to get my YouTube channel off the ground. After using FlashSMM, I gained 5k subscribers and my videos started getting recommended."</p>
+                        <div class="text-warning">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="service-card">
+                        <div class="d-flex align-items-center mb-3">
+                            <img src="https://randomuser.me/api/portraits/women/67.jpg" class="rounded-circle me-3" width="60" alt="User">
+                            <div>
+                                <h5 class="mb-0">Jessica Williams</h5>
+                                <small>TikTok Creator</small>
+                            </div>
+                        </div>
+                        <p>"My TikTok account went viral after using FlashSMM! The views and followers I gained helped me land brand deals and monetize my content."</p>
+                        <div class="text-warning">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section id="get-started" class="cta-section">
+        <div class="container">
+            <h2>Ready to Boost Your Social Media?</h2>
+            <p class="lead mb-4">Join thousands of satisfied customers and watch your social media presence grow</p>
+            <a href="#" class="btn btn-light btn-lg" onclick="redirectToAd()">Get Started Now</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <h5><i class="fas fa-bolt me-2"></i>FlashSMM</h5>
+                    <p>The fastest way to grow your social media presence with real followers, likes, and views.</p>
+                    <div class="mt-3">
+                        <a href="#" class="text-white me-3"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="text-white me-3"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="text-white me-3"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="text-white"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <h5>Services</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="text-white-50">Followers</a></li>
+                        <li><a href="#" class="text-white-50">Likes</a></li>
+                        <li><a href="#" class="text-white-50">Views</a></li>
+                        <li><a href="#" class="text-white-50">Comments</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-2">
+                    <h5>Platforms</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="text-white-50">Instagram</a></li>
+                        <li><a href="#" class="text-white-50">TikTok</a></li>
+                        <li><a href="#" class="text-white-50">YouTube</a></li>
+                        <li><a href="#" class="text-white-50">Facebook</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-2">
+                    <h5>Company</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="text-white-50">About Us</a></li>
+                        <li><a href="#" class="text-white-50">Contact</a></li>
+                        <li><a href="#" class="text-white-50">Privacy Policy</a></li>
+                        <li><a href="#" class="text-white-50">Terms of Service</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-2">
+                    <h5>Support</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="text-white-50">Help Center</a></li>
+                        <li><a href="#" class="text-white-50">FAQ</a></li>
+                        <li><a href="#" class="text-white-50">Live Chat</a></li>
+                        <li><a href="#" class="text-white-50">Status</a></li>
+                    </ul>
+                </div>
+            </div>
+            <hr class="mt-4 mb-4">
+            <div class="row">
+                <div class="col-md-6">
+                    <p class="mb-0">&copy; 2023 FlashSMM. All rights reserved.</p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <p class="mb-0">Domain: <a href="https://flashsmm.online/" class="text-white-50">flashsmm.online</a></p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Adsterra Ad Code -->
+    <script async="async" data-cfasync="false" src="//pl28012936.effectivegatecpm.com/21abc463f0ca19ae7df4ee6401b0f476/invoke.js"></script>
+    <div id="container-21abc463f0ca19ae7df4ee6401b0f476"></div>
+    
     <script>
-        // Base prices in PKR
-        const basePrices = {
-            bugFixing: 5000,
-            websiteDevelopment: 80000,
-            websiteMaintenance: 10000
-        };
-
-        // Currency symbols for ALL currencies
-        const currencySymbols = {
-            'USD': '$', 'EUR': '€', 'GBP': '£', 'JPY': '¥', 'CNY': '¥', 
-            'INR': '₹', 'RUB': '₽', 'KRW': '₩', 'TRY': '₺', 'IDR': 'Rp',
-            'BRL': 'R$', 'MXN': '$', 'CAD': 'C$', 'AUD': 'A$', 'NZD': 'NZ$',
-            'CHF': 'CHF', 'SEK': 'kr', 'NOK': 'kr', 'DKK': 'kr', 'PLN': 'zł',
-            'HUF': 'Ft', 'CZK': 'Kč', 'RON': 'lei', 'BGN': 'лв', 'HRK': 'kn',
-            'UAH': '₴', 'PHP': '₱', 'THB': '฿', 'MYR': 'RM', 'SGD': 'S$',
-            'AED': 'د.إ', 'SAR': '﷼', 'QAR': '﷼', 'KWD': 'د.ك', 'OMR': '﷼',
-            'BHD': 'ب.د', 'EGP': '£', 'ZAR': 'R', 'NGN': '₦', 'KES': 'KSh',
-            'GHS': '₵', 'UGX': 'USh', 'TZS': 'TSh', 'ETB': 'Br', 'MAD': 'د.م.',
-            'DZD': 'د.ج', 'TND': 'د.ت', 'LYD': 'ل.د', 'PKR': '₨', 'BDT': '৳',
-            'LKR': 'Rs', 'NPR': 'Rs', 'MMK': 'K', 'VND': '₫', 'KHR': '៛',
-            'LAK': '₭', 'MNT': '₮', 'KZT': '₸', 'UZS': 'soʻm', 'AZN': '₼',
-            'GEL': '₾', 'AMD': '֏', 'BYN': 'Br', 'MDL': 'L', 'ALL': 'L',
-            'RSD': 'дин', 'MKD': 'ден', 'BAM': 'KM', 'ISK': 'kr', 'ARS': '$',
-            'CLP': '$', 'COP': '$', 'PEN': 'S/', 'UYU': '$', 'PYG': '₲',
-            'BOB': 'Bs', 'CRC': '₡', 'DOP': 'RD$', 'GTQ': 'Q', 'HNL': 'L',
-            'NIO': 'C$', 'PAB': 'B/.', 'SVC': '₡', 'TTD': 'TT$', 'XCD': '$'
-        };
-
-        // Language families for automatic detection
-        const languageFamilies = {
-            'ar': ['SA', 'AE', 'EG', 'KW', 'QA', 'BH', 'OM', 'JO', 'LB', 'SY', 'IQ', 'PS', 'DZ', 'MA', 'TN', 'LY', 'SD', 'YE', 'MR', 'SO', 'DJ'],
-            'es': ['ES', 'MX', 'AR', 'CO', 'PE', 'VE', 'CL', 'EC', 'GT', 'CU', 'BO', 'DO', 'HN', 'PY', 'SV', 'NI', 'CR', 'PR', 'PA', 'UY', 'GQ'],
-            'fr': ['FR', 'CA', 'BE', 'CH', 'LU', 'MC', 'SN', 'CI', 'CM', 'MG', 'BF', 'ML', 'NE', 'TG', 'CD', 'RW', 'BJ', 'GN', 'HT'],
-            'pt': ['PT', 'BR', 'AO', 'MZ', 'GW', 'TL', 'CV', 'ST'],
-            'ru': ['RU', 'BY', 'KZ', 'KG', 'UZ', 'TJ', 'TM', 'MD'],
-            'de': ['DE', 'AT', 'CH', 'LU', 'LI', 'BE'],
-            'it': ['IT', 'CH', 'SM', 'VA'],
-            'nl': ['NL', 'BE', 'SR', 'AW', 'CW', 'SX'],
-            'pl': ['PL'],
-            'tr': ['TR', 'CY'],
-            'vi': ['VN'],
-            'th': ['TH'],
-            'ko': ['KR', 'KP'],
-            'ja': ['JP'],
-            'zh': ['CN', 'TW', 'HK', 'MO', 'SG'],
-            'hi': ['IN', 'NP'],
-            'bn': ['BD', 'IN'],
-            'ur': ['PK', 'IN'],
-            'fa': ['IR', 'AF', 'TJ'],
-            'he': ['IL'],
-            'el': ['GR', 'CY'],
-            'sv': ['SE', 'FI'],
-            'no': ['NO'],
-            'da': ['DK'],
-            'fi': ['FI'],
-            'cs': ['CZ'],
-            'sk': ['SK'],
-            'hu': ['HU'],
-            'ro': ['RO', 'MD'],
-            'bg': ['BG'],
-            'hr': ['HR', 'BA'],
-            'sr': ['RS', 'BA', 'ME'],
-            'sl': ['SI'],
-            'lv': ['LV'],
-            'lt': ['LT'],
-            'et': ['EE'],
-            'mt': ['MT'],
-            'ga': ['IE'],
-            'cy': ['GB'],
-            'eu': ['ES'],
-            'ca': ['ES'],
-            'gl': ['ES']
-        };
-
-        // Hardcoded exchange rates for reliable fallback
-        const hardcodedRates = {
-            'USD': 0.0036, 'EUR': 0.0033, 'GBP': 0.0028, 'INR': 0.30,
-            'AED': 0.013, 'SAR': 0.013, 'CAD': 0.0048, 'AUD': 0.0054,
-            'JPY': 0.52, 'CNY': 0.026, 'KRW': 4.67, 'SGD': 0.0048,
-            'MYR': 0.016, 'THB': 0.12, 'IDR': 55.50, 'PHP': 0.20,
-            'VND': 85.50, 'BDT': 0.39, 'LKR': 1.16, 'NPR': 0.47,
-            'MXN': 0.062, 'BRL': 0.018, 'ARS': 2.89, 'CLP': 3.24,
-            'ZAR': 0.066, 'NGN': 4.50, 'EGP': 0.11, 'RUB': 0.32,
-            'TRY': 0.11, 'PLN': 0.014, 'CZK': 0.079, 'HUF': 1.24,
-            'RON': 0.016, 'BGN': 0.0065, 'SEK': 0.037, 'NOK': 0.037,
-            'DKK': 0.024, 'CHF': 0.0032, 'ILS': 0.013, 'QAR': 0.013,
-            'KWD': 0.0011, 'OMR': 0.0014, 'BHD': 0.0014
-        };
-
-        let currentCurrency = 'PKR';
-        let exchangeRate = 1;
-        let userCountry = 'Unknown';
-        let userCurrency = 'PKR';
-
-        // Detect user's location with global coverage
-        async function detectUserLocation() {
-            try {
-                document.getElementById('locationText').innerHTML = '<div class="loading-spinner"></div> Detecting...';
-
-                // Try multiple reliable IP geolocation services with CORS proxies
-                const services = [
-                    'https://api.allorigins.win/raw?url=' + encodeURIComponent('https://ipapi.co/json/'),
-                    'https://api.codetabs.com/v1/proxy?quest=' + encodeURIComponent('https://ipapi.co/json/'),
-                    'https://extreme-ip-lookup.com/json/',
-                    'https://api.ip.sb/geoip'
-                ];
-
-                let locationData = null;
-                
-                for (const service of services) {
-                    try {
-                        const response = await fetch(service, {
-                            method: 'GET',
-                            headers: {
-                                'Accept': 'application/json',
-                            }
-                        });
-                        
-                        if (response.ok) {
-                            locationData = await response.json();
-                            console.log('Location data from', service, locationData);
-                            break;
-                        }
-                    } catch (error) {
-                        console.log(`Service ${service} failed:`, error);
-                        continue;
-                    }
-                }
-
-                if (!locationData) {
-                    throw new Error('All geolocation services failed');
-                }
-
-                // Extract country and currency information
-                userCountry = locationData.country_name || locationData.country || 'Unknown';
-                userCurrency = locationData.currency || locationData.currency_code || 'USD';
-                const countryCode = locationData.country_code || locationData.countryCode || 'US';
-
-                // Auto-detect language based on country
-                await autoDetectLanguage(countryCode);
-                
-                // Get exchange rate for the detected currency
-                await getExchangeRate(userCurrency);
-                currentCurrency = userCurrency;
-                
-                // Update UI
-                updatePrices();
-                updateLocationDisplay(userCountry, userCurrency);
-                
-            } catch (error) {
-                console.error('Location detection failed:', error);
-                // Ultimate fallback - use browser info
-                fallbackDetection();
-            }
-        }
-
-        // Auto-detect language based on country
-        async function autoDetectLanguage(countryCode) {
-            let detectedLang = 'en'; // Default to English
+        // Function to redirect to ads (replace with actual ad URLs)
+        function redirectToAd() {
+            // In a real implementation, this would redirect to your ad partner URLs
+            // For now, we'll just show an alert
+            alert('This would redirect to an ad or offer page in the live version.');
             
-            // Find language based on country
-            for (const [lang, countries] of Object.entries(languageFamilies)) {
-                if (countries.includes(countryCode)) {
-                    detectedLang = lang;
-                    break;
-                }
-            }
-
-            // Apply language settings
-            if (detectedLang === 'ar') {
-                document.documentElement.dir = 'rtl';
-                document.documentElement.lang = 'ar';
-            } else {
-                document.documentElement.dir = 'ltr';
-                document.documentElement.lang = detectedLang;
-            }
-
-            return detectedLang;
+            // Example of actual redirect:
+            // window.location.href = 'https://your-ad-partner.com/offer';
         }
-
-        // Get exchange rate with reliable fallbacks
-        async function getExchangeRate(targetCurrency) {
-            if (targetCurrency === 'PKR') {
-                exchangeRate = 1;
-                return;
-            }
-
-            try {
-                // Try multiple exchange rate APIs with CORS proxies
-                const apis = [
-                    `https://api.allorigins.win/raw?url=${encodeURIComponent(`https://api.exchangerate.host/latest?base=PKR&symbols=${targetCurrency}`)}`,
-                    `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(`https://api.frankfurter.app/latest?from=PKR&to=${targetCurrency}`)}`,
-                    `https://api.allorigins.win/raw?url=${encodeURIComponent(`https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/pkr.json`)}`
-                ];
-
-                for (const api of apis) {
-                    try {
-                        const response = await fetch(api);
-                        if (response.ok) {
-                            const data = await response.json();
-                            
-                            if (api.includes('exchangerate.host')) {
-                                exchangeRate = data.rates?.[targetCurrency] || 1;
-                            } else if (api.includes('frankfurter')) {
-                                exchangeRate = data.rates?.[targetCurrency] || 1;
-                            } else if (api.includes('currency-api')) {
-                                exchangeRate = data.pkr?.[targetCurrency.toLowerCase()] || 1;
-                            }
-                            
-                            if (exchangeRate !== 1) break;
-                        }
-                    } catch (error) {
-                        console.log(`Exchange API ${api} failed:`, error);
-                        continue;
-                    }
-                }
-
-                // If all APIs fail, use hardcoded rates for major currencies
-                if (exchangeRate === 1) {
-                    exchangeRate = hardcodedRates[targetCurrency] || 1;
-                }
-
-            } catch (error) {
-                console.error('Exchange rate fetch failed:', error);
-                exchangeRate = hardcodedRates[targetCurrency] || 1;
-            }
-        }
-
-        // Fallback detection using browser information
-        function fallbackDetection() {
-            const browserLang = navigator.language || 'en';
-            const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-            
-            // Simple timezone to country mapping for fallback
-            const timezoneToCurrency = {
-                'America/': 'USD', 'Europe/': 'EUR', 'Asia/': 'USD', 'Africa/': 'USD',
-                'Australia/': 'AUD', 'Pacific/': 'USD'
-            };
-
-            userCurrency = 'USD'; // Default fallback
-            for (const [tz, curr] of Object.entries(timezoneToCurrency)) {
-                if (timezone.includes(tz)) {
-                    userCurrency = curr;
-                    break;
-                }
-            }
-
-            // Try to determine country from browser language
-            const langToCountry = {
-                'en': 'United States', 'es': 'Spain', 'fr': 'France', 'de': 'Germany',
-                'it': 'Italy', 'pt': 'Portugal', 'ru': 'Russia', 'ja': 'Japan',
-                'zh': 'China', 'ko': 'South Korea', 'ar': 'Saudi Arabia', 'hi': 'India'
-            };
-            
-            userCountry = langToCountry[browserLang.split('-')[0]] || 'Your Country';
-            currentCurrency = userCurrency;
-            exchangeRate = hardcodedRates[userCurrency] || 0.0036;
-
-            updatePrices();
-            updateLocationDisplay(userCountry, userCurrency);
-        }
-
-        // Update prices based on exchange rate
-        function updatePrices() {
-            const formatPrice = (price) => {
-                const convertedPrice = price * exchangeRate;
-                
-                // Format based on currency value
-                if (convertedPrice >= 1000000) {
-                    return (convertedPrice / 1000000).toFixed(1) + 'M';
-                } else if (convertedPrice >= 1000) {
-                    return (convertedPrice / 1000).toFixed(1) + 'K';
-                } else if (convertedPrice >= 100) {
-                    return Math.round(convertedPrice);
-                } else if (convertedPrice >= 1) {
-                    return convertedPrice.toFixed(0);
-                } else {
-                    return convertedPrice.toFixed(2);
-                }
-            };
-
-            const symbol = currencySymbols[currentCurrency] || currentCurrency;
-
-            document.getElementById('plan1Price').textContent = `${symbol}${formatPrice(basePrices.bugFixing)}`;
-            document.getElementById('plan1Currency').textContent = currentCurrency;
-
-            document.getElementById('plan2Price').textContent = `${symbol}${formatPrice(basePrices.websiteDevelopment)}`;
-            document.getElementById('plan2Currency').textContent = currentCurrency;
-
-            document.getElementById('plan3Price').textContent = `${symbol}${formatPrice(basePrices.websiteMaintenance)}`;
-            document.getElementById('plan3Currency').textContent = currentCurrency;
-        }
-
-        // Update location display
-        function updateLocationDisplay(country, currency) {
-            const symbol = currencySymbols[currency] || currency;
-            document.getElementById('locationText').textContent = 
-                `📍 ${country} • ${symbol} ${currency}`;
-        }
-
-        // WhatsApp contact function
-        function contactWhatsApp(service) {
-            const price = getServicePrice(service);
-            const message = `Hello! I'm interested in: ${service} (${price})`;
-            const encodedMessage = encodeURIComponent(message);
-            const phone = '+923127592672';
-            window.open(`https://wa.me/${phone}?text=${encodedMessage}`, '_blank');
-        }
-
-        function getServicePrice(service) {
-            const prices = {
-                'Bug Fixing': basePrices.bugFixing * exchangeRate,
-                'Website Development': basePrices.websiteDevelopment * exchangeRate,
-                'Website Maintenance': basePrices.websiteMaintenance * exchangeRate
-            };
-            
-            const price = prices[service];
-            const symbol = currencySymbols[currentCurrency] || currentCurrency;
-            
-            let formattedPrice;
-            if (price >= 1000000) {
-                formattedPrice = (price / 1000000).toFixed(1) + 'M';
-            } else if (price >= 1000) {
-                formattedPrice = (price / 1000).toFixed(1) + 'K';
-            } else if (price >= 100) {
-                formattedPrice = Math.round(price);
-            } else {
-                formattedPrice = price.toFixed(2);
-            }
-            
-            return `${symbol}${formattedPrice} ${currentCurrency}`;
-        }
-
-        // Initialize
-        document.addEventListener('DOMContentLoaded', () => {
-            detectUserLocation();
+        
+        // Add smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
         });
     </script>
 </body>
-</html>
+</html>s
