@@ -1,0 +1,1416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BH Token MLM Crypto Ecosystem - Complete Presentation</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#3B82F6',
+                        secondary: '#10B981',
+                        accent: '#8B5CF6',
+                        dark: '#1F2937',
+                        bh: {
+                            blue: '#1E40AF',
+                            green: '#059669',
+                            purple: '#7C3AED'
+                        }
+                    },
+                    animation: {
+                        'fade-in': 'fadeIn 0.5s ease-in-out',
+                        'slide-in': 'slideIn 0.5s ease-out',
+                        'pulse-slow': 'pulse 3s infinite'
+                    },
+                    keyframes: {
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' },
+                        },
+                        slideIn: {
+                            '0%': { transform: 'translateY(20px)', opacity: '0' },
+                            '100%': { transform: 'translateY(0)', opacity: '1' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .section-card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            border: 1px solid #e5e7eb;
+        }
+        .section-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+        .nav-link {
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background-color: #3B82F6;
+            transition: width 0.3s ease;
+        }
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        .ecosystem-flow {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        .flow-step {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            border-left: 4px solid #3B82F6;
+            transition: all 0.3s ease;
+        }
+        .flow-step:hover {
+            transform: scale(1.05);
+        }
+        .commission-level {
+            background: white;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            border-left: 4px solid #10B981;
+        }
+        .nft-value-bar {
+            height: 30px;
+            background: linear-gradient(90deg, #3B82F6, #8B5CF6);
+            border-radius: 5px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            padding-left: 10px;
+            color: white;
+            font-weight: bold;
+            transition: all 0.5s ease;
+        }
+        .presentation-slide {
+            min-height: 80vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .diagram-container {
+            background: #f8fafc;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        .progress-bar {
+            height: 6px;
+            background: #e5e7eb;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #3B82F6, #8B5CF6);
+            border-radius: 3px;
+            transition: width 0.5s ease;
+        }
+        .rank-badge {
+            display: inline-block;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: bold;
+            margin: 5px;
+        }
+        .tooltip {
+            position: relative;
+            display: inline-block;
+        }
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 200px;
+            background-color: #1F2937;
+            color: white;
+            text-align: center;
+            border-radius: 6px;
+            padding: 10px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            margin-left: -100px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+            opacity: 1;
+        }
+        .slide-nav {
+            position: fixed;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .slide-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #cbd5e1;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .slide-dot.active {
+            background: #3B82F6;
+            transform: scale(1.2);
+        }
+        .arrow {
+            position: relative;
+        }
+        .arrow::after {
+            content: '→';
+            position: absolute;
+            right: -25px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #6B7280;
+            font-weight: bold;
+        }
+        .flow-arrow {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #6B7280;
+            font-size: 24px;
+            margin: 10px 0;
+        }
+        .diagram-box {
+            background: white;
+            border-radius: 8px;
+            padding: 15px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            border: 1px solid #e5e7eb;
+            text-align: center;
+        }
+        .diagram-connector {
+            height: 40px;
+            width: 2px;
+            background: #d1d5db;
+            margin: 0 auto;
+        }
+        .diagram-arrow {
+            height: 20px;
+            width: 20px;
+            border-right: 2px solid #d1d5db;
+            border-bottom: 2px solid #d1d5db;
+            transform: rotate(45deg);
+            margin: 0 auto;
+        }
+        .ecosystem-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin: 30px 0;
+        }
+        .grid-item {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+        .grid-connector {
+            position: relative;
+        }
+        .grid-connector::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: -10px;
+            width: 10px;
+            height: 2px;
+            background: #d1d5db;
+        }
+        .grid-connector::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            right: -10px;
+            width: 10px;
+            height: 2px;
+            background: #d1d5db;
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-blue-50 to-purple-50 text-gray-800">
+    <!-- Header -->
+    <header class="bg-gradient-to-r from-bh-blue to-bh-purple text-white py-6 shadow-lg sticky top-0 z-20">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div>
+                    <h1 class="text-3xl md:text-4xl font-bold">BH Token MLM Crypto Ecosystem</h1>
+                    <p class="text-blue-100 mt-2 text-lg">Hybrid Token + NFT Model</p>
+                </div>
+                <div class="mt-4 md:mt-0">
+                    <div class="progress-bar w-64">
+                        <div class="progress-fill" id="progress-fill" style="width: 10%"></div>
+                    </div>
+                    <p class="text-blue-200 text-sm mt-2 text-center">Presentation Progress</p>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation -->
+    <nav class="bg-white shadow-sm sticky top-24 z-10">
+        <div class="container mx-auto px-4 py-3">
+            <div class="flex flex-wrap justify-center gap-4 md:gap-8">
+                <a href="#overview" class="nav-link text-gray-700 font-medium">Overview</a>
+                <a href="#components" class="nav-link text-gray-700 font-medium">Components</a>
+                <a href="#token" class="nav-link text-gray-700 font-medium">BH Token</a>
+                <a href="#ecosystem" class="nav-link text-gray-700 font-medium">Ecosystem</a>
+                <a href="#income" class="nav-link text-gray-700 font-medium">Income</a>
+                <a href="#nft" class="nav-link text-gray-700 font-medium">NFT System</a>
+                <a href="#loan" class="nav-link text-gray-700 font-medium">Loan System</a>
+                <a href="#tokenomics" class="nav-link text-gray-700 font-medium">Tokenomics</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Slide Navigation -->
+    <div class="slide-nav">
+        <div class="slide-dot active" data-slide="overview"></div>
+        <div class="slide-dot" data-slide="components"></div>
+        <div class="slide-dot" data-slide="token"></div>
+        <div class="slide-dot" data-slide="ecosystem"></div>
+        <div class="slide-dot" data-slide="income"></div>
+        <div class="slide-dot" data-slide="nft"></div>
+        <div class="slide-dot" data-slide="loan"></div>
+        <div class="slide-dot" data-slide="tokenomics"></div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-8">
+        <!-- Overview Section -->
+        <section id="overview" class="presentation-slide mb-16">
+            <div class="text-center mb-12 animate-fade-in">
+                <h2 class="text-4xl font-bold text-gray-800 mb-4">🌟 BH Token Ecosystem Overview</h2>
+                <p class="text-xl text-gray-600 max-w-4xl mx-auto">
+                    A revolutionary Hybrid Crypto + MLM Ecosystem combining blockchain technology with multiple sustainable income streams, powered by the BH Token.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 animate-slide-in">
+                <div class="section-card p-8 text-center">
+                    <div class="text-bh-blue text-5xl mb-4">
+                        <i class="fas fa-rocket"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-800 mb-4">BH Token Powered</h3>
+                    <p class="text-gray-600">All transactions and rewards are powered by BH Token, creating a unified economic system with built-in value appreciation.</p>
+                </div>
+                <div class="section-card p-8 text-center">
+                    <div class="text-bh-green text-5xl mb-4">
+                        <i class="fas fa-money-bill-wave"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-800 mb-4">Multiple Income Streams</h3>
+                    <p class="text-gray-600">Earn BH Tokens through direct bonuses, unilevel commissions, rank rewards, and NFT-based ROI systems.</p>
+                </div>
+                <div class="section-card p-8 text-center">
+                    <div class="text-bh-purple text-5xl mb-4">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-800 mb-4">Sustainable Growth</h3>
+                    <p class="text-gray-600">Deflationary tokenomics with burning mechanisms and staking rewards ensure long-term BH Token value appreciation.</p>
+                </div>
+            </div>
+
+            <div class="mt-12 text-center animate-fade-in">
+                <div class="bg-white p-6 rounded-xl shadow-md inline-block max-w-4xl">
+                    <h3 class="text-xl font-bold text-gray-800 mb-4">BH Token Innovation</h3>
+                    <p class="text-gray-600">
+                        Our ecosystem uniquely combines the viral growth potential of MLM with the transparency and security of blockchain, 
+                        creating a sustainable model that rewards participation at every level through the BH Token economy.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Core Components -->
+        <section id="components" class="presentation-slide mb-16">
+            <h2 class="text-4xl font-bold text-gray-800 mb-8 text-center">🔧 Core Components</h2>
+            
+            <div class="diagram-container">
+                <h3 class="text-2xl font-bold text-center mb-6">BH Token Ecosystem Architecture</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div class="diagram-box">
+                        <div class="flex items-center mb-4">
+                            <div class="bg-blue-100 p-3 rounded-full mr-4">
+                                <i class="fas fa-project-diagram text-blue-500"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-gray-800">Monoline Income</h3>
+                        </div>
+                        <p class="text-gray-600">Global single line system with structured progression. Members advance through levels by completing requirements, unlocking higher rewards in BH Tokens.</p>
+                    </div>
+                    <div class="diagram-box">
+                        <div class="flex items-center mb-4">
+                            <div class="bg-green-100 p-3 rounded-full mr-4">
+                                <i class="fas fa-sitemap text-green-500"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-gray-800">Unilevel Income</h3>
+                        </div>
+                        <p class="text-gray-600">21-level deep compensation plan. Earn BH Token commissions from your entire organization with decreasing percentages at deeper levels.</p>
+                    </div>
+                    <div class="diagram-box">
+                        <div class="flex items-center mb-4">
+                            <div class="bg-purple-100 p-3 rounded-full mr-4">
+                                <i class="fas fa-hand-holding-usd text-purple-500"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-gray-800">Direct Bonus</h3>
+                        </div>
+                        <p class="text-gray-600">8% immediate BH Token rewards on direct referrals' activations. The simplest and fastest way to earn in the ecosystem.</p>
+                    </div>
+                    <div class="diagram-box">
+                        <div class="flex items-center mb-4">
+                            <div class="bg-yellow-100 p-3 rounded-full mr-4">
+                                <i class="fas fa-trophy text-yellow-500"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-gray-800">Rank Rewards</h3>
+                        </div>
+                        <p class="text-gray-600">Performance-based achievements with tiered benefits. Higher ranks unlock more privileges and BH Token earning potential.</p>
+                    </div>
+                    <div class="diagram-box">
+                        <div class="flex items-center mb-4">
+                            <div class="bg-indigo-100 p-3 rounded-full mr-4">
+                                <i class="fas fa-coins text-indigo-500"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-gray-800">NFT-Based ROI</h3>
+                        </div>
+                        <p class="text-gray-600">Lifetime returns through NFT ownership. Hold NFTs to receive monthly percentage-based returns in BH Tokens on their value.</p>
+                    </div>
+                    <div class="diagram-box">
+                        <div class="flex items-center mb-4">
+                            <div class="bg-red-100 p-3 rounded-full mr-4">
+                                <i class="fas fa-hand-holding-heart text-red-500"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-gray-800">Loan & Restaking</h3>
+                        </div>
+                        <p class="text-gray-600">Financial flexibility with loan programs. Access BH Token capital when needed, then restake for compounded growth after repayment.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-12">
+                <h3 class="text-2xl font-bold text-center mb-6">Component Integration Flow</h3>
+                <div class="bg-white p-8 rounded-xl shadow-md">
+                    <div class="flex flex-col md:flex-row justify-between items-center">
+                        <div class="diagram-box mb-4 md:mb-0">
+                            <h4 class="font-bold">Registration</h4>
+                            <p class="text-sm text-gray-600">Free signup</p>
+                        </div>
+                        <div class="flow-arrow hidden md:block">
+                            <i class="fas fa-arrow-right"></i>
+                        </div>
+                        <div class="diagram-connector md:hidden"></div>
+                        <div class="diagram-arrow md:hidden"></div>
+                        <div class="diagram-box mb-4 md:mb-0">
+                            <h4 class="font-bold">Activation</h4>
+                            <p class="text-sm text-gray-600">$30 in BH Tokens</p>
+                        </div>
+                        <div class="flow-arrow hidden md:block">
+                            <i class="fas fa-arrow-right"></i>
+                        </div>
+                        <div class="diagram-connector md:hidden"></div>
+                        <div class="diagram-arrow md:hidden"></div>
+                        <div class="diagram-box mb-4 md:mb-0">
+                            <h4 class="font-bold">Network Building</h4>
+                            <p class="text-sm text-gray-600">Referral system</p>
+                        </div>
+                        <div class="flow-arrow hidden md:block">
+                            <i class="fas fa-arrow-right"></i>
+                        </div>
+                        <div class="diagram-connector md:hidden"></div>
+                        <div class="diagram-arrow md:hidden"></div>
+                        <div class="diagram-box">
+                            <h4 class="font-bold">Earning Phase</h4>
+                            <p class="text-sm text-gray-600">Multiple income streams</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- BH Token Utilities -->
+        <section id="token" class="presentation-slide mb-16">
+            <h2 class="text-4xl font-bold text-gray-800 mb-8 text-center">🪙 BH Token Utilities</h2>
+            
+            <div class="section-card p-8 max-w-5xl mx-auto">
+                <div class="text-center mb-8">
+                    <h3 class="text-3xl font-bold text-gray-800">Fixed Supply: 1.2 Million BH Tokens</h3>
+                    <p class="text-gray-600 mt-2">Scarcity is built into the ecosystem through a fixed token supply with deflationary mechanisms</p>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div>
+                        <h4 class="text-2xl font-bold text-gray-800 mb-6">Key Features & Utilities</h4>
+                        <div class="space-y-6">
+                            <div class="flex items-start">
+                                <div class="bg-red-100 p-3 rounded-full mr-4">
+                                    <i class="fas fa-fire text-red-500"></i>
+                                </div>
+                                <div>
+                                    <h5 class="font-bold text-lg">9% Burning Protocol</h5>
+                                    <p class="text-gray-600">Deflationary mechanism on all BH Token transactions reduces supply over time, increasing scarcity and value.</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start">
+                                <div class="bg-green-100 p-3 rounded-full mr-4">
+                                    <i class="fas fa-lock text-green-500"></i>
+                                </div>
+                                <div>
+                                    <h5 class="font-bold text-lg">Staking Rewards System</h5>
+                                    <p class="text-gray-600">Earn passive BH Token income by staking tokens. Longer staking periods yield higher returns.</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start">
+                                <div class="bg-blue-100 p-3 rounded-full mr-4">
+                                    <i class="fas fa-exchange-alt text-blue-500"></i>
+                                </div>
+                                <div>
+                                    <h5 class="font-bold text-lg">Internal Desk Exchange</h5>
+                                    <p class="text-gray-600">Seamless BH Token trading platform within the ecosystem with low fees and instant settlements.</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start">
+                                <div class="bg-purple-100 p-3 rounded-full mr-4">
+                                    <i class="fas fa-chart-line text-purple-500"></i>
+                                </div>
+                                <div>
+                                    <h5 class="font-bold text-lg">Holding Benefits with ROI</h5>
+                                    <p class="text-gray-600">Long-term BH Token holders receive additional benefits and return on investment through various mechanisms.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <h4 class="text-2xl font-bold text-gray-800 mb-6 text-center">BH Token Distribution</h4>
+                        <div class="bg-white p-4 rounded-lg border border-gray-200 mb-6">
+                            <div id="tokenDistributionChart" style="height: 300px;"></div>
+                        </div>
+                        
+                        <div class="bg-gradient-to-r from-bh-blue to-bh-purple text-white p-6 rounded-lg">
+                            <h5 class="font-bold text-xl mb-2">BH Token Economic Model</h5>
+                            <p>The BH Token serves as both a utility token within the ecosystem and a store of value, with built-in deflationary mechanisms that create natural price appreciation pressure.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-12">
+                <h3 class="text-2xl font-bold text-center mb-6">BH Token Transaction Flow</h3>
+                <div class="bg-white p-6 rounded-xl shadow-md">
+                    <div class="flex flex-col md:flex-row justify-between items-center">
+                        <div class="diagram-box mb-4 md:mb-0 text-center">
+                            <div class="text-bh-blue text-2xl mb-2">
+                                <i class="fas fa-wallet"></i>
+                            </div>
+                            <h4 class="font-bold">User Wallet</h4>
+                            <p class="text-sm text-gray-600">BH Token storage</p>
+                        </div>
+                        <div class="flow-arrow hidden md:block">
+                            <i class="fas fa-arrow-right"></i>
+                        </div>
+                        <div class="diagram-connector md:hidden"></div>
+                        <div class="diagram-arrow md:hidden"></div>
+                        <div class="diagram-box mb-4 md:mb-0 text-center">
+                            <div class="text-bh-green text-2xl mb-2">
+                                <i class="fas fa-exchange-alt"></i>
+                            </div>
+                            <h4 class="font-bold">Transaction</h4>
+                            <p class="text-sm text-gray-600">9% burn applied</p>
+                        </div>
+                        <div class="flow-arrow hidden md:block">
+                            <i class="fas fa-arrow-right"></i>
+                        </div>
+                        <div class="diagram-connector md:hidden"></div>
+                        <div class="diagram-arrow md:hidden"></div>
+                        <div class="diagram-box mb-4 md:mb-0 text-center">
+                            <div class="text-bh-purple text-2xl mb-2">
+                                <i class="fas fa-fire"></i>
+                            </div>
+                            <h4 class="font-bold">Burn Mechanism</h4>
+                            <p class="text-sm text-gray-600">Tokens permanently removed</p>
+                        </div>
+                        <div class="flow-arrow hidden md:block">
+                            <i class="fas fa-arrow-right"></i>
+                        </div>
+                        <div class="diagram-connector md:hidden"></div>
+                        <div class="diagram-arrow md:hidden"></div>
+                        <div class="diagram-box text-center">
+                            <div class="text-red-500 text-2xl mb-2">
+                                <i class="fas fa-chart-line"></i>
+                            </div>
+                            <h4 class="font-bold">Value Appreciation</h4>
+                            <p class="text-sm text-gray-600">Reduced supply increases value</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Ecosystem Flow -->
+        <section id="ecosystem" class="presentation-slide mb-16">
+            <h2 class="text-4xl font-bold text-gray-800 mb-8 text-center">🚀 BH Token Ecosystem Flow</h2>
+            
+            <div class="section-card p-8 max-w-6xl mx-auto">
+                <h3 class="text-2xl font-bold text-gray-800 mb-6 text-center">User Journey Through the BH Token Ecosystem</h3>
+                
+                <div class="ecosystem-flow">
+                    <div class="flow-step">
+                        <div class="text-4xl mb-3 text-bh-blue">
+                            <i class="fas fa-user-plus"></i>
+                        </div>
+                        <h3 class="font-bold text-lg">Registration</h3>
+                        <p class="text-sm mt-2">Free registration with email verification</p>
+                    </div>
+                    <div class="flow-step">
+                        <div class="text-4xl mb-3 text-bh-green">
+                            <i class="fas fa-dollar-sign"></i>
+                        </div>
+                        <h3 class="font-bold text-lg">BH Token Activation</h3>
+                        <p class="text-sm mt-2">$30 equivalent in BH Tokens to activate account</p>
+                    </div>
+                    <div class="flow-step">
+                        <div class="text-4xl mb-3 text-bh-purple">
+                            <i class="fas fa-network-wired"></i>
+                        </div>
+                        <h3 class="font-bold text-lg">Build Network</h3>
+                        <p class="text-sm mt-2">Refer others and build your organization</p>
+                    </div>
+                    <div class="flow-step">
+                        <div class="text-4xl mb-3 text-yellow-500">
+                            <i class="fas fa-chart-bar"></i>
+                        </div>
+                        <h3 class="font-bold text-lg">Progress Monoline</h3>
+                        <p class="text-sm mt-2">Advance through monoline levels</p>
+                    </div>
+                    <div class="flow-step">
+                        <div class="text-4xl mb-3 text-indigo-500">
+                            <i class="fas fa-gem"></i>
+                        </div>
+                        <h3 class="font-bold text-lg">Unlock NFT</h3>
+                        <p class="text-sm mt-2">Access NFT-based ROI system</p>
+                    </div>
+                    <div class="flow-step">
+                        <div class="text-4xl mb-3 text-red-500">
+                            <i class="fas fa-money-check-alt"></i>
+                        </div>
+                        <h3 class="font-bold text-lg">Earn BH Token ROI</h3>
+                        <p class="text-sm mt-2">Receive monthly returns in BH Tokens on NFT value</p>
+                    </div>
+                </div>
+                
+                <div class="mt-8">
+                    <h3 class="text-2xl font-bold text-gray-800 mb-6 text-center">BH Token Income Streams Diagram</h3>
+                    <div class="bg-white p-6 rounded-lg border border-gray-200">
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                            <div class="bg-blue-50 p-4 rounded-lg text-center">
+                                <div class="text-blue-500 text-2xl mb-2">
+                                    <i class="fas fa-hand-holding-usd"></i>
+                                </div>
+                                <h4 class="font-bold">Direct Bonus</h4>
+                                <p class="text-sm text-gray-600">8% on referrals</p>
+                            </div>
+                            <div class="bg-green-50 p-4 rounded-lg text-center">
+                                <div class="text-green-500 text-2xl mb-2">
+                                    <i class="fas fa-sitemap"></i>
+                                </div>
+                                <h4 class="font-bold">Unilevel</h4>
+                                <p class="text-sm text-gray-600">21 levels deep</p>
+                            </div>
+                            <div class="bg-purple-50 p-4 rounded-lg text-center">
+                                <div class="text-purple-500 text-2xl mb-2">
+                                    <i class="fas fa-trophy"></i>
+                                </div>
+                                <h4 class="font-bold">Rank Rewards</h4>
+                                <p class="text-sm text-gray-600">Performance based</p>
+                            </div>
+                            <div class="bg-yellow-50 p-4 rounded-lg text-center">
+                                <div class="text-yellow-500 text-2xl mb-2">
+                                    <i class="fas fa-gem"></i>
+                                </div>
+                                <h4 class="font-bold">NFT ROI</h4>
+                                <p class="text-sm text-gray-600">Monthly returns</p>
+                            </div>
+                        </div>
+                        <div class="mt-6 text-center">
+                            <div class="bg-gradient-to-r from-bh-blue to-bh-purple text-white p-4 rounded-lg inline-block">
+                                <p class="font-bold">All income streams paid in BH Tokens</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Income Structure -->
+        <section id="income" class="presentation-slide mb-16">
+            <h2 class="text-4xl font-bold text-gray-800 mb-8 text-center">💰 BH Token Income Structure</h2>
+            
+            <div class="section-card p-8 max-w-5xl mx-auto">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div>
+                        <h3 class="text-2xl font-bold text-gray-800 mb-6">Entry Requirements</h3>
+                        <div class="bg-white p-6 rounded-lg border border-gray-200">
+                            <div class="flex items-center mb-4">
+                                <div class="bg-green-100 p-3 rounded-full mr-4">
+                                    <i class="fas fa-user-check text-green-500"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-lg">Free Registration</h4>
+                                    <p class="text-gray-600">No cost to join the ecosystem</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center">
+                                <div class="bg-blue-100 p-3 rounded-full mr-4">
+                                    <i class="fas fa-bolt text-blue-500"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-lg">$30 BH Token Activation</h4>
+                                    <p class="text-gray-600">One-time fee to unlock earning potential</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <h3 class="text-2xl font-bold text-gray-800 mt-8 mb-4">Direct Bonus (8%)</h3>
+                        <div class="bg-gradient-to-r from-bh-blue to-bh-purple text-white p-6 rounded-lg">
+                            <p class="text-lg font-bold text-center">Calculation Formula</p>
+                            <p class="text-3xl font-bold text-center my-4">Direct Bonus = Joining Amount × 8%</p>
+                            <p class="text-center">Example: $30 activation = $2.40 in BH Tokens to referrer</p>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <h3 class="text-2xl font-bold text-gray-800 mb-6 text-center">BH Token Income Distribution</h3>
+                        <div class="bg-white p-4 rounded-lg border border-gray-200 mb-6">
+                            <div id="incomeDistributionChart" style="height: 300px;"></div>
+                        </div>
+                        
+                        <div class="bg-yellow-50 p-4 rounded-lg border border-yellow-200">
+                            <h4 class="font-bold text-lg mb-2">BH Token Income Potential</h4>
+                            <p class="text-gray-600">With a growing organization, members can earn BH Tokens from multiple streams simultaneously, creating compound growth in their income.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mt-12">
+                    <h3 class="text-2xl font-bold text-gray-800 mb-6 text-center">Unilevel Income (21 Levels)</h3>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
+                        <div class="commission-level">
+                            <h4 class="font-bold text-lg">Level 1</h4>
+                            <p class="text-green-500 font-bold">2% Commission</p>
+                            <p class="text-sm text-gray-600">Direct referrals</p>
+                        </div>
+                        <div class="commission-level">
+                            <h4 class="font-bold text-lg">Level 2</h4>
+                            <p class="text-green-500 font-bold">0.5% Commission</p>
+                            <p class="text-sm text-gray-600">Second level</p>
+                        </div>
+                        <div class="commission-level">
+                            <h4 class="font-bold text-lg">Level 3</h4>
+                            <p class="text-green-500 font-bold">0.5% Commission</p>
+                            <p class="text-sm text-gray-600">Third level</p>
+                        </div>
+                        <div class="commission-level">
+                            <h4 class="font-bold text-lg">Level 4-15</h4>
+                            <p class="text-green-500 font-bold">0.25% Each</p>
+                            <p class="text-sm text-gray-600">12 levels total</p>
+                        </div>
+                        <div class="commission-level">
+                            <h4 class="font-bold text-lg">Level 16-19</h4>
+                            <p class="text-green-500 font-bold">0.17% Each</p>
+                            <p class="text-sm text-gray-600">4 levels total</p>
+                        </div>
+                        <div class="commission-level">
+                            <h4 class="font-bold text-lg">Level 20-21</h4>
+                            <p class="text-green-500 font-bold">0.16% Each</p>
+                            <p class="text-sm text-gray-600">Final 2 levels</p>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-gray-100 p-6 rounded-lg">
+                        <h4 class="font-bold text-lg mb-4">Real-World BH Token Earnings Example</h4>
+                        <div class="bg-white p-4 rounded border border-gray-200">
+                            <p class="font-bold mb-2">You (Root) - 1 person</p>
+                            <div class="ml-4">
+                                <p class="mb-1">├── Level 1 (2% commission) - 12 members</p>
+                                <p class="mb-1 ml-4">├── Member A</p>
+                                <p class="mb-1 ml-4">├── Member B</p>
+                                <p class="mb-1 ml-4">└── 10 more members...</p>
+                                <p class="mb-1">├── Level 2 (0.5% commission) - 50 members</p>
+                                <p class="mb-1 ml-4">├── Network A</p>
+                                <p class="mb-1 ml-4">└── Network B</p>
+                                <p class="mb-1">└── Level 3 (0.5% commission) - 120 members</p>
+                                <p class="mb-1 ml-4">├── Extended Network</p>
+                                <p class="ml-4">└── Deep Network</p>
+                            </div>
+                            <div class="mt-4 p-3 bg-blue-50 rounded">
+                                <p class="font-bold text-blue-700">Total Organization: 183 members</p>
+                                <p class="text-sm text-blue-600">BH Token commissions earned from all levels based on their activities</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- NFT System -->
+        <section id="nft" class="presentation-slide mb-16">
+            <h2 class="text-4xl font-bold text-gray-800 mb-8 text-center">🎯 BH Token NFT-Based ROI System</h2>
+            
+            <div class="section-card p-8 max-w-6xl mx-auto">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div>
+                        <h3 class="text-2xl font-bold text-gray-800 mb-4">How It Works</h3>
+                        <p class="text-gray-600 mb-6">
+                            The NFT-Based ROI System allows members to earn lifetime returns in BH Tokens by holding NFTs within the ecosystem. 
+                            Each NFT has a specific value and generates monthly returns based on that value.
+                        </p>
+                        
+                        <div class="bg-purple-50 p-6 rounded-lg mb-6">
+                            <h4 class="font-bold text-lg mb-3">Eligibility Requirements</h4>
+                            <ul class="space-y-2">
+                                <li class="flex items-center">
+                                    <i class="fas fa-check-circle text-purple-500 mr-2"></i>
+                                    <span>Complete Monoline Level 5</span>
+                                </li>
+                                <li class="flex items-center">
+                                    <i class="fas fa-check-circle text-purple-500 mr-2"></i>
+                                    <span>$30 BH Token Activation Fee Paid</span>
+                                </li>
+                                <li class="flex items-center">
+                                    <i class="fas fa-check-circle text-purple-500 mr-2"></i>
+                                    <span>Active Account Status</span>
+                                </li>
+                                <li class="flex items-center">
+                                    <i class="fas fa-check-circle text-purple-500 mr-2"></i>
+                                    <span>Minimum NFT Value: $1,000 in BH Tokens</span>
+                                </li>
+                            </ul>
+                        </div>
+                        
+                        <h3 class="text-2xl font-bold text-gray-800 mb-4">BH Token ROI Calculation</h3>
+                        <div class="bg-gradient-to-r from-bh-purple to-pink-500 text-white p-6 rounded-lg">
+                            <div class="text-center">
+                                <p class="text-xl font-bold">$1,000 NFT × 3.3% = $33 monthly ROI in BH Tokens</p>
+                                <p class="text-2xl font-bold mt-4">Annual ROI: $33 × 12 = $396 in BH Tokens</p>
+                                <p class="mt-2">(39.6% annual return in BH Tokens)</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <h3 class="text-2xl font-bold text-gray-800 mb-4">NFT Value Progression</h3>
+                        <p class="text-gray-600 mb-6">
+                            As you progress through the monoline levels, you unlock higher-value NFTs with increased ROI percentages paid in BH Tokens.
+                        </p>
+                        
+                        <div class="space-y-4 mb-8">
+                            <div>
+                                <div class="flex justify-between mb-1">
+                                    <span class="font-bold">Level 5</span>
+                                    <span>$1,000 in BH Tokens</span>
+                                </div>
+                                <div class="nft-value-bar" style="width: 20%">$1,000</div>
+                            </div>
+                            <div>
+                                <div class="flex justify-between mb-1">
+                                    <span class="font-bold">Level 8</span>
+                                    <span>$3,000 in BH Tokens</span>
+                                </div>
+                                <div class="nft-value-bar" style="width: 40%">$3,000</div>
+                            </div>
+                            <div>
+                                <div class="flex justify-between mb-1">
+                                    <span class="font-bold">Level 12</span>
+                                    <span>$6,000 in BH Tokens</span>
+                                </div>
+                                <div class="nft-value-bar" style="width: 60%">$6,000</div>
+                            </div>
+                            <div>
+                                <div class="flex justify-between mb-1">
+                                    <span class="font-bold">Level 16</span>
+                                    <span>$10,000 in BH Tokens</span>
+                                </div>
+                                <div class="nft-value-bar" style="width: 80%">$10,000</div>
+                            </div>
+                            <div>
+                                <div class="flex justify-between mb-1">
+                                    <span class="font-bold">Level 21</span>
+                                    <span>$25,000 in BH Tokens</span>
+                                </div>
+                                <div class="nft-value-bar" style="width: 100%">$25,000</div>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-blue-50 p-4 rounded-lg">
+                            <h4 class="font-bold text-lg mb-2">BH Token ROI Boost System</h4>
+                            <p class="text-gray-600">
+                                When members in your downline reach certain milestones, your ROI percentage increases.
+                            </p>
+                            <p class="font-bold mt-2 text-blue-700">
+                                3 achievers in your downline = 3 × 1.7% = +5.1% Boost
+                            </p>
+                            <p class="font-bold text-blue-700">
+                                New Total ROI: 3.3% + 5.1% = 8.4% Monthly in BH Tokens
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mt-12">
+                    <h3 class="text-2xl font-bold text-gray-800 mb-6 text-center">BH Token NFT Maintenance Rules</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div class="bg-white p-6 rounded-lg border border-gray-200 text-center">
+                            <div class="text-blue-500 text-3xl mb-3">
+                                <i class="fas fa-sync-alt"></i>
+                            </div>
+                            <h4 class="font-bold text-lg mb-2">Monthly Verification</h4>
+                            <p class="text-gray-600">Account activity checked monthly to maintain NFT benefits</p>
+                        </div>
+                        <div class="bg-white p-6 rounded-lg border border-gray-200 text-center">
+                            <div class="text-green-500 text-3xl mb-3">
+                                <i class="fas fa-chart-line"></i>
+                            </div>
+                            <h4 class="font-bold text-lg mb-2">Quarterly Growth Check</h4>
+                            <p class="text-gray-600">Network growth reviewed every quarter</p>
+                        </div>
+                        <div class="bg-white p-6 rounded-lg border border-gray-200 text-center">
+                            <div class="text-purple-500 text-3xl mb-3">
+                                <i class="fas fa-clipboard-check"></i>
+                            </div>
+                            <h4 class="font-bold text-lg mb-2">Annual Review</h4>
+                            <p class="text-gray-600">Comprehensive account review annually</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Loan System -->
+        <section id="loan" class="presentation-slide mb-16">
+            <h2 class="text-4xl font-bold text-gray-800 mb-8 text-center">💳 BH Token Loan System</h2>
+            
+            <div class="section-card p-8 max-w-6xl mx-auto">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div>
+                        <h3 class="text-2xl font-bold text-gray-800 mb-4">BH Token Loan Eligibility & Tiers</h3>
+                        <p class="text-gray-600 mb-6">
+                            The loan system provides financial flexibility for qualified members in BH Tokens. 
+                            Loans are automatically deducted from earnings with progressive unlocks as repayments are made.
+                        </p>
+                        
+                        <div class="bg-yellow-50 p-4 rounded-lg mb-6">
+                            <div class="flex items-center">
+                                <div class="bg-yellow-100 p-3 rounded-full mr-4">
+                                    <i class="fas fa-medal text-yellow-600"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-lg">Gold Rank Required</h4>
+                                    <p class="text-gray-600">Achieve Gold rank or higher to access BH Token loan system</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="space-y-4">
+                            <div class="bg-white p-4 rounded-lg border border-gray-200 shadow-sm">
+                                <div class="flex justify-between items-center">
+                                    <h4 class="font-bold text-lg">$1,000 BH Token Loan</h4>
+                                    <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-bold">10% Monthly Deduction</span>
+                                </div>
+                            </div>
+                            <div class="bg-white p-4 rounded-lg border border-gray-200 shadow-sm">
+                                <div class="flex justify-between items-center">
+                                    <h4 class="font-bold text-lg">$2,000 BH Token Loan</h4>
+                                    <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm font-bold">20% Monthly Deduction</span>
+                                </div>
+                            </div>
+                            <div class="bg-white p-4 rounded-lg border border-gray-200 shadow-sm">
+                                <div class="flex justify-between items-center">
+                                    <h4 class="font-bold text-lg">$3,000 BH Token Loan</h4>
+                                    <span class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-sm font-bold">30% Monthly Deduction</span>
+                                </div>
+                            </div>
+                            <div class="bg-white p-4 rounded-lg border border-gray-200 shadow-sm">
+                                <div class="flex justify-between items-center">
+                                    <h4 class="font-bold text-lg">$4,000 BH Token Loan</h4>
+                                    <span class="bg-orange-100 text-orange-800 px-3 py-1 rounded-full text-sm font-bold">40% Monthly Deduction</span>
+                                </div>
+                            </div>
+                            <div class="bg-white p-4 rounded-lg border border-gray-200 shadow-sm">
+                                <div class="flex justify-between items-center">
+                                    <h4 class="font-bold text-lg">$5,000 BH Token Loan</h4>
+                                    <span class="bg-red-100 text-red-800 px-3 py-1 rounded-full text-sm font-bold">50% Monthly Deduction</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <h3 class="text-2xl font-bold text-gray-800 mb-4">BH Token Loan Recovery & Unlock Progression</h3>
+                        
+                        <div class="bg-white p-6 rounded-lg border border-gray-200 mb-6">
+                            <h4 class="font-bold text-lg mb-4 text-center">Repayment Milestones</h4>
+                            <div class="space-y-4">
+                                <div class="flex items-center">
+                                    <div class="bg-yellow-100 p-3 rounded-full mr-4">
+                                        <span class="text-yellow-600 font-bold">50%</span>
+                                    </div>
+                                    <div>
+                                        <p class="font-medium">5% BH Tokens Unlocked</p>
+                                        <p class="text-sm text-gray-600">Half of loan repaid</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-center">
+                                    <div class="bg-orange-100 p-3 rounded-full mr-4">
+                                        <span class="text-orange-600 font-bold">70%</span>
+                                    </div>
+                                    <div>
+                                        <p class="font-medium">10% BH Tokens Unlocked</p>
+                                        <p class="text-sm text-gray-600">Significant progress made</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-center">
+                                    <div class="bg-green-100 p-3 rounded-full mr-4">
+                                        <span class="text-green-600 font-bold">100%</span>
+                                    </div>
+                                    <div>
+                                        <p class="font-medium">Full Unlock + Staking</p>
+                                        <p class="text-sm text-gray-600">Loan fully repaid, all benefits restored</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <h3 class="text-2xl font-bold text-gray-800 mb-4">BH Token Restaking Program</h3>
+                        <div class="bg-gradient-to-r from-bh-green to-bh-blue text-white p-6 rounded-lg">
+                            <h4 class="font-bold text-xl mb-2">Post-Loan Benefits</h4>
+                            <p>After fully repaying a loan, members can participate in the restaking program with enhanced returns in BH Tokens.</p>
+                            <div class="mt-4 bg-white bg-opacity-20 p-4 rounded">
+                                <p class="font-bold">Example: $1,000 fully repaid in BH Tokens</p>
+                                <p>→ 3% monthly ROI = $30 monthly in BH Tokens through restaking</p>
+                                <p class="mt-2">12-month lock ensures consistent returns in BH Tokens</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mt-12">
+                    <h3 class="text-2xl font-bold text-gray-800 mb-6 text-center">Complete BH Token Loan Flow</h3>
+                    <div class="bg-gray-50 p-6 rounded-lg">
+                        <div class="flex flex-wrap justify-center gap-4">
+                            <div class="bg-white p-4 rounded-lg border border-blue-200 text-center w-40">
+                                <div class="text-blue-500 text-2xl mb-2">
+                                    <i class="fas fa-medal"></i>
+                                </div>
+                                <p class="font-bold">Reach Gold Rank</p>
+                            </div>
+                            <div class="flex items-center text-gray-400">
+                                <i class="fas fa-arrow-right"></i>
+                            </div>
+                            <div class="bg-white p-4 rounded-lg border border-blue-200 text-center w-40">
+                                <div class="text-blue-500 text-2xl mb-2">
+                                    <i class="fas fa-hand-holding-usd"></i>
+                                </div>
+                                <p class="font-bold">Apply for BH Token Loan</p>
+                            </div>
+                            <div class="flex items-center text-gray-400">
+                                <i class="fas fa-arrow-right"></i>
+                            </div>
+                            <div class="bg-white p-4 rounded-lg border border-blue-200 text-center w-40">
+                                <div class="text-blue-500 text-2xl mb-2">
+                                    <i class="fas fa-calendar-alt"></i>
+                                </div>
+                                <p class="font-bold">Monthly BH Token Deductions</p>
+                            </div>
+                            <div class="flex items-center text-gray-400">
+                                <i class="fas fa-arrow-right"></i>
+                            </div>
+                            <div class="bg-white p-4 rounded-lg border border-green-200 text-center w-40">
+                                <div class="text-green-500 text-2xl mb-2">
+                                    <i class="fas fa-lock-open"></i>
+                                </div>
+                                <p class="font-bold">Full BH Token Repayment</p>
+                            </div>
+                            <div class="flex items-center text-gray-400">
+                                <i class="fas fa-arrow-right"></i>
+                            </div>
+                            <div class="bg-white p-4 rounded-lg border border-green-200 text-center w-40">
+                                <div class="text-green-500 text-2xl mb-2">
+                                    <i class="fas fa-chart-line"></i>
+                                </div>
+                                <p class="font-bold">Restake & Earn BH Tokens</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Tokenomics -->
+        <section id="tokenomics" class="presentation-slide mb-16">
+            <h2 class="text-4xl font-bold text-gray-800 mb-8 text-center">💎 BH Tokenomics</h2>
+            
+            <div class="section-card p-8 max-w-6xl mx-auto">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div>
+                        <h3 class="text-2xl font-bold text-gray-800 mb-6">BH Token Supply Distribution</h3>
+                        <div class="bg-white p-4 rounded-lg border border-gray-200 mb-6">
+                            <div id="tokenomicsChart" style="height: 300px;"></div>
+                        </div>
+                        
+                        <div class="bg-red-50 p-6 rounded-lg">
+                            <h4 class="font-bold text-lg mb-3">BH Token Burning Mechanism (9%)</h4>
+                            <ul class="space-y-2">
+                                <li class="flex items-start">
+                                    <span class="text-red-500 mr-2">•</span>
+                                    <span><strong>Transaction Tax:</strong> 9% on all BH Token transfers</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="text-red-500 mr-2">•</span>
+                                    <span><strong>Burn Address:</strong> Permanent BH Token removal from circulation</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="text-red-500 mr-2">•</span>
+                                    <span><strong>Deflationary Effect:</strong> Continuous supply reduction creates natural BH Token price appreciation</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <h3 class="text-2xl font-bold text-gray-800 mb-6">BH Token Price Drivers & Sustainability</h3>
+                        
+                        <div class="grid grid-cols-2 gap-4 mb-6">
+                            <div class="bg-blue-50 p-4 rounded text-center">
+                                <div class="text-blue-500 text-2xl mb-2">
+                                    <i class="fas fa-chart-line"></i>
+                                </div>
+                                <p class="font-bold">Scarcity</p>
+                                <p class="text-sm text-gray-600 mt-1">Fixed supply with burning</p>
+                            </div>
+                            <div class="bg-green-50 p-4 rounded text-center">
+                                <div class="text-green-500 text-2xl mb-2">
+                                    <i class="fas fa-tools"></i>
+                                </div>
+                                <p class="font-bold">Utility</p>
+                                <p class="text-sm text-gray-600 mt-1">Multiple use cases in ecosystem</p>
+                            </div>
+                            <div class="bg-purple-50 p-4 rounded text-center">
+                                <div class="text-purple-500 text-2xl mb-2">
+                                    <i class="fas fa-users"></i>
+                                </div>
+                                <p class="font-bold">Demand</p>
+                                <p class="text-sm text-gray-600 mt-1">Growing user base and adoption</p>
+                            </div>
+                            <div class="bg-yellow-50 p-4 rounded text-center">
+                                <div class="text-yellow-500 text-2xl mb-2">
+                                    <i class="fas fa-lock"></i>
+                                </div>
+                                <p class="font-bold">Staking</p>
+                                <p class="text-sm text-gray-600 mt-1">Reduced circulating supply</p>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-gradient-to-r from-bh-blue to-bh-purple text-white p-6 rounded-lg">
+                            <h4 class="font-bold text-xl mb-2">BH Token Sustainability Model</h4>
+                            <p>The ecosystem is designed with multiple economic controls to ensure long-term BH Token stability and growth:</p>
+                            <ul class="mt-3 space-y-2">
+                                <li class="flex items-start">
+                                    <i class="fas fa-check mr-2 mt-1"></i>
+                                    <span>BH Token-based ROI prevents cash drain from the system</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-check mr-2 mt-1"></i>
+                                    <span>Staking locks reduce BH Token selling pressure</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-check mr-2 mt-1"></i>
+                                    <span>Loan auto-deduction ensures guaranteed BH Token recovery</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-check mr-2 mt-1"></i>
+                                    <span>Performance-based NFT unlocks encourage organic BH Token growth</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mt-12">
+                    <h3 class="text-2xl font-bold text-gray-800 mb-6 text-center">BH Token Price Calculation Example</h3>
+                    <div class="bg-white p-6 rounded-lg border border-gray-200">
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
+                            <div>
+                                <p class="text-lg font-bold text-bh-blue">Initial Supply</p>
+                                <p class="text-2xl font-bold">1,200,000</p>
+                                <p class="text-sm text-gray-600">BH Tokens</p>
+                            </div>
+                            <div>
+                                <p class="text-lg font-bold text-bh-green">Monthly Burn</p>
+                                <p class="text-2xl font-bold">~2%</p>
+                                <p class="text-sm text-gray-600">of BH Token transactions</p>
+                            </div>
+                            <div>
+                                <p class="text-lg font-bold text-bh-purple">Projected Growth</p>
+                                <p class="text-2xl font-bold">Compound</p>
+                                <p class="text-sm text-gray-600">BH Token appreciation</p>
+                            </div>
+                        </div>
+                        <div class="mt-6 bg-gray-50 p-4 rounded">
+                            <p class="text-center font-bold">With a fixed supply and continuous burning, BH Token value has natural appreciation pressure as adoption grows.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Getting Started -->
+        <section class="presentation-slide mb-16">
+            <h2 class="text-4xl font-bold text-gray-800 mb-8 text-center">🎯 Getting Started with BH Token</h2>
+            
+            <div class="section-card p-8 max-w-5xl mx-auto">
+                <h3 class="text-2xl font-bold text-gray-800 mb-6 text-center">Complete BH Token User Journey</h3>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+                    <div class="bg-green-50 p-6 rounded-lg border border-green-200 text-center">
+                        <div class="text-3xl mb-3 text-green-500">
+                            <i class="fas fa-user-plus"></i>
+                        </div>
+                        <h3 class="font-bold text-lg">Free Registration</h3>
+                        <p class="text-sm mt-2">Join the BH Token ecosystem for free with basic account</p>
+                    </div>
+                    <div class="bg-blue-50 p-6 rounded-lg border border-blue-200 text-center">
+                        <div class="text-3xl mb-3 text-blue-500">
+                            <i class="fas fa-bolt"></i>
+                        </div>
+                        <h3 class="font-bold text-lg">$30 BH Token Activation</h3>
+                        <p class="text-sm mt-2">Pay one-time fee to unlock BH Token earning potential</p>
+                    </div>
+                    <div class="bg-purple-50 p-6 rounded-lg border border-purple-200 text-center">
+                        <div class="text-3xl mb-3 text-purple-500">
+                            <i class="fas fa-gem"></i>
+                        </div>
+                        <h3 class="font-bold text-lg">Unlock NFT</h3>
+                        <p class="text-sm mt-2">Access BH Token NFT ROI system after reaching Level 5</p>
+                    </div>
+                    <div class="bg-green-100 p-6 rounded-lg border border-green-300 text-center">
+                        <div class="text-3xl mb-3 text-green-600">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <h3 class="font-bold text-lg">Restake & Earn BH Tokens</h3>
+                        <p class="text-sm mt-2">Maximize BH Token returns through advanced programs</p>
+                    </div>
+                </div>
+                
+             
+                
+              
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // Initialize charts when the page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            // Token Distribution Chart
+            var tokenDistributionOptions = {
+                series: [80, 20],
+                chart: {
+                    type: 'donut',
+                    height: 300
+                },
+                labels: ['Locked Supply', 'Circulating Supply'],
+                colors: ['#7C3AED', '#1E40AF'],
+                legend: {
+                    position: 'bottom'
+                },
+                responsive: [{
+                    breakpoint: 480,
+                    options: {
+                        chart: {
+                            width: 200
+                        },
+                        legend: {
+                            position: 'bottom'
+                        }
+                    }
+                }]
+            };
+
+            var tokenDistributionChart = new ApexCharts(document.querySelector("#tokenDistributionChart"), tokenDistributionOptions);
+            tokenDistributionChart.render();
+
+            // Income Distribution Chart
+            var incomeDistributionOptions = {
+                series: [{
+                    data: [8, 7, 3, 82]
+                }],
+                chart: {
+                    type: 'bar',
+                    height: 300
+                },
+                plotOptions: {
+                    bar: {
+                        borderRadius: 4,
+                        horizontal: true,
+                        distributed: true,
+                    }
+                },
+                dataLabels: {
+                    enabled: true,
+                    formatter: function(val) {
+                        return val + "%";
+                    }
+                },
+                xaxis: {
+                    categories: ['Direct Bonus', 'Unilevel Bonus', 'Rank Pool', 'Other Benefits'],
+                },
+                colors: ['#1E40AF', '#059669', '#7C3AED', '#6B7280'],
+            };
+
+            var incomeDistributionChart = new ApexCharts(document.querySelector("#incomeDistributionChart"), incomeDistributionOptions);
+            incomeDistributionChart.render();
+
+            // Tokenomics Chart
+            var tokenomicsOptions = {
+                series: [{
+                    name: 'BH Token Supply',
+                    data: [1.2, 0.95, 0.75, 0.6]
+                }],
+                chart: {
+                    type: 'line',
+                    height: 300
+                },
+                stroke: {
+                    width: 3,
+                    curve: 'smooth'
+                },
+                xaxis: {
+                    categories: ['Initial', 'After 1 Year', 'After 2 Years', 'After 3 Years'],
+                },
+                yaxis: {
+                    title: {
+                        text: 'BH Tokens (Millions)'
+                    }
+                },
+                colors: ['#1E40AF'],
+                markers: {
+                    size: 5,
+                }
+            };
+
+            var tokenomicsChart = new ApexCharts(document.querySelector("#tokenomicsChart"), tokenomicsOptions);
+            tokenomicsChart.render();
+        });
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Update progress bar as user scrolls
+        window.addEventListener('scroll', function() {
+            const winHeight = window.innerHeight;
+            const docHeight = document.documentElement.scrollHeight;
+            const scrollTop = window.pageYOffset;
+            const trackLength = docHeight - winHeight;
+            const progress = Math.floor(scrollTop / trackLength * 100);
+            
+            document.getElementById('progress-fill').style.width = progress + '%';
+            
+            // Update active slide dots
+            const sections = document.querySelectorAll('section');
+            let currentSection = '';
+            
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop - 100;
+                if (scrollTop >= sectionTop) {
+                    currentSection = section.getAttribute('id');
+                }
+            });
+            
+            document.querySelectorAll('.slide-dot').forEach(dot => {
+                dot.classList.remove('active');
+                if (dot.getAttribute('data-slide') === currentSection) {
+                    dot.classList.add('active');
+                }
+            });
+        });
+
+        // Slide dot navigation
+        document.querySelectorAll('.slide-dot').forEach(dot => {
+            dot.addEventListener('click', function() {
+                const targetSection = this.getAttribute('data-slide');
+                const targetElement = document.getElementById(targetSection);
+                if (targetElement) {
+                    targetElement.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Animate elements on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate-fade-in');
+                }
+            });
+        }, observerOptions);
+
+        // Observe all section cards for animation
+        document.querySelectorAll('.section-card').forEach(card => {
+            observer.observe(card);
+        });
+    </script>
+</body>
+</html>
