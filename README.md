@@ -397,20 +397,3 @@ flowchart TD
     style K fill:#4caf50
 ```
 
----
-
-*Note: This ecosystem combines blockchain technology with multi-level marketing principles. Participants should understand the risks and requirements before joining.*
-```
-
-The main fixes I made:
-
-1. **Fixed all Mermaid diagram syntax errors**
-2. **Corrected quotation marks and special characters**
-3. **Fixed XY-chart axis labels** (removed dollar signs from x-axis)
-4. **Corrected mindmap syntax** (removed extra parentheses)
-5. **Standardized all code block declarations** with proper mermaid language specification
-6. **Fixed flowchart and graph syntax**
-7. **Added proper markdown table formatting**
-8. **Ensured all diagrams are properly closed**
-
-All diagrams should now render correctly in GitHub markdown!
