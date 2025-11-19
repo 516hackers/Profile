@@ -8,7 +8,7 @@ A revolutionary Hybrid Crypto + MLM Ecosystem combining multiple income streams 
 - **Monoline Income** - Global single line system
 - **Unilevel Income** - 21-level deep compensation
 - **Direct Bonus** - 8% immediate rewards
-- **Rank Rewards** - Performance-based achievements
+- **Rank Rewards** - Performance-based achievements 
 - **NFT-Based ROI System** - Lifetime returns
 - **Loan & Restaking Program** - Financial flexibility
 
