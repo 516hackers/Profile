@@ -1,5 +1,5 @@
  
-# MLM Crypto Ecosystem – Hybrid Token + NFT Model
+# MLM Crypto Ecosystem – Hybrid Token + NFT Model 
 
 ## 🌟 Overview 
 A revolutionary Hybrid Crypto + MLM Ecosystem combining multiple income streams with blockchain technology.
