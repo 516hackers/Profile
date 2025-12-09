@@ -4,7 +4,7 @@
 ## 🌟 Overview  
 A revolutionary Hybrid Crypto + MLM Ecosystem combining multiple income streams with blockchain technology.
 
-## 🔧 Core Components
+## 🔧 Core Components 
 - **Monoline Income** - Global single line system
 - **Unilevel Income** - 21-level deep compensation
 - **Direct Bonus** - 8% immediate rewards 
