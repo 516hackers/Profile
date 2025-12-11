@@ -3,19 +3,13 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Wallet Connect V2 Direct Provider</title>
+    <title>Wallet Connect V2 UMD Fix</title>
     
     <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
     
-    <script type="module">
-        // This is a minimal way to make the EthereumProvider class available globally 
-        // using the CDN import map method, which is generally more reliable.
-        import { EthereumProvider } from 'https://cdn.jsdelivr.net/npm/@walletconnect/ethereum-provider@2.14.2/+esm';
-        window.EthereumProvider = EthereumProvider;
-        console.log("EthereumProvider module loaded.");
-    </script>
+    <script src="https://cdn.jsdelivr.net/npm/@walletconnect/ethereum-provider@2.14.2/dist/index.umd.js"></script>
     
-    <script type="module" src="index.js"></script>
+    <script src="index.js"></script>
     
     <link rel="stylesheet" href="style.css">
 </head>
