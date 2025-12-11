@@ -24,7 +24,6 @@ function setUIConnected(isConnected) {
     if (disconnectButton) disconnectButton.disabled = !isConnected;
     
     if (isConnected && account) {
-        // Display a shortened version of the address
         addressElement.innerHTML = account.substring(0, 6) + '...' + account.substring(account.length - 4);
     } else {
         addressElement.innerHTML = "Not Connected";
@@ -37,10 +36,12 @@ function setUIConnected(isConnected) {
  * Initializes the V2 EthereumProvider using the globally exposed UMD class.
  */
 const initializeProvider = async () => {
+    // 🟢 FIX: Check for the most common global name for the V2 UMD bundle
+    const WcProviderClass = window.WalletConnectEthereumProvider || window.EthereumProvider;
+    
     try {
-        // Checking for the correct global object name from the UMD bundle
-        if (window.WalletConnectEthereumProvider) { 
-            provider = await window.WalletConnectEthereumProvider.init({
+        if (WcProviderClass) { 
+            provider = await WcProviderClass.init({
                 projectId: projectId, 
                 chains: [XDC_CHAIN_ID],
                 rpcMap: {
@@ -56,7 +57,7 @@ const initializeProvider = async () => {
             setupEventListeners();
             return true;
         } else {
-            console.error("Initialization Failed: The global WalletConnectEthereumProvider object was not found. Check the UMD script tag in index.html.");
+            console.error("Initialization Failed: Neither WalletConnectEthereumProvider nor EthereumProvider was found. Check the UMD script tag in index.html.");
             return false;
         }
     } catch (error) {
@@ -84,7 +85,8 @@ const connectWC = async () => {
         
         if (accounts.length > 0) {
             account = accounts[0];
-            web3 = new Web3(provider);
+            // Re-initialize Web3.js with the connected provider
+            web3 = new Web3(provider); 
             setUIConnected(true);
 
             const balance = await web3.eth.getBalance(account);
@@ -162,7 +164,6 @@ const setupEventListeners = () => {
 
     provider.on('accountsChanged', (newAccounts) => {
         if (newAccounts.length > 0) {
-            // Extract the address part
             account = newAccounts[0].split(':').pop();
             setUIConnected(true);
             console.log("Account changed to:", account);
@@ -181,7 +182,6 @@ const setupEventListeners = () => {
 
 // --- Initialization Logic ---
 
-// Ensures the initial UI state is set ONLY after the HTML elements are loaded.
 document.addEventListener('DOMContentLoaded', (event) => {
     console.log("DOM fully loaded and parsed. Setting initial state.");
     setUIConnected(false);
