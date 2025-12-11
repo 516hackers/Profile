@@ -24,6 +24,7 @@ function setUIConnected(isConnected) {
     if (disconnectButton) disconnectButton.disabled = !isConnected;
     
     if (isConnected && account) {
+        // Display a shortened version of the address
         addressElement.innerHTML = account.substring(0, 6) + '...' + account.substring(account.length - 4);
     } else {
         addressElement.innerHTML = "Not Connected";
@@ -33,11 +34,11 @@ function setUIConnected(isConnected) {
 // --- Wallet Functions ---
 
 /**
- * Initializes the V2 EthereumProvider and sets up the event listeners.
+ * Initializes the V2 EthereumProvider using the globally exposed UMD class.
  */
 const initializeProvider = async () => {
     try {
-        // 🟢 FIX: The UMD bundle exposes the provider class as WalletConnectEthereumProvider
+        // Checking for the correct global object name from the UMD bundle
         if (window.WalletConnectEthereumProvider) { 
             provider = await window.WalletConnectEthereumProvider.init({
                 projectId: projectId, 
@@ -45,7 +46,7 @@ const initializeProvider = async () => {
                 rpcMap: {
                     [XDC_CHAIN_ID]: XDC_RPC_URL,
                 },
-                showQrModal: true, 
+                showQrModal: true, // Uses the built-in modal
                 optionalChains: [], 
                 methods: ["eth_sendTransaction", "personal_sign", "eth_signTypedData"],
                 events: ["chainChanged", "accountsChanged", "disconnect"]
@@ -55,7 +56,7 @@ const initializeProvider = async () => {
             setupEventListeners();
             return true;
         } else {
-            console.error("WalletConnectEthereumProvider is not defined. Check the script tag for the V2 UMD bundle in index.html.");
+            console.error("Initialization Failed: The global WalletConnectEthereumProvider object was not found. Check the UMD script tag in index.html.");
             return false;
         }
     } catch (error) {
@@ -65,6 +66,7 @@ const initializeProvider = async () => {
     }
 }
 
+// This function is now global and accessible via the HTML onclick attribute
 const connectWC = async () => {
     // Initialize the provider if it's not ready
     if (!provider) {
@@ -77,7 +79,7 @@ const connectWC = async () => {
         
         const session = await provider.connect();
 
-        // Extract accounts from the session object
+        // Extract accounts from the session object (format is namespace:chainid:address)
         const accounts = session.namespaces.eip155.accounts.map(acc => acc.split(':').pop());
         
         if (accounts.length > 0) {
@@ -101,6 +103,7 @@ const connectWC = async () => {
     }
 };
 
+// This function is now global and accessible via the HTML onclick attribute
 const send = async () => {
     if (!web3 || !account) {
         alert("Please connect your wallet first.");
@@ -133,6 +136,7 @@ const send = async () => {
     }
 };
 
+// This function is now global and accessible via the HTML onclick attribute
 const disconnect = async () => {
     try {
         if (provider) {
@@ -158,6 +162,7 @@ const setupEventListeners = () => {
 
     provider.on('accountsChanged', (newAccounts) => {
         if (newAccounts.length > 0) {
+            // Extract the address part
             account = newAccounts[0].split(':').pop();
             setUIConnected(true);
             console.log("Account changed to:", account);
@@ -176,8 +181,8 @@ const setupEventListeners = () => {
 
 // --- Initialization Logic ---
 
+// Ensures the initial UI state is set ONLY after the HTML elements are loaded.
 document.addEventListener('DOMContentLoaded', (event) => {
     console.log("DOM fully loaded and parsed. Setting initial state.");
     setUIConnected(false);
-    // Provider initialization will happen on the first click of Connect Wallet
 });
