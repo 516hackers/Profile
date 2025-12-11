@@ -2,101 +2,100 @@
 // !!! IMPORTANT: REPLACE WITH YOUR PROJECT ID !!!
 const projectId = '87a3bb99cce9e1250fe4d16e89c5b192';
 
-// XDC Network Details (Chain ID 50)
+// XDC Network Details
 const XDC_CHAIN_ID = 50; 
-const XDC_NETWORK = {
-    chainId: XDC_CHAIN_ID,
-    name: 'XDC Network',
-    currency: 'XDC',
-    rpcUrl: 'https://erpc.xdcrpc.com',
-    explorerUrl: 'https://xdcscan.io'
-};
+const XDC_RPC_URL = 'https://erpc.xdcrpc.com';
+const XDC_NETWORK_ID = 'eip155:50'; // Namespace:ChainID for V2
 
 // --- State Variables ---
-let provider = null;
-let web3 = null;
-let account = null;
-let web3Modal = null; // This will hold the instance of Web3Modal
+let provider = null; // The WalletConnect V2 provider
+let web3 = null;     // The Web3.js instance
+let account = null;  // The connected account address
 
 // --- Utility Functions ---
 
 /**
  * Updates the UI state (button disabling and address display).
- * This function MUST be called after the DOM is loaded.
+ * This function is now safer as it only runs after DOMContentLoaded.
  */
 function setUIConnected(isConnected) {
-    // These lookups are now safe because they are inside DOMContentLoaded
+    // Lookups are safe due to DOMContentLoaded listener
+    const connectButton = document.getElementById("connectButton");
     const sendButton = document.getElementById("sendButton");
     const disconnectButton = document.getElementById("disconnectButton");
     const addressElement = document.getElementById("address");
 
+    // Toggle button state
+    if (connectButton) connectButton.disabled = isConnected;
     if (sendButton) sendButton.disabled = !isConnected;
     if (disconnectButton) disconnectButton.disabled = !isConnected;
     
+    // Update address display
     if (isConnected && account) {
-        // Display a shortened version of the address
         addressElement.innerHTML = account.substring(0, 6) + '...' + account.substring(account.length - 4);
     } else {
         addressElement.innerHTML = "Not Connected";
     }
 }
 
-/**
- * Initializes the Web3Modal instance.
- * Checks for the global object created by the UMD script in index.html.
- */
-const initializeWeb3Modal = () => {
-    // Check for the global Web3Modal object (created by the CDN script)
-    if (window.Web3Modal && window.Web3Modal.Web3Modal) {
-        web3Modal = new window.Web3Modal.Web3Modal({
-            projectId,
-            chains: [XDC_NETWORK],
-            themeMode: 'light',
-            enableAuthMode: false 
-        });
-        console.log("Web3Modal V2 Initialized successfully.");
-    } else {
-        console.error("Web3Modal V2 is not loaded. Ensure the script tag in index.html is correct and loaded before index.js.");
-    }
-};
-
 // --- Wallet Functions ---
 
+/**
+ * Initializes the V2 EthereumProvider and sets up the event listeners.
+ */
+const initializeProvider = async () => {
+    try {
+        // EthereumProvider is exposed globally by the module import in index.html
+        if (window.EthereumProvider) {
+            provider = await window.EthereumProvider.init({
+                projectId: projectId, 
+                chains: [XDC_CHAIN_ID], // Required chain ID
+                rpcMap: {
+                    [XDC_CHAIN_ID]: XDC_RPC_URL,
+                },
+                showQrModal: true, // Use the built-in modal
+                optionalChains: [], 
+                methods: ["eth_sendTransaction", "personal_sign", "eth_signTypedData"],
+                events: ["chainChanged", "accountsChanged", "disconnect"]
+            });
+
+            console.log("WalletConnect V2 Provider Initialized.");
+            setupEventListeners();
+        } else {
+            console.error("Window.EthereumProvider is not defined. Check the script type='module' in index.html.");
+        }
+    } catch (error) {
+        console.error("Provider initialization failed:", error);
+        alert("Provider initialization failed. Please check your console.");
+    }
+}
+
 const connectWC = async () => {
-    // Only initialize the modal if it hasn't been done yet (or if the previous attempt failed)
-    if (!web3Modal) {
-        initializeWeb3Modal();
+    // Initialize the provider if it's not ready
+    if (!provider) {
+        await initializeProvider();
     }
-    
-    // Check if initialization succeeded before proceeding
-    if (!web3Modal) {
-        alert("WalletConnect initialization failed. Please check your console for details.");
-        return;
-    }
+
+    if (!provider) return; // Stop if initialization failed
 
     try {
         console.log("Attempting to connect...");
         
-        // Open the modal and get the Ethereum provider (V2 protocol)
-        const modalProvider = await web3Modal.openModal();
+        // Connect opens the QR modal and awaits session establishment
+        const session = await provider.connect();
 
-        // Set the global provider and Web3 instance
-        provider = modalProvider;
-        web3 = new Web3(provider);
-
-        // Get connected accounts
-        // Note: The accounts array comes from the provider itself after connection
-        const accounts = await web3.eth.getAccounts();
+        // Get connected accounts from the session object
+        // The V2 connect method returns an array of accounts
+        const accounts = session.namespaces.eip155.accounts.map(acc => acc.split(':').pop());
+        
         if (accounts.length > 0) {
             account = accounts[0];
+            web3 = new Web3(provider); // Initialize Web3.js with the new provider
             setUIConnected(true);
 
             const balance = await web3.eth.getBalance(account);
             console.log("Connected Address:", account);
             console.log("Balance:", web3.utils.fromWei(balance, "ether"), "XDC");
-
-            // Setup listeners for runtime changes
-            setupEventListeners();
         }
 
     } catch (error) {
@@ -117,9 +116,7 @@ const send = async () => {
     }
 
     try {
-        // Get the recipient address from the input field
         var toAddress = document.getElementById("toAddressInput").value;
-
         if (!toAddress) {
             alert("Please enter a destination address.");
             return;
@@ -129,12 +126,11 @@ const send = async () => {
 
         console.log(`Sending ${web3.utils.fromWei(valueToSend, "ether")} XDC from ${account} to ${toAddress}`);
 
-        // Send the transaction using the connected provider
+        // The sendTransaction call is handled by the V2 provider
         const transaction = await web3.eth.sendTransaction({
             from: account,
             to: toAddress,
             value: valueToSend,
-            // gasPrice and gasLimit are often optional and can be calculated by the wallet
         });
 
         console.log("Transaction successful:", transaction);
@@ -149,7 +145,6 @@ const send = async () => {
 const disconnect = async () => {
     try {
         if (provider) {
-            // This method is available on the WalletConnect V2 provider
             await provider.disconnect(); 
             console.log("Wallet disconnected");
         }
@@ -158,7 +153,6 @@ const disconnect = async () => {
     } finally {
         // Reset state and update UI
         account = null;
-        provider = null;
         web3 = null;
         setUIConnected(false);
     }
@@ -167,16 +161,16 @@ const disconnect = async () => {
 const setupEventListeners = () => {
     if (!provider) return;
 
-    // Disconnect event
+    // The provider emits standard EIP-1193 events
     provider.on('disconnect', () => {
         console.log("Provider disconnected (event triggered)");
         disconnect(); // Call local disconnect to reset state
     });
 
-    // Account change event
     provider.on('accountsChanged', (newAccounts) => {
         if (newAccounts.length > 0) {
-            account = newAccounts[0];
+            // Accounts are returned in the format namespace:chainid:address, so we extract the address
+            account = newAccounts[0].split(':').pop();
             setUIConnected(true);
             console.log("Account changed to:", account);
         } else {
@@ -184,30 +178,25 @@ const setupEventListeners = () => {
         }
     });
 
-    // Chain change event
     provider.on('chainChanged', (chainId) => {
         console.log("Chain ID changed to:", chainId);
-        // Ensure the chain ID is a number for comparison
         if (Number(chainId) !== XDC_CHAIN_ID) {
             alert(`Switched to unsupported chain ${chainId}. Please switch back to XDC Network (${XDC_CHAIN_ID}).`);
-            // You may want to force disconnect here
-            // disconnect(); 
         }
     });
 };
 
-// --- Initialization Logic (MUST be at the end of the file) ---
+// --- Initialization Logic ---
 
 /**
  * Ensures the initialization logic runs ONLY after all HTML elements are loaded.
- * This solves the "Cannot set properties of null (setting 'disabled')" error.
+ * This solves the "Cannot set properties of null" error.
  */
 document.addEventListener('DOMContentLoaded', (event) => {
-    console.log("DOM fully loaded and parsed. Initializing...");
+    console.log("DOM fully loaded and parsed. Setting initial state.");
     
-    // 1. Initialize Web3Modal (attempts to set the global web3Modal variable)
-    initializeWeb3Modal();
-
-    // 2. Set the initial UI state (Now the buttons are guaranteed to exist)
+    // Set the initial UI state (Now the buttons are guaranteed to exist)
     setUIConnected(false);
+    
+    // The provider is initialized when the user clicks connect
 });
