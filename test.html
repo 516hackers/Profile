@@ -3,53 +3,59 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trust Wallet Login Demo (Final Working Code)</title>
+    <title>Trust Wallet Login (AppKit v1.6.0)</title>
 
     <script type="module">
-        // Import AppKit & Wagmi dependencies using the stable version 1.8.10
-        import { createAppKit } from "https://esm.sh/@reown/appkit@1.8.10"; 
-        import { WagmiAdapter } from "https://esm.sh/@reown/appkit-adapter-wagmi@1.8.10"; 
+
+        // --- Core Imports (Requested Version 1.6.0) ---
+        // NOTE: The 'bundle' query parameter is added here, matching the structure you provided.
+        import { createAppKit } from 'https://esm.sh/@reown/appkit@1.6.0?bundle'; 
+        import { WagmiAdapter } from 'https://esm.sh/@reown/appkit-adapter-wagmi@1.6.0?bundle'; 
         
-        // --- Network Definitions (Hardcoded for stability) ---
+        // --- Network Definitions (Hardcoded to prevent 404 on the '/networks?bundle' path) ---
         const mainnet = { id: 1, name: 'Ethereum', nativeCurrency: { name: 'Ether', symbol: 'ETH', decimals: 18 }, rpcUrls: { default: { http: ['https://mainnet.infura.io/v3/'] } } };
         const arbitrum = { id: 42161, name: 'Arbitrum One', nativeCurrency: { name: 'Ether', symbol: 'ETH', decimals: 18 }, rpcUrls: { default: { http: ['https://arb1.arbitrum.io/rpc'] } } };
         const bsc = { id: 56, name: 'BNB Smart Chain', nativeCurrency: { name: 'BNB', symbol: 'BNB', decimals: 18 }, rpcUrls: { default: { http: ['https://bsc-dataseed.bnbchain.org'] } } };
 
 
-        // --- Configuration ---
-        // 🟢 PROJECT ID: Using the Auth API provided by the user
-        const projectId = "7d99fa64-887e-4901-95d4-32af40e920f3"; 
-        
-        const networks = [mainnet, arbitrum, bsc];
-        
-        // 🟢 METADATA EXAMPLE: Fully configured metadata object
-        const metadata = {
-            name: "My Trust DApp", // Your application's name
-            description: "A secure Web3 login portal.", // A short description
-            url: window.location.origin, // Must match your hosted domain (e.g., https://516hackers.github.io/Profile)
-            icons: ["https://example.com/dapp-logo.png"], // URL to your application's logo
-        };
+        // --- Configuration (Matching your requested structure) ---
 
-        // --- Initialization ---
-
+        const projectId = "87a3bb99cce9e1250fe4d16e89c5b192"; 
+        
+        // Equivalent to: export const networks = [mainnet, arbitrum, bsc]; 
+        const networks = [mainnet, arbitrum, bsc]; 
+        
+        // 1. Create Wagmi Adapter
         const wagmiAdapter = new WagmiAdapter({
-            projectId,
-            networks,
-            metadata
+            'projectId': projectId,
+            'networks': networks
         });
-
-        const appkit = createAppKit({
-            adapters: [wagmiAdapter],
-            projectId,
-            networks,
-            metadata,
-            features: {
-                analytics: true
+        
+        // 2. Define Metadata (Using explicit values instead of obfuscated function calls)
+        const metadata = {
+            'name': 'AppKit v1.6.0 Demo', // Equivalent to 'name': 'AppKit Example'
+            'description': 'Web3 Wallet Connection Demo (v1.6.0).', // Equivalent to a0_0x3498fc(0x8f)
+            'url': window.location.origin, // Equivalent to a0_0x3498fc(0x8d)
+            'icons': ["https://example.com/dapp-logo.png"] // Equivalent to [a0_0x3498fc(0x8a)]
+        };
+        
+        // 3. Initialize AppKit Modal
+        const modal = createAppKit({
+            'adapters': [wagmiAdapter],
+            'networks': networks,
+            'metadata': metadata,
+            'projectId': projectId,
+            'features': {
+                'analytics': true // Equivalent to 'analytics': !! []
             }
         });
         
-        // --- Button and Status Display Logic ---
+        // 4. Expose modal instance (Equivalent to window[a0_0x3498fc(0x87)] = modal;)
+        window.web3ModalInstance = modal; 
 
+
+        // --- Status and Display Logic (Functional requirement) ---
+        
         const updateStatus = (account, chainId) => {
             const statusElement = document.getElementById('status-container');
             if (account) {
@@ -64,45 +70,23 @@
             }
         };
 
-        // 🟢 FIX: Function to dynamically insert the button after the SDK is ready
-        const renderAppkitButton = () => {
-            const container = document.getElementById('button-container');
-            const loadingMessage = container.querySelector('p');
-
-            if (container) {
-                // Remove the loading message
-                if (loadingMessage) {
-                     container.removeChild(loadingMessage);
-                }
-                
-                // Insert the appkit-button element
-                const button = document.createElement('appkit-button');
-                container.appendChild(button);
-                console.log("Appkit button rendered successfully.");
-            }
-        };
-
-        // 🟢 Event Listeners 
+        // 5. Event Listeners
         wagmiAdapter.on('connect', ({ account, chainId }) => {
             updateStatus(account, chainId);
-            console.log("Wallet Connected:", account.address, "Chain:", chainId);
         });
 
         wagmiAdapter.on('disconnect', () => {
             updateStatus(null, null);
-            console.log("Wallet Disconnected.");
         });
 
-        wagmiAdapter.on('chainChanged', ({ account, chainId }) => {
-            updateStatus(account, chainId);
-            console.log("Chain Changed to:", chainId);
-        });
-
-        // 🟢 FINAL FIX: Use a timeout to guarantee the custom element is registered
+        // 6. Dynamic button rendering and initial check
         document.addEventListener('DOMContentLoaded', () => {
-            // Wait 1 second before trying to render the button to ensure Web Component registration is complete.
+            // Wait 1 second to ensure the custom element is registered by the SDK
             setTimeout(() => {
-                renderAppkitButton();
+                const container = document.getElementById('button-container');
+                container.innerHTML = ''; // Clear loading message
+                const button = document.createElement('appkit-button');
+                container.appendChild(button);
                 
                 // Initial connection check
                 const initialAccount = wagmiAdapter.getAccount();
@@ -111,8 +95,7 @@
                 } else {
                     updateStatus(null, null);
                 }
-            }, 1000); // 1000ms delay
-
+            }, 1000); 
         });
 
     </script>
@@ -134,16 +117,12 @@
         #status-container p {
             margin: 5px 0;
         }
-        #button-container {
-            min-height: 40px; /* Ensures layout doesn't jump */
-        }
     </style>
-
 </head>
+
 <body>
-
-    <h1>Trust Wallet / Web3 Login Demo</h1>
-
+    <h1>Trust Wallet Login Demo (AppKit v1.6.0)</h1>
+    
     <div id="button-container">
         <p>Loading Wallet SDK...</p>
     </div>
