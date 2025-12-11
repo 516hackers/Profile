@@ -3,60 +3,128 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trust Wallet Login (HTML)</title>
+    <title>Trust Wallet Login Demo (Reown AppKit Fixed)</title>
 
-<script type="module">
-
-// Core AppKit
-import { createAppKit } from "https://cdn.jsdelivr.net/npm/@reown/appkit@1.8.15/dist/appkit.min.js";
-
-// Wagmi Adapter
-import { WagmiAdapter } from "https://cdn.jsdelivr.net/npm/@reown/appkit-adapter-wagmi@1.8.15/dist/wagmi-adapter.min.js";
-
-// Networks (WORKING!)
-import {
-    mainnet,
-    arbitrum,
-    bsc
-} from "https://cdn.jsdelivr.net/npm/@reown/appkit@1.8.15/dist/networks/networks.min.js";
-
-// UI Components (NEEDED FOR <appkit-button>)
-import "https://cdn.jsdelivr.net/npm/@reown/appkit@1.8.15/dist/ui/appkit-ui.min.js";
+    <script type="module">
+        // Import AppKit & Wagmi dependencies using esm.sh
+        import { createAppKit } from "https://esm.sh/@reown/appkit@1.8.10";
+        import { WagmiAdapter } from "https://esm.sh/@reown/appkit-adapter-wagmi@1.8.10";
+        
+        // 🟢 FIX: Define networks directly to avoid the unstable deep import (404 Error)
+        // These are standard EIP-155 network definitions used by Wagmi/AppKit.
+        const mainnet = { id: 1, name: 'Ethereum', nativeCurrency: { name: 'Ether', symbol: 'ETH', decimals: 18 }, rpcUrls: { default: { http: ['https://mainnet.infura.io/v3/'] } } };
+        const arbitrum = { id: 42161, name: 'Arbitrum One', nativeCurrency: { name: 'Ether', symbol: 'ETH', decimals: 18 }, rpcUrls: { default: { http: ['https://arb1.arbitrum.io/rpc'] } } };
+        const bsc = { id: 56, name: 'BNB Smart Chain', nativeCurrency: { name: 'BNB', symbol: 'BNB', decimals: 18 }, rpcUrls: { default: { http: ['https://bsc-dataseed.bnbchain.org'] } } };
 
 
-// ---------------- CONFIG ----------------
-const projectId = "0215bcf8c9091ca434a370c845ebd9b4";
+        // --- Configuration ---
+        const projectId = "87a3bb99cce9e1250fe4d16e89c5b192";
+        
+        // Supported chains
+        const networks = [mainnet, arbitrum, bsc];
+        
+        // RECOMMENDED: Application metadata shown to the user in their wallet
+        const metadata = {
+            name: "Reown AppKit Trust Wallet Demo",
+            description: "A demonstration of wallet login using Reown AppKit.",
+            url: window.location.origin,
+            icons: ["https://example.com/logo.png"],
+        };
 
-const networks = [mainnet, arbitrum, bsc];
+        // --- Initialization ---
 
-const wagmiAdapter = new WagmiAdapter({
-    projectId,
-    networks
-});
+        // Create Wagmi connector
+        const wagmiAdapter = new WagmiAdapter({
+            projectId,
+            networks,
+            metadata
+        });
 
-// Initialize AppKit Modal
-createAppKit({
-    adapters: [wagmiAdapter],
-    projectId,
-    networks
-});
+        // Initialize AppKit Modal
+        const appkit = createAppKit({
+            adapters: [wagmiAdapter],
+            projectId,
+            networks,
+            metadata,
+            features: {
+                analytics: true
+            }
+        });
+        
+        // --- Connection Status Display Logic ---
 
-</script>
+        const updateStatus = (account, chainId) => {
+            const statusElement = document.getElementById('status-container');
+            if (account) {
+                const chainName = networks.find(n => n.id === chainId)?.name || `Chain ID ${chainId}`;
+                statusElement.innerHTML = `
+                    <p style="color: green;">Status: **Connected**</p>
+                    <p>Address: <b>${account.address.substring(0, 6)}...${account.address.slice(-4)}</b></p>
+                    <p>Network: ${chainName}</p>
+                `;
+            } else {
+                statusElement.innerHTML = '<p style="color: red;">Status: **Disconnected**</p>';
+            }
+        };
 
-<style>
-    body {
-        font-family: Arial;
-        padding: 40px;
-    }
-</style>
+        // 🟢 Event Listeners (Wagmi Adapter methods for state changes)
+
+        wagmiAdapter.on('connect', ({ account, chainId }) => {
+            updateStatus(account, chainId);
+            console.log("Wallet Connected:", account.address, "Chain:", chainId);
+        });
+
+        wagmiAdapter.on('disconnect', () => {
+            updateStatus(null, null);
+            console.log("Wallet Disconnected.");
+        });
+
+        wagmiAdapter.on('chainChanged', ({ account, chainId }) => {
+            updateStatus(account, chainId);
+            console.log("Chain Changed to:", chainId);
+        });
+
+        // Initial connection check after page load
+        document.addEventListener('DOMContentLoaded', () => {
+            const initialAccount = wagmiAdapter.getAccount();
+            if (initialAccount) {
+                updateStatus(initialAccount, initialAccount.chainId);
+            } else {
+                updateStatus(null, null);
+            }
+        });
+
+    </script>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 40px;
+            text-align: center;
+        }
+        #status-container {
+            margin-top: 30px;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            display: inline-block;
+            text-align: left;
+        }
+        #status-container p {
+            margin: 5px 0;
+        }
+    </style>
 
 </head>
 <body>
 
-<h1>Login with Trust Wallet</h1>
+    <h1>Trust Wallet / Web3 Login Demo</h1>
 
-<!-- WORKING BUTTON -->
-<appkit-button></appkit-button>
+    <appkit-button></appkit-button>
+
+    <div id="status-container">
+        <p style="color: red;">Status: **Disconnected**</p>
+    </div>
 
 </body>
 </html>
