@@ -163,7 +163,7 @@ const setupEventListeners = () => {
     });
 };
 
-// Initialize Web3Modal when the script loads
-initializeWeb3Modal();
-// Set initial button state
-setUIConnected(false);
+document.addEventListener('DOMContentLoaded', (event) => {
+    initializeWeb3Modal();
+    setUIConnected(false);
+});
