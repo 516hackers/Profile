@@ -5,7 +5,6 @@ const projectId = '87a3bb99cce9e1250fe4d16e89c5b192';
 // XDC Network Details
 const XDC_CHAIN_ID = 50; 
 const XDC_RPC_URL = 'https://erpc.xdcrpc.com';
-const XDC_NETWORK_ID = 'eip155:50'; // Namespace:ChainID for V2
 
 // --- State Variables ---
 let provider = null; // The WalletConnect V2 provider
@@ -14,23 +13,16 @@ let account = null;  // The connected account address
 
 // --- Utility Functions ---
 
-/**
- * Updates the UI state (button disabling and address display).
- * This function is now safer as it only runs after DOMContentLoaded.
- */
 function setUIConnected(isConnected) {
-    // Lookups are safe due to DOMContentLoaded listener
     const connectButton = document.getElementById("connectButton");
     const sendButton = document.getElementById("sendButton");
     const disconnectButton = document.getElementById("disconnectButton");
     const addressElement = document.getElementById("address");
 
-    // Toggle button state
     if (connectButton) connectButton.disabled = isConnected;
     if (sendButton) sendButton.disabled = !isConnected;
     if (disconnectButton) disconnectButton.disabled = !isConnected;
     
-    // Update address display
     if (isConnected && account) {
         addressElement.innerHTML = account.substring(0, 6) + '...' + account.substring(account.length - 4);
     } else {
@@ -45,15 +37,15 @@ function setUIConnected(isConnected) {
  */
 const initializeProvider = async () => {
     try {
-        // EthereumProvider is exposed globally by the module import in index.html
-        if (window.EthereumProvider) {
-            provider = await window.EthereumProvider.init({
+        // 🟢 FIX: The UMD bundle exposes the provider class as WalletConnectEthereumProvider
+        if (window.WalletConnectEthereumProvider) { 
+            provider = await window.WalletConnectEthereumProvider.init({
                 projectId: projectId, 
-                chains: [XDC_CHAIN_ID], // Required chain ID
+                chains: [XDC_CHAIN_ID],
                 rpcMap: {
                     [XDC_CHAIN_ID]: XDC_RPC_URL,
                 },
-                showQrModal: true, // Use the built-in modal
+                showQrModal: true, 
                 optionalChains: [], 
                 methods: ["eth_sendTransaction", "personal_sign", "eth_signTypedData"],
                 events: ["chainChanged", "accountsChanged", "disconnect"]
@@ -61,36 +53,36 @@ const initializeProvider = async () => {
 
             console.log("WalletConnect V2 Provider Initialized.");
             setupEventListeners();
+            return true;
         } else {
-            console.error("Window.EthereumProvider is not defined. Check the script type='module' in index.html.");
+            console.error("WalletConnectEthereumProvider is not defined. Check the script tag for the V2 UMD bundle in index.html.");
+            return false;
         }
     } catch (error) {
         console.error("Provider initialization failed:", error);
         alert("Provider initialization failed. Please check your console.");
+        return false;
     }
 }
 
 const connectWC = async () => {
     // Initialize the provider if it's not ready
     if (!provider) {
-        await initializeProvider();
+        const initialized = await initializeProvider();
+        if (!initialized) return; // Stop if initialization failed
     }
-
-    if (!provider) return; // Stop if initialization failed
 
     try {
         console.log("Attempting to connect...");
         
-        // Connect opens the QR modal and awaits session establishment
         const session = await provider.connect();
 
-        // Get connected accounts from the session object
-        // The V2 connect method returns an array of accounts
+        // Extract accounts from the session object
         const accounts = session.namespaces.eip155.accounts.map(acc => acc.split(':').pop());
         
         if (accounts.length > 0) {
             account = accounts[0];
-            web3 = new Web3(provider); // Initialize Web3.js with the new provider
+            web3 = new Web3(provider);
             setUIConnected(true);
 
             const balance = await web3.eth.getBalance(account);
@@ -126,7 +118,6 @@ const send = async () => {
 
         console.log(`Sending ${web3.utils.fromWei(valueToSend, "ether")} XDC from ${account} to ${toAddress}`);
 
-        // The sendTransaction call is handled by the V2 provider
         const transaction = await web3.eth.sendTransaction({
             from: account,
             to: toAddress,
@@ -151,7 +142,6 @@ const disconnect = async () => {
     } catch (error) {
         console.error("Disconnection failed:", error);
     } finally {
-        // Reset state and update UI
         account = null;
         web3 = null;
         setUIConnected(false);
@@ -161,15 +151,13 @@ const disconnect = async () => {
 const setupEventListeners = () => {
     if (!provider) return;
 
-    // The provider emits standard EIP-1193 events
     provider.on('disconnect', () => {
         console.log("Provider disconnected (event triggered)");
-        disconnect(); // Call local disconnect to reset state
+        disconnect();
     });
 
     provider.on('accountsChanged', (newAccounts) => {
         if (newAccounts.length > 0) {
-            // Accounts are returned in the format namespace:chainid:address, so we extract the address
             account = newAccounts[0].split(':').pop();
             setUIConnected(true);
             console.log("Account changed to:", account);
@@ -188,15 +176,8 @@ const setupEventListeners = () => {
 
 // --- Initialization Logic ---
 
-/**
- * Ensures the initialization logic runs ONLY after all HTML elements are loaded.
- * This solves the "Cannot set properties of null" error.
- */
 document.addEventListener('DOMContentLoaded', (event) => {
     console.log("DOM fully loaded and parsed. Setting initial state.");
-    
-    // Set the initial UI state (Now the buttons are guaranteed to exist)
     setUIConnected(false);
-    
-    // The provider is initialized when the user clicks connect
+    // Provider initialization will happen on the first click of Connect Wallet
 });
